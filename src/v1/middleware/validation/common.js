@@ -97,8 +97,8 @@ const checkPhone = (req, res, next) => {
     return next(err);
   }
 
-  // Check if phone's NSN is >= 4 && <= 13
-  if (nsn.length < 4 || nsn.length > 13) {
+  // Check if phone's NSN is in range
+  if (nsn.length < countries.minNSN || nsn.length > countries.maxNSN) {
     const statusCode = httpStatus.BAD_REQUEST;
     const message = errors.auth.invalidPhone;
     const err = new ApiError(statusCode, message);

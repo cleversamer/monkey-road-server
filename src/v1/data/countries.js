@@ -1,5 +1,9 @@
 module.exports.minNSN = 4;
 module.exports.maxNSN = 13;
+module.exports.minICC = 2;
+module.exports.maxICC = 5;
+module.exports.minPhone = this.minICC + this.minNSN;
+module.exports.maxPhone = this.maxICC + this.maxNSN;
 
 module.exports.countries = [
   { icc: "+376", name: "Andorra" },

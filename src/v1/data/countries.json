@@ -1,6 +1,8 @@
 {
   "minNSN": 4,
   "maxNSN": 13,
+  "minICC": 2,
+  "maxICC": 5,
   "list": [
     { "icc": "+376", "name": "Andorra" },
     { "icc": "+971", "name": "United Arab Emirates" },

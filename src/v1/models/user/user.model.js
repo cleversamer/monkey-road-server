@@ -2,6 +2,8 @@ const { Schema, model } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { server } = require("../../config/system");
+const { user: validation } = require("../../middleware/validation/models");
+const countriesData = require("../../data/countries");
 
 const CLIENT_SCHEMA = [
   "_id",
@@ -15,8 +17,6 @@ const CLIENT_SCHEMA = [
   "createdAt",
   "lastLogin",
 ];
-
-const SUPPORTED_ROLES = ["user", "admin"];
 
 const verification = {
   email: {
@@ -45,6 +45,8 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       required: true,
+      minLength: validation.name.minLength,
+      maxLength: validation.name.maxLength,
     },
     email: {
       type: String,
@@ -52,6 +54,8 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      minLength: validation.email.minLength,
+      maxLength: validation.email.maxLength,
     },
     phone: {
       full: {
@@ -59,16 +63,23 @@ const userSchema = new Schema(
         required: true,
         unique: true,
         trim: true,
+        minlength: countriesData.minPhone,
+        maxlength: countriesData.maxPhone,
       },
       icc: {
         type: String,
         required: true,
         trim: true,
+        enum: countriesData.countries.map((c) => c.icc),
+        minlength: countriesData.minICC,
+        maxlength: countriesData.maxICC,
       },
       nsn: {
         type: String,
         required: true,
         trim: true,
+        minLength: countriesData.minNSN,
+        maxLength: countriesData.maxNSN,
       },
     },
     password: {
@@ -78,7 +89,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: SUPPORTED_ROLES,
+      enum: validation.roles,
       default: "user",
     },
     verified: {
@@ -317,6 +328,10 @@ userSchema.methods.clearNotifications = function () {
     return false;
   }
 };
+
+// Creatin an index on the role field to easily
+// fetch users based on a certain role.
+userSchema.index({ role: 1 });
 
 const User = model("User", userSchema);
 
