@@ -47,7 +47,6 @@ const purchaseCarSchema = new Schema(
     vin: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
       minLength: validation.vin.exactLength,
       maxLength: validation.vin.exactLength,
