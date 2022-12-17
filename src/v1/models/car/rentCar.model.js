@@ -1,0 +1,144 @@
+const { Schema, model, Types } = require("mongoose");
+const CARS = require("../../data/cars");
+const { rentCar: validation } = require("../../middleware/validation/models");
+
+// The data that will be received by the client side
+const CLIENT_SCHEMA = [
+  "_id",
+  "office",
+  "name",
+  "model",
+  "color",
+  "brand",
+  "year",
+  "price",
+  "description",
+  "photos",
+  "creationDate",
+];
+
+// The default schema of the model
+const rentCarSchema = new Schema(
+  {
+    // To figure out which office has posted this car
+    office: {
+      type: Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    // The name of the car
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: validation.name.minLength,
+      maxLength: validation.name.maxLength,
+    },
+    // The model of the car
+    model: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: validation.model.minLength,
+      maxLength: validation.model.maxLength,
+    },
+    // The color of the car
+    color: {
+      type: String,
+      required: true,
+      trim: true,
+      enum: CARS.COLORS,
+    },
+    // The brand/manufacturer of the car
+    brand: {
+      type: Types.ObjectId,
+      required: true,
+      ref: "Brand",
+    },
+    // The car's release date
+    year: {
+      type: String,
+      required: true,
+      trim: true,
+      enum: CARS.YEARS,
+    },
+    // Rent prices & deposit
+    price: {
+      daily: {
+        type: Number,
+        required: true,
+        min: validation.price.daily.min,
+        max: validation.price.daily.max,
+      },
+      weekly: {
+        type: Number,
+        required: true,
+        default: this.price.daily,
+        min: validation.price.weekly.min,
+        max: validation.price.weekly.max,
+      },
+      monthly: {
+        type: Number,
+        required: true,
+        default: this.price.weekly,
+        min: validation.price.monthly.min,
+        max: validation.price.monthly.max,
+      },
+      deposit: {
+        type: Number,
+        required: true,
+        default: validation.price.deposit.default,
+        min: validation.price.deposit.min,
+        max: validation.price.deposit.max,
+      },
+    },
+    // The description of the car
+    description: {
+      type: String,
+      required: false,
+      trim: true,
+      minLength: validation.description.minLength,
+      maxLength: validation.description.maxLength,
+    },
+    // The photos of the car
+    photos: {
+      type: Array,
+      required: true,
+    },
+    // The date of adding this car
+    creationDate: {
+      type: String,
+      required: true,
+      default: new Date(),
+    },
+  },
+  {
+    // To not avoid empty object when creating the document
+    minimize: false,
+    // To automatically write creation/update timestamps
+    // Note: the update timestamp will be updated automatically
+    timestamps: true,
+  }
+);
+
+// Because the office needs to read its rental cars
+// and this process will happen a lot in the application
+// and we can not let mongodb to do a COLLSACAN
+rentCarSchema.index({ owner: 1 });
+
+// We create three indexes here because we use these fields
+// in search filters.
+// To speed up the search operation.
+rentCarSchema.index({ brand: 1 });
+rentCarSchema.index({ color: 1 });
+rentCarSchema.index({ year: 1 });
+
+// Creating the model
+const RentCar = model("RentCar", rentCarSchema);
+
+// Exporting shared data about the model
+module.exports = {
+  RentCar,
+  CLIENT_SCHEMA,
+  SUPPORTED_ROLES,
+};
