@@ -340,5 +340,4 @@ const User = model("User", userSchema);
 module.exports = {
   User,
   CLIENT_SCHEMA,
-  SUPPORTED_ROLES,
 };

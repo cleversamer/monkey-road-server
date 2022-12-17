@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { SUPPORTED_ROLES } = require("../../models/user/user.model");
 const { check, validationResult } = require("express-validator");
 const httpStatus = require("http-status");
 const { ApiError } = require("../apiError");
@@ -90,9 +89,9 @@ const checkName = check("name")
 const checkRole = (exceptAdmin = false) =>
   exceptAdmin
     ? check("role")
-        .isIn(SUPPORTED_ROLES.filter((role) => role !== "admin"))
+        .isIn(validation.roles.filter((role) => role !== "admin"))
         .withMessage(errors.user.invalidRole)
-    : check("role").isIn(SUPPORTED_ROLES).withMessage(errors.user.invalidRole);
+    : check("role").isIn(validation.roles).withMessage(errors.user.invalidRole);
 
 const checkPhone = (req, res, next) => {
   if (typeof req.body.phone !== "object") {
