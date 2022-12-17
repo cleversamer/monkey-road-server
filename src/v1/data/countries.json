@@ -3,6 +3,8 @@
   "maxNSN": 13,
   "minICC": 2,
   "maxICC": 5,
+  "minPhone": 6,
+  "maxPhone": 18,
   "list": [
     { "icc": "+376", "name": "Andorra" },
     { "icc": "+971", "name": "United Arab Emirates" },

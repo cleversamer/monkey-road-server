@@ -21,15 +21,15 @@ const CLIENT_SCHEMA = [
 const verification = {
   email: {
     expiryInMins: 10,
-    codeLength: 4,
+    codeLength: validation.verificationCode.exactLength,
   },
   phone: {
     expiryInMins: 10,
-    codeLength: 4,
+    codeLength: validation.verificationCode.exactLength,
   },
   password: {
     expiryInMins: 10,
-    codeLength: 4,
+    codeLength: validation.verificationCode.exactLength,
   },
 };
 
@@ -109,6 +109,8 @@ const userSchema = new Schema(
     deviceToken: {
       type: String,
       required: true,
+      minLength: validation.deviceToken.minLength,
+      maxLength: validation.deviceToken.maxLength,
     },
     lastLogin: {
       type: String,

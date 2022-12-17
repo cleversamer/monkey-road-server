@@ -6,6 +6,7 @@ const { ApiError } = require("../apiError");
 const errors = require("../../config/errors");
 const { server } = require("../../config/system");
 const countries = require("../../data/countries.json");
+const { user: validation } = require("../../middleware/validation/models");
 
 const next = (req, res, next) => {
   const errors = validationResult(req);
@@ -21,33 +22,55 @@ const next = (req, res, next) => {
 };
 
 const checkDeviceToken = check("deviceToken")
-  .isLength({ min: 1, max: 1024 })
+  .isLength({
+    min: validation.deviceToken.minLength,
+    max: validation.deviceToken.maxLength,
+  })
   .withMessage(errors.auth.invalidDeviceToken);
 
 const checkEmailOrPhone = check("emailOrPhone")
-  .isLength({ min: 8, max: 256 })
+  .isLength({
+    min: Math.min(validation.email.minLength, countries.minPhone),
+    max: Math.max(validation.email.maxLength, countries.maxPhone),
+  })
   .withMessage(errors.auth.invalidEmailOrPhone)
   .bail();
 
 const checkEmail = check("email")
   .isEmail()
+  .isLength({
+    min: validation.email.minLength,
+    max: validation.email.maxLength,
+  })
   .withMessage(errors.auth.invalidEmail)
   .bail();
 
 const checkPassword = check("password")
-  .isLength({ min: 8, max: 32 })
+  .isLength({
+    min: validation.password.minLength,
+    max: validation.password.maxLength,
+  })
   .withMessage(errors.auth.invalidPassword);
 
 const checkOldPassword = check("oldPassword")
-  .isLength({ min: 8, max: 32 })
+  .isLength({
+    min: validation.password.minLength,
+    max: validation.password.maxLength,
+  })
   .withMessage(errors.auth.invalidPassword);
 
 const checkNewPassword = check("newPassword")
-  .isLength({ min: 8, max: 32 })
+  .isLength({
+    min: validation.password.minLength,
+    max: validation.password.maxLength,
+  })
   .withMessage(errors.auth.invalidPassword);
 
 const checkCode = check("code")
-  .isLength({ min: 4, max: 8 })
+  .isLength({
+    min: validation.verificationCode.exactLength,
+    max: validation.verificationCode.exactLength,
+  })
   .isNumeric()
   .withMessage(errors.auth.invalidCode);
 
@@ -58,7 +81,10 @@ const checkLanguage = check("lang")
   .withMessage(errors.user.unsupportedLanguage);
 
 const checkName = check("name")
-  .isLength({ min: 8, max: 64 })
+  .isLength({
+    min: validation.name.minLength,
+    max: validation.name.maxLength,
+  })
   .withMessage(errors.auth.invalidName);
 
 const checkRole = (exceptAdmin = false) =>
