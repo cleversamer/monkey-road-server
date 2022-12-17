@@ -22,9 +22,15 @@ const rentCarSchema = new Schema(
   {
     // To figure out which office has posted this car
     office: {
-      type: Types.ObjectId,
-      required: true,
-      ref: "User",
+      name: {
+        type: String,
+        requied: true,
+      },
+      ref: {
+        type: Types.ObjectId,
+        required: true,
+        ref: "User",
+      },
     },
     // The name of the car
     name: {
@@ -44,16 +50,36 @@ const rentCarSchema = new Schema(
     },
     // The color of the car
     color: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: CARS.COLORS,
+      en: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.COLORS.EN,
+      },
+      ar: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.COLORS.AR,
+      },
     },
     // The brand/manufacturer of the car
     brand: {
-      type: Types.ObjectId,
-      required: true,
-      ref: "Brand",
+      name: {
+        en: {
+          type: String,
+          required: true,
+        },
+        ar: {
+          type: String,
+          required: true,
+        },
+      },
+      ref: {
+        type: Types.ObjectId,
+        required: true,
+        ref: "Brand",
+      },
     },
     // The car's release date
     year: {
@@ -135,6 +161,20 @@ rentCarSchema.index({ office: 1 });
 rentCarSchema.index({ brand: 1 });
 rentCarSchema.index({ color: 1 });
 rentCarSchema.index({ year: 1 });
+
+// Creating a text index based on multiple fields to enhance
+// search alogrithms and reach more relevant search results.
+rentCarSchema.index({
+  name: "text",
+  "office.name": "text",
+  model: "text",
+  "brand.name.en": "text",
+  "brand.name.ar": "text",
+  "color.en": "text",
+  "color.ar": "text",
+  year: "text",
+  description: "text",
+});
 
 // Creating the model
 const RentCar = model("RentCar", rentCarSchema);

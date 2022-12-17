@@ -15,7 +15,7 @@ const CLIENT_SCHEMA = [
   "year",
   "color",
   "trimLevel",
-  "vehicelType",
+  "vehicleType",
   "fuelType",
   "noOfSeats",
   "kiloPerHour",
@@ -31,9 +31,15 @@ const purchaseCarSchema = new Schema(
   {
     // To figure out which user has posted this car for sale
     owner: {
-      type: Types.ObjectId,
-      required: true,
-      ref: "User",
+      name: {
+        type: String,
+        requied: true,
+      },
+      ref: {
+        type: Types.ObjectId,
+        required: true,
+        ref: "User",
+      },
     },
     // The name of the car
     name: {
@@ -61,9 +67,21 @@ const purchaseCarSchema = new Schema(
     },
     // The brand/manufacturer of the car
     brand: {
-      type: Types.ObjectId,
-      required: true,
-      ref: "Brand",
+      name: {
+        en: {
+          type: String,
+          required: true,
+        },
+        ar: {
+          type: String,
+          required: true,
+        },
+      },
+      ref: {
+        type: Types.ObjectId,
+        required: true,
+        ref: "Brand",
+      },
     },
     // The car's release date
     year: {
@@ -88,23 +106,41 @@ const purchaseCarSchema = new Schema(
     },
     // The type of the vehicle
     vehicleType: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: CARS.VEHICLE_TYPES,
+      en: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.VEHICLE_TYPES.EN,
+      },
+      ar: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.VEHICLE_TYPES.AR``,
+      },
     },
     // The fuel type of the car
     fuelType: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: CARS.FUEL_TYPES,
+      en: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.FUEL_TYPES.EN,
+      },
+      ar: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.FUEL_TYPES.AR,
+      },
     },
+    // The number of seats availabel in the car
     noOfSeats: {
       type: Number,
       required: true,
       enum: CARS.SEATS_NUMBER,
     },
+    // The velocity of the car per km/h
     kiloPerHour: {
       type: Number,
       required: true,
@@ -168,6 +204,26 @@ purchaseCarSchema.index({ owner: 1 });
 purchaseCarSchema.index({ brand: 1 });
 purchaseCarSchema.index({ color: 1 });
 purchaseCarSchema.index({ year: 1 });
+
+// Creating a text index based on multiple fields to enhance
+// search alogrithms and reach more relevant search results.
+rentCarSchema.index({
+  name: "text",
+  "owner.name": "text",
+  model: "text",
+  "brand.name.en": "text",
+  "brand.name.ar": "text",
+  "color.en": "text",
+  "color.ar": "text",
+  year: "text",
+  description: "text",
+  vin: "text",
+  trimLevel: "text",
+  "vehicleType.en": "text",
+  "vehicleType.ar": "text",
+  "fuelType.en": "text",
+  "fuelType.ar": "text",
+});
 
 // Creating the model
 const PurchaseCar = model("PurchaseCar", purchaseCarSchema);
