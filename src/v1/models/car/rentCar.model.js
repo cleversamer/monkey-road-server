@@ -67,6 +67,7 @@ const rentCarSchema = new Schema(
       daily: {
         type: Number,
         required: true,
+        default: validation.price.daily.min,
         min: validation.price.daily.min,
         max: validation.price.daily.max,
       },
@@ -104,6 +105,8 @@ const rentCarSchema = new Schema(
     photos: {
       type: Array,
       required: true,
+      min: validation.photos.min,
+      max: validation.photos.max,
     },
     // The date of adding this car
     creationDate: {
@@ -124,7 +127,7 @@ const rentCarSchema = new Schema(
 // Because the office needs to read its rental cars
 // and this process will happen a lot in the application
 // and we can not let mongodb to do a COLLSACAN
-rentCarSchema.index({ owner: 1 });
+rentCarSchema.index({ office: 1 });
 
 // We create three indexes here because we use these fields
 // in search filters.
