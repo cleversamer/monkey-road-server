@@ -157,7 +157,7 @@ const purchaseCarSchema = new Schema(
   }
 );
 
-// Because the office needs to read its rental cars
+// Because the seller needs to read their own cars
 // and this process will happen a lot in the application
 // and we can not let mongodb to do a COLLSACAN
 purchaseCarSchema.index({ owner: 1 });
