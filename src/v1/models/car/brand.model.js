@@ -9,12 +9,22 @@ const brandSchema = new Schema(
   {
     // The name of the brand
     name: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-      minLength: validation.name.minLength,
-      maxLength: validation.name.maxLength,
+      en: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
+        minLength: validation.name.minLength,
+        maxLength: validation.name.maxLength,
+      },
+      ar: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
+        minLength: validation.name.minLength,
+        maxLength: validation.name.maxLength,
+      },
     },
     // The photo URL of the brand
     photoURL: {
