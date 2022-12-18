@@ -33,7 +33,7 @@ const purchaseCarSchema = new Schema(
     owner: {
       name: {
         type: String,
-        requied: true,
+        required: true,
       },
       ref: {
         type: Types.ObjectId,

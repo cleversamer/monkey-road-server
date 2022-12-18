@@ -19,13 +19,31 @@ const orderSchema = new Schema(
     author: {
       name: {
         type: String,
-        requied: true,
+        required: true,
       },
       ref: {
         type: Types.ObjectId,
         required: true,
         ref: "User",
       },
+    },
+    // The seller/owner of the ordered car
+    // Compulsory: when requesting a car rental
+    // Optional: when request posting a rent car
+    seller: {
+      name: {
+        type: String,
+      },
+      ref: {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    },
+    // The shipping address data
+    // Compulsory: when requesting a car rental
+    // Optional: when request posting a rent car
+    shippingAddress: {
+      type: Object,
     },
     // The total price of the order
     totalPrice: {

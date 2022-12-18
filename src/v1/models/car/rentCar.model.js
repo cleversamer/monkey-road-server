@@ -24,7 +24,7 @@ const rentCarSchema = new Schema(
     office: {
       name: {
         type: String,
-        requied: true,
+        required: true,
       },
       ref: {
         type: Types.ObjectId,
