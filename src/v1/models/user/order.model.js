@@ -8,7 +8,6 @@ const CLIENT_SCHEMA = [
   "purpose",
   "status",
   "date",
-  "photoURL",
   "totalPrice",
   "rentCar",
 ];
@@ -27,6 +26,17 @@ const orderSchema = new Schema(
         required: true,
         ref: "User",
       },
+    },
+    // The total price of the order
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+    // A reference to the rent car document
+    rentCar: {
+      type: Types.ObjectId,
+      ref: "RentCar",
+      required: true,
     },
     // The purpose of the order
     purpose: {
@@ -68,23 +78,6 @@ const orderSchema = new Schema(
       required: true,
       trim: true,
       default: new Date(),
-    },
-    // The photo of the order
-    photoURL: {
-      type: String,
-      trim: true,
-      default: "",
-    },
-    // The total price of the order
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
-    // A reference to the rent car document
-    rentCar: {
-      type: Types.ObjectId,
-      ref: "RentCar",
-      required: true,
     },
   },
   {
