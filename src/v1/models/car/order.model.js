@@ -2,11 +2,21 @@ const { Schema, model, Types } = require("mongoose");
 const { order: validation } = require("../../middleware/validation/models");
 
 // The data that will be received by the client side
-const CLIENT_SCHEMA = ["_id", "author", "date", "status"];
+const CLIENT_SCHEMA = [
+  "_id",
+  "author",
+  "purpose",
+  "status",
+  "date",
+  "photoURL",
+  "totalPrice",
+  "rentCar",
+];
 
 // The default schema of the model
-const rentCarOrderSchema = new Schema(
+const orderSchema = new Schema(
   {
+    // The author of the order
     author: {
       name: {
         type: String,
@@ -18,27 +28,63 @@ const rentCarOrderSchema = new Schema(
         ref: "User",
       },
     },
-    date: {
-      type: String,
-      required: true,
-      trim: true,
-      default: new Date(),
+    // The purpose of the order
+    purpose: {
+      en: {
+        type: String,
+        required: true,
+        default: validation.purposes.en[0],
+        trim: true,
+        enum: validation.purposes.en,
+      },
+      ar: {
+        type: String,
+        required: true,
+        default: validation.purposes.ar[0],
+        trim: true,
+        enum: validation.purposes.ar,
+      },
     },
+    // The status of the order
     status: {
       en: {
         type: String,
         required: true,
-        default: "pending",
+        default: validation.status.en[0],
         trim: true,
         enum: validation.status.en,
       },
       ar: {
         type: String,
         required: true,
-        default: "pending",
+        default: validation.status.ar[0],
         trim: true,
         enum: validation.status.ar,
       },
+    },
+    // The creation date of the order
+    date: {
+      type: String,
+      required: true,
+      trim: true,
+      default: new Date(),
+    },
+    // The photo of the order
+    photoURL: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    // The total price of the order
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+    // A reference to the rent car document
+    rentCar: {
+      type: Types.ObjectId,
+      ref: "RentCar",
+      required: true,
     },
   },
   {
@@ -50,12 +96,21 @@ const rentCarOrderSchema = new Schema(
   }
 );
 
+// To ensure storing the exact creation date
+orderSchema.pre("save", function (next) {
+  // Assign the date to the curret date
+  this.date = new Date();
+
+  // Passing the execution to the next phase
+  next();
+});
+
 // Creating the model
-const RentCarOrder = model("RentCarOrder", rentCarOrderSchema);
+const Order = model("Order", orderSchema);
 
 // Exporting shared data about the model
 module.exports = {
-  RentCarOrder,
+  Order,
   CLIENT_SCHEMA,
   SUPPORTED_ROLES,
 };
