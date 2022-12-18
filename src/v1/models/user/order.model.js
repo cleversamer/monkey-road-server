@@ -98,6 +98,10 @@ orderSchema.pre("save", function (next) {
   next();
 });
 
+// Creating an index on the author field to easily
+// fetch user's orders.
+orderSchema.index({ author: 1 });
+
 // Creating the model
 const Order = model("Order", orderSchema);
 
