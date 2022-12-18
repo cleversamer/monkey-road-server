@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types, isValidObjectId } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { server } = require("../../config/system");
@@ -37,10 +37,12 @@ const MAX_NOTIFICATIONS_COUNT = 10;
 
 const userSchema = new Schema(
   {
+    // The URL of user's avatar
     avatarURL: {
       type: String,
       default: "",
     },
+    // The full name of the user
     name: {
       type: String,
       trim: true,
@@ -48,6 +50,7 @@ const userSchema = new Schema(
       minLength: validation.name.minLength,
       maxLength: validation.name.maxLength,
     },
+    // The email of the user
     email: {
       type: String,
       required: true,
@@ -57,7 +60,9 @@ const userSchema = new Schema(
       minLength: validation.email.minLength,
       maxLength: validation.email.maxLength,
     },
+    // The phone of the user
     phone: {
+      // The full phone number (icc + nsn)
       full: {
         type: String,
         required: true,
@@ -66,6 +71,7 @@ const userSchema = new Schema(
         minlength: countriesData.minPhone,
         maxlength: countriesData.maxPhone,
       },
+      // The icc of user's phone
       icc: {
         type: String,
         required: true,
@@ -74,6 +80,7 @@ const userSchema = new Schema(
         minlength: countriesData.minICC,
         maxlength: countriesData.maxICC,
       },
+      // The nsn of user's phone
       nsn: {
         type: String,
         required: true,
@@ -82,16 +89,19 @@ const userSchema = new Schema(
         maxLength: countriesData.maxNSN,
       },
     },
+    // The hashed password of the user
     password: {
       type: String,
       trim: true,
       default: "",
     },
+    // The rol of the user
     role: {
       type: String,
       enum: validation.roles,
       default: "user",
     },
+    // The email and phone verification status of the user
     verified: {
       email: {
         type: Boolean,
@@ -102,20 +112,28 @@ const userSchema = new Schema(
         default: false,
       },
     },
+    // The notifications of the user
     notifications: {
       type: Array,
       default: [],
     },
+    favorites: {
+      type: Array,
+      default: [],
+    },
+    // The device token of the user (Used for sending notifications to it)
     deviceToken: {
       type: String,
       required: true,
       minLength: validation.deviceToken.minLength,
       maxLength: validation.deviceToken.maxLength,
     },
+    // The last login date of the user
     lastLogin: {
       type: String,
       default: new Date(),
     },
+    // The email, phone, and password verification codes
     verification: {
       email: {
         code: {
@@ -262,6 +280,20 @@ userSchema.methods.updatePassword = async function (newPassword) {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(newPassword, salt);
     this.password = hashed;
+  } catch (err) {
+    // TODO: write the error to the database
+  }
+};
+
+userSchema.methods.addToFavorites = function (rentCarId) {
+  try {
+    // Ensure that `rentCarId` is a valid MongoDB ObjectId
+    if (isValidObjectId(rentCarId)) {
+      rentCarId = Types.ObjectId(rentCarId);
+    }
+
+    // Add the rentCarId to the start of favorites array
+    this.favorites.unshift(rentCarId);
   } catch (err) {
     // TODO: write the error to the database
   }
