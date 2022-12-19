@@ -124,7 +124,59 @@ module.exports.getMyCars = async (req, res, next) => {
     };
 
     res.status(httpStatus.OK).json(response);
-  } catch (erro) {
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addCar = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const {
+      name,
+      model,
+      color,
+      brandId,
+      year,
+      dailyPrice,
+      weeklyPrice,
+      monthlyPrice,
+      deposit,
+      description,
+    } = req.body;
+    const photo1 = req?.files?.photo1;
+    const photo2 = req?.files?.photo2;
+    const photo3 = req?.files?.photo3;
+    const photo4 = req?.files?.photo4;
+    const photo5 = req?.files?.photo5;
+    const photo6 = req?.files?.photo6;
+
+    const myCars = await rentCarsService.addCar(
+      user,
+      name,
+      model,
+      color,
+      brandId,
+      year,
+      dailyPrice,
+      weeklyPrice,
+      monthlyPrice,
+      deposit,
+      description,
+      photo1,
+      photo2,
+      photo3,
+      photo4,
+      photo5,
+      photo6
+    );
+
+    const response = {
+      cars: myCars.map((car) => _.pick(car, rentCarSchema)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
     next(err);
   }
 };

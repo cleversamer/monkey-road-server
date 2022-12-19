@@ -12,7 +12,7 @@ router.get("/similar", rentCarsController.getSimilarCars);
 
 router.get("/search", rentCarsController.searchCars);
 
-// TODO:
+// TODO: waiting for order apis
 router.post(
   "/rent",
   auth("createOwn", "rentOrder"),
@@ -22,7 +22,7 @@ router.post(
 //////////////////// Office Routes ////////////////////
 router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyCars);
 
-// TODO:
+// TODO: waiting for brand apis
 router.post("/add", auth("createAny", "rentCar"), rentCarsController.addCar);
 
 module.exports = router;

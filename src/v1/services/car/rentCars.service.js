@@ -1,4 +1,5 @@
 const { RentCar } = require("../../models/car/rentCar.model");
+const localStorage = require("../../services/storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
@@ -126,6 +127,89 @@ module.exports.getMyCars = async (user, skip) => {
     }
 
     return myCars;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// TODO: complete this after completing brand apis
+module.exports.addCar = async (
+  user,
+  name,
+  model,
+  color,
+  brandId,
+  year,
+  dailyPrice,
+  weeklyPrice,
+  monthlyPrice,
+  deposit,
+  description,
+  photo1,
+  photo2,
+  photo3,
+  photo4,
+  photo5,
+  photo6
+) => {
+  try {
+    const brand = await brandsService.getBrand(brandId);
+
+    const rentCar = new RentCar({
+      office: {
+        name: user.name,
+        ref: user._id,
+      },
+      name,
+      model,
+      color,
+      brand: {
+        name: brand.name,
+        ref: brand._id,
+      },
+      year,
+      price: {
+        daily: dailyPrice,
+        weekly: weeklyPrice,
+        monthly: monthlyPrice,
+        deposit,
+      },
+      description,
+    });
+
+    if (photo1) {
+      const photo = await localStorage.storeFile(photo1);
+      rentCar.photos.push(photo.path);
+    }
+
+    if (photo2) {
+      const photo = await localStorage.storeFile(photo2);
+      rentCar.photos.push(photo.path);
+    }
+
+    if (photo3) {
+      const photo = await localStorage.storeFile(photo3);
+      rentCar.photos.push(photo.path);
+    }
+
+    if (photo4) {
+      const photo = await localStorage.storeFile(photo4);
+      rentCar.photos.push(photo.path);
+    }
+
+    if (photo5) {
+      const photo = await localStorage.storeFile(photo5);
+      rentCar.photos.push(photo.path);
+    }
+
+    if (photo6) {
+      const photo = await localStorage.storeFile(photo6);
+      rentCar.photos.push(photo.path);
+    }
+
+    await rentCar.save();
+
+    return rentCar;
   } catch (err) {
     throw err;
   }
