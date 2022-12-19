@@ -6,3 +6,4 @@ module.exports.system = require("./common/system");
 
 module.exports.rentCar = require("./car/rentCar");
 module.exports.purchaseCar = require("./car/purchaseCar");
+module.exports.brand = require("./car/brand");

@@ -26,6 +26,11 @@ const brandSchema = new Schema(
         maxLength: validation.name.maxLength,
       },
     },
+    // Number of purchase/rent cars added with this brand
+    noOfCars: {
+      type: Number,
+      default: 0,
+    },
     // The photo URL of the brand
     photoURL: {
       type: String,
