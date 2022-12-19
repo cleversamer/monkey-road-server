@@ -11,4 +11,8 @@ module.exports = Object.freeze({
     en: "No cars match your search term",
     ar: "لا توجد سيّارات لنتيجة مشابهة لنتيجة بحثك",
   },
+  noSimilarCars: {
+    en: "There're no similar cars",
+    ar: "لا يوجد سيّارات مشابهة لهذه السيّارة",
+  },
 });

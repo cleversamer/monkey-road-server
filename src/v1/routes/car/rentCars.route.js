@@ -8,7 +8,6 @@ router.get("/get", rentCarsController.getAllCars);
 
 router.get("/:carId", rentCarsController.getCar);
 
-// TODO:
 router.get("/similar", rentCarsController.getSimilarCars);
 
 router.get("/search", rentCarsController.searchCars);

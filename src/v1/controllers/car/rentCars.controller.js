@@ -33,6 +33,40 @@ module.exports.getCar = async (req, res, next) => {
   }
 };
 
+module.exports.getSimilarCars = async (req, res, next) => {
+  try {
+    const {
+      name,
+      model,
+      brandEN,
+      brandAR,
+      colorEN,
+      colorAR,
+      year,
+      description,
+    } = req.query;
+
+    const cars = await rentCarsService.getSimilarCars(
+      name,
+      model,
+      brandEN,
+      brandAR,
+      colorEN,
+      colorAR,
+      year,
+      description
+    );
+
+    const response = {
+      cars: cars.map((car) => _.pick(car, CLIENT_SCHEMA)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.searchCars = async (req, res, next) => {
   try {
     const { searchTerm, skip } = req.query;

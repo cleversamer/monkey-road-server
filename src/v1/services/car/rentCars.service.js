@@ -33,6 +33,37 @@ module.exports.getCar = async (carId) => {
   }
 };
 
+module.exports.getSimilarCars = async (
+  name,
+  model,
+  brandEN,
+  brandAR,
+  colorEN,
+  colorAR,
+  year,
+  description
+) => {
+  try {
+    const searchTerm = `${name} ${model} ${brandEN} ${brandAR} ${colorEN} ${colorAR} ${year} ${description}`;
+
+    const cars = await RentCar.aggregate([
+      { $match: { $text: { $search: searchTerm } } },
+      { $sort: { score: { $meta: "textScore" } } },
+      { $limit: 10 },
+    ]);
+
+    if (!cars || !cars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.noSimilarCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return car;
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.searchCars = async (searchTerm, skip) => {
   try {
     const cars = await RentCar.aggregate([
