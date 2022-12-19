@@ -10,7 +10,6 @@ router.get("/recently-arrived", purchaseCarsController.getRecentlyArrivedCars);
 
 router.get("/latest-models", purchaseCarsController.getLatestModelsCars);
 
-// TODO:
 router.get("/best-seller", purchaseCarsController.getBestSellerCars);
 
 // TODO:

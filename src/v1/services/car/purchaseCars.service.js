@@ -51,3 +51,22 @@ module.exports.getLatestModelsCars = async (skip) => {
     throw err;
   }
 };
+
+module.exports.getBestSellerCars = async (skip) => {
+  try {
+    const purchaseCars = await PurchaseCar.find({})
+      .sort({ model: 1 })
+      .skip(skip)
+      .limit(10);
+
+    if (!purchaseCars || !purchaseCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.purchaseCar.noCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return purchaseCars;
+  } catch (err) {
+    throw err;
+  }
+};
