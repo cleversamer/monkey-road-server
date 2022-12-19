@@ -18,3 +18,21 @@ module.exports.getCar = async (carId) => {
     throw err;
   }
 };
+
+module.exports.getRecentlyArrivedCars = async (skip) => {
+  try {
+    const purchaseCars = await PurchaseCar.find({})
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(10);
+    if (!purchaseCars || !purchaseCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.purchaseCar.noCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return purchaseCars;
+  } catch (err) {
+    throw err;
+  }
+};

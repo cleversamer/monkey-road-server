@@ -6,7 +6,6 @@ const auth = require("../../middleware/auth");
 //////////////////// User Routes ////////////////////
 router.get("/:carId", purchaseCarsController.getCar);
 
-// TODO:
 router.get("/recently-arrived", purchaseCarsController.getRecentlyArrivedCars);
 
 // TODO:

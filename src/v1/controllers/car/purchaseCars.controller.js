@@ -18,3 +18,19 @@ module.exports.getCar = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getRecentlyArrivedCars = async (req, res, next) => {
+  try {
+    const { skip } = req.query;
+
+    const cars = await purchaseCarsService.getRecentlyArrivedCars(skip);
+
+    const response = {
+      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

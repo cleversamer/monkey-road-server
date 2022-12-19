@@ -4,8 +4,8 @@ module.exports = Object.freeze({
     ar: "السيّارة غير موجودة",
   },
   noCars: {
-    en: "There're no rent cars registered yet",
-    ar: "لا يوجد هناك سيّارات إيجار مسجّلة بعد",
+    en: "There're no cars for sale registered yet",
+    ar: "لا يوجد هناك سيّارات للبيع مسجّلة بعد",
   },
   noSearchCars: {
     en: "No cars match your search term",
