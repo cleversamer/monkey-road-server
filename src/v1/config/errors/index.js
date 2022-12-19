@@ -3,3 +3,5 @@ module.exports.user = require("./user/user");
 
 module.exports.codes = require("./common/codes");
 module.exports.system = require("./common/system");
+
+module.exports.rentCar = require("./car/rentCar");

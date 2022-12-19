@@ -1,8 +1,33 @@
 const { RentCar } = require("../../models/car/rentCar.model");
+const { ApiError } = require("../../middleware/apiError");
+const httpStatus = require("http-status");
+const errors = require("../../config/errors");
 
 module.exports.getAllCars = async (skip) => {
   try {
-    return await RentCar.find({}).sort({ _id: -1 }).limit(10).skip(skip);
+    const cars = await RentCar.find({}).sort({ _id: -1 }).limit(10).skip(skip);
+    if (!cars || !cars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.noCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return cars;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.getCar = async (carId) => {
+  try {
+    const car = await RentCar.findById(carId);
+    if (!car) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    return car;
   } catch (err) {
     throw err;
   }
