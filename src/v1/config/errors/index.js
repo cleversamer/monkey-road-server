@@ -5,3 +5,4 @@ module.exports.codes = require("./common/codes");
 module.exports.system = require("./common/system");
 
 module.exports.rentCar = require("./car/rentCar");
+module.exports.purchaseCar = require("./car/purchaseCar");
