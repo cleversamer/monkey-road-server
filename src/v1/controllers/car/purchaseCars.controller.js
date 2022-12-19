@@ -66,3 +66,19 @@ module.exports.getBestSellerCars = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.searchRentCars = async (req, res, next) => {
+  try {
+    const { searchTerm, skip } = req.query;
+
+    const cars = await purchaseCarsService.searchRentCars(searchTerm, skip);
+
+    const response = {
+      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

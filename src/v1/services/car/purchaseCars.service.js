@@ -70,3 +70,24 @@ module.exports.getBestSellerCars = async (skip) => {
     throw err;
   }
 };
+
+module.exports.searchRentCars = async (searchTerm, skip) => {
+  try {
+    const rentCars = await PurchaseCar.aggregate([
+      { $match: { $text: { $search: searchTerm } } },
+      { $sort: { score: { $meta: "textScore" } } },
+      { $skip: skip },
+      { $limit: 10 },
+    ]);
+
+    if (!rentCars || !rentCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.purchaseCar.noSearchCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return car;
+  } catch (err) {
+    throw err;
+  }
+};

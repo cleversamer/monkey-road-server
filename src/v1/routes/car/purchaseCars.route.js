@@ -12,7 +12,6 @@ router.get("/latest-models", purchaseCarsController.getLatestModelsCars);
 
 router.get("/best-seller", purchaseCarsController.getBestSellerCars);
 
-// TODO:
 router.get("/search", purchaseCarsController.searchRentCars);
 
 // TODO:
