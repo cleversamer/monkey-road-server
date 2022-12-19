@@ -125,7 +125,7 @@ module.exports.addCar = async (req, res, next) => {
     const photo5 = req?.files?.photo5;
     const photo6 = req?.files?.photo6;
 
-    const car = await rentCarsService.addCar(
+    const car = await purchaseCarsService.addCar(
       user,
       name,
       vin,

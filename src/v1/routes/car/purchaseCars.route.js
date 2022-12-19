@@ -23,7 +23,7 @@ router.get(
 router.post(
   "/add",
   auth("createAny", "purchaseCar"),
-  purchaseCarsController.addRentCar
+  purchaseCarsController.addCar
 );
 
 module.exports = router;
