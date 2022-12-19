@@ -8,8 +8,7 @@ router.get("/:carId", purchaseCarsController.getCar);
 
 router.get("/recently-arrived", purchaseCarsController.getRecentlyArrivedCars);
 
-// TODO:
-router.get("/latest-models", purchaseCarsController.getLatestCars);
+router.get("/latest-models", purchaseCarsController.getLatestModelsCars);
 
 // TODO:
 router.get("/best-seller", purchaseCarsController.getBestSellerCars);
