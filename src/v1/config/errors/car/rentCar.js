@@ -5,6 +5,10 @@ module.exports = Object.freeze({
   },
   noCars: {
     en: "There're no rent cars registered yet",
-    ar: "لا يوجد هناك سيارات إيجار مسجّلة بعد",
+    ar: "لا يوجد هناك سيّارات إيجار مسجّلة بعد",
+  },
+  noSearchCars: {
+    en: "No cars match your search term",
+    ar: "لا توجد سيّارات لنتيجة مشابهة لنتيجة بحثك",
   },
 });

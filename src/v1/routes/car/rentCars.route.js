@@ -4,16 +4,13 @@ const { authValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
 //////////////////// User Routes ////////////////////
-// TODO:
 router.get("/get", rentCarsController.getAllCars);
 
-// TODO:
 router.get("/:carId", rentCarsController.getCar);
 
 // TODO:
 router.get("/similar", rentCarsController.getSimilarCars);
 
-// TODO:
 router.get("/search", rentCarsController.searchCars);
 
 // TODO:

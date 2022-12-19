@@ -32,3 +32,24 @@ module.exports.getCar = async (carId) => {
     throw err;
   }
 };
+
+module.exports.searchCars = async (searchTerm, skip) => {
+  try {
+    const cars = await RentCar.aggregate([
+      { $match: { $text: { $search: searchTerm } } },
+      { $sort: { score: { $meta: "textScore" } } },
+      { $skip: skip },
+      { $limit: 10 },
+    ]);
+
+    if (!cars || !cars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.noSearchCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return car;
+  } catch (err) {
+    throw err;
+  }
+};
