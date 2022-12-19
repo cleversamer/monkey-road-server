@@ -20,7 +20,6 @@ router.post(
 );
 
 //////////////////// Office Routes ////////////////////
-// TODO:
 router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyCars);
 
 // TODO:

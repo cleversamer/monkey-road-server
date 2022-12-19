@@ -8,8 +8,8 @@ module.exports.getAllCars = async (skip) => {
   try {
     const rentCars = await RentCar.find({})
       .sort({ _id: -1 })
-      .limit(10)
-      .skip(skip);
+      .skip(skip)
+      .limit(10);
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.noCars;
@@ -106,6 +106,26 @@ module.exports.requestCarRental = async (
       const message = errors.rentCar.notFound;
       throw new ApiError(statusCode, message);
     }
+  } catch (err) {
+    throw err;
+  }
+};
+
+//////////////////// User Services ////////////////////
+module.exports.getMyCars = async (user, skip) => {
+  try {
+    const myCars = await RentCar.find({ "office.ref": user._id })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(10);
+
+    if (!myCars || !myCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.noPostedCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return myCars;
   } catch (err) {
     throw err;
   }
