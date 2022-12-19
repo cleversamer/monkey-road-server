@@ -164,7 +164,10 @@ module.exports.addCar = async (
       model,
       color,
       brand: {
-        name: brand.name,
+        name: {
+          en: brand.name.en,
+          ar: brand.name.ar,
+        },
         ref: brand._id,
       },
       year,

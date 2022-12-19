@@ -110,3 +110,94 @@ module.exports.getMyCars = async (user, skip) => {
     throw err;
   }
 };
+
+module.exports.addCar = async (
+  user,
+  name,
+  vin,
+  model,
+  brandId,
+  year,
+  color,
+  trimLevel,
+  vehicleType,
+  fuelType,
+  noOfSeats,
+  kiloPerHour,
+  price,
+  phoneNumber,
+  description,
+  photo1,
+  photo2,
+  photo3,
+  photo4,
+  photo5,
+  photo6
+) => {
+  try {
+    const brand = await brandsService.getBrand(brandId);
+
+    const purchaseCar = new PurchaseCar({
+      owner: {
+        name: user.name,
+        ref: user._id,
+      },
+      name,
+      vin,
+      model,
+      brand: {
+        name: {
+          en: brand.name.en,
+          ar: brand.name.ar,
+        },
+        ref: brand._id,
+      },
+      year,
+      color,
+      trimLevel,
+      vehicleType,
+      fuelType,
+      noOfSeats,
+      kiloPerHour,
+      price,
+      phoneNumber,
+      description,
+    });
+
+    if (photo1) {
+      const photo = await localStorage.storeFile(photo1);
+      purchaseCar.photos.push(photo.path);
+    }
+
+    if (photo2) {
+      const photo = await localStorage.storeFile(photo2);
+      purchaseCar.photos.push(photo.path);
+    }
+
+    if (photo3) {
+      const photo = await localStorage.storeFile(photo3);
+      purchaseCar.photos.push(photo.path);
+    }
+
+    if (photo4) {
+      const photo = await localStorage.storeFile(photo4);
+      purchaseCar.photos.push(photo.path);
+    }
+
+    if (photo5) {
+      const photo = await localStorage.storeFile(photo5);
+      purchaseCar.photos.push(photo.path);
+    }
+
+    if (photo6) {
+      const photo = await localStorage.storeFile(photo6);
+      purchaseCar.photos.push(photo.path);
+    }
+
+    await purchaseCar.save();
+
+    return purchaseCar;
+  } catch (err) {
+    throw err;
+  }
+};

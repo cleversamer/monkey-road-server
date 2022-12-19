@@ -20,7 +20,6 @@ router.get(
   purchaseCarsController.getMyCars
 );
 
-// TODO:
 router.post(
   "/add",
   auth("createAny", "purchaseCar"),
