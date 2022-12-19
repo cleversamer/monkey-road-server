@@ -16,7 +16,7 @@ module.exports = Object.freeze({
     ar: "لا يوجد سيّارات مشابهة لهذه السيّارة",
   },
   noPostedCars: {
-    en: "You haven't posted any car for rent",
-    ar: "أنت لا تملك سيّارات للإيجار بعد",
+    en: "You haven't posted any car for sale",
+    ar: "أنت لا تملك سيّارات للبيع بعد",
   },
 });

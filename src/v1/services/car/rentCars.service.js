@@ -63,7 +63,7 @@ module.exports.getSimilarCars = async (
       throw new ApiError(statusCode, message);
     }
 
-    return car;
+    return rentCars;
   } catch (err) {
     throw err;
   }
@@ -84,7 +84,7 @@ module.exports.searchCars = async (searchTerm, skip) => {
       throw new ApiError(statusCode, message);
     }
 
-    return car;
+    return rentCars;
   } catch (err) {
     throw err;
   }

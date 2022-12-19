@@ -14,7 +14,6 @@ router.get("/best-seller", purchaseCarsController.getBestSellerCars);
 
 router.get("/search", purchaseCarsController.searchRentCars);
 
-// TODO:
 router.get(
   "/my",
   auth("readOwn", "purchaseCar"),

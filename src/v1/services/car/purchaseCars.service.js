@@ -73,20 +73,39 @@ module.exports.getBestSellerCars = async (skip) => {
 
 module.exports.searchRentCars = async (searchTerm, skip) => {
   try {
-    const rentCars = await PurchaseCar.aggregate([
+    const purchaseCars = await PurchaseCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
       { $sort: { score: { $meta: "textScore" } } },
       { $skip: skip },
       { $limit: 10 },
     ]);
 
-    if (!rentCars || !rentCars.length) {
+    if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noSearchCars;
       throw new ApiError(statusCode, message);
     }
 
-    return car;
+    return purchaseCars;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.getMyCars = async (user, skip) => {
+  try {
+    const myCars = await PurchaseCar.find({ "owner.ref": user._id })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(10);
+
+    if (!myCars || !myCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.noPostedCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return myCars;
   } catch (err) {
     throw err;
   }
