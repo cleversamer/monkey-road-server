@@ -4,7 +4,6 @@ const { authValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
 //////////////////// Common Routes ////////////////////
-// TODO:
 router.get("/my", auth("readOwn", "order"), ordersController.getMyOrders);
 
 // TODO:
