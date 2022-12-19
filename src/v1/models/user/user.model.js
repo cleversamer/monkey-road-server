@@ -117,6 +117,132 @@ const userSchema = new Schema(
       type: Array,
       default: [],
     },
+    paymentCards: [
+      {
+        // The type of the payment card
+        type: {
+          type: String,
+          required: true,
+          trim: true,
+          enum: validation.paymentCardTypes,
+        },
+        status: {
+          type: String,
+          required: true,
+          trim: true,
+          enum: validation.paymentCardStatus,
+        },
+        // Visa card info
+        visa: {
+          // Visa: Name on card
+          nameOnCard: {
+            type: String,
+            required: true,
+            trim: true,
+          },
+          // Visa: Card number
+          cardNumber: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.visa.cardNumber.exactLength,
+            maxlength: validation.visa.cardNumber.exactLength,
+          },
+          // Visa: CVV/CVC code
+          cvc: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.visa.cvc.exactLength,
+            maxlength: validation.visa.cvc.exactLength,
+          },
+          // Visa: Card expiry date
+          expiryDate: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.visa.expiryDate.minLength,
+            maxlength: validation.visa.expiryDate.maxLength,
+          },
+          // Visa: Postal code of the visa owner
+          postalCode: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.visa.postalCode.minLength,
+            maxlength: validation.visa.postalCode.maxLength,
+          },
+        },
+        // Paypal info
+        paypal: {
+          // Paypal: The first name of the paypal owner
+          firstname: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.paypal.firstname.minLength,
+            maxlength: validation.paypal.firstname.maxLength,
+          },
+          // Paypal: The last name of the paypal owner
+          lastname: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.paypal.lastname.minLength,
+            maxlength: validation.paypal.lastname.maxLength,
+          },
+          // Paypal: The address of the paypal owner
+          address: {
+            line1: {
+              type: String,
+              required: true,
+              trim: true,
+              minlength: validation.paypal.address.line1.minLength,
+              maxlength: validation.paypal.address.line1.maxLength,
+            },
+            line2: {
+              type: String,
+              required: true,
+              trim: true,
+              minlength: validation.paypal.address.line2.minLength,
+              maxlength: validation.paypal.address.line2.maxLength,
+            },
+          },
+          // Paypal: The city of the paypal owner
+          city: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.paypal.city.minLength,
+            maxlength: validation.paypal.city.maxLength,
+          },
+          // Paypal: The region of the paypal owner
+          region: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.paypal.region.minLength,
+            maxlength: validation.paypal.region.maxLength,
+          },
+          // Paypal: The country of the paypal owner
+          country: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.paypal.country.minLength,
+            maxlength: validation.paypal.country.maxLength,
+          },
+          // Paypal: The postal code of the paypal owner
+          postalCode: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: validation.paypal.postalCode.minLength,
+            maxlength: validation.paypal.postalCode.maxLength,
+          },
+        },
+      },
+    ],
     favorites: {
       type: Array,
       default: [],
@@ -294,6 +420,84 @@ userSchema.methods.addToFavorites = function (rentCarId) {
 
     // Add the rentCarId to the start of favorites array
     this.favorites.unshift(rentCarId);
+  } catch (err) {
+    // TODO: write the error to the database
+  }
+};
+
+userSchema.methods.removeFromFavorites = function (rentCardId) {
+  try {
+    // Filter the favorites and delete the specified
+    // rentCarId argument.
+    this.favorites = this.favorites.filter(
+      (item) => item.toString() !== rentCardId.toString()
+    );
+  } catch (err) {
+    // TODO: write the error to the database
+  }
+};
+
+userSchema.methods.addPaypalCard = function (
+  firstname,
+  lastname,
+  address1,
+  address2,
+  city,
+  region,
+  country,
+  postalCode
+) {
+  try {
+    // Creating a new paypal
+    const newPaypal = {
+      type: "paypal",
+      status: "active",
+      visa: null,
+      paypal: {
+        firstname,
+        lastname,
+        address: {
+          line1: address1,
+          line2: address2,
+        },
+        city,
+        region,
+        country,
+        postalCode,
+      },
+    };
+
+    // Pushing it to the start of the array
+    this.paymentCards.unshift(newPaypal);
+  } catch (err) {
+    // TODO: write the error to the database
+  }
+};
+
+userSchema.methods.addVisaCard = function (
+  nameOnCard,
+  cardNumber,
+  cvc,
+  expiryDate,
+  postalCode
+) {
+  try {
+    // Creating a new visa
+    const newVisa = {
+      type: "visa",
+      status: "active",
+      paypal: null,
+      visa: {
+        nameOnCard,
+        cardNumber,
+        cvc,
+        expiryDate,
+        postalCode,
+      },
+    };
+
+    // Pushing it to the start of the array
+    this.paymentCards.unshift(newVisa);
   } catch (err) {
     // TODO: write the error to the database
   }

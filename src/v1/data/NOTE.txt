@@ -1,0 +1,2 @@
+All files inside the parent folder should be added as JSON format
+to the `uploads` folder to be accessed by the clients.

@@ -3,8 +3,10 @@ const { usersController } = require("../../controllers");
 const { authValidator, userValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
+//////////////////// User: Authentication ////////////////////
 router.get("/isauth", auth("readOwn", "user", true), usersController.isAuth);
 
+//////////////////// User: Varification ////////////////////
 router
   .route("/verify-email")
   .get(
@@ -31,6 +33,7 @@ router
     usersController.verifyEmailOrPhone("phone")
   );
 
+//////////////////// User: Password ////////////////////
 router
   .route("/forgot-password")
   .get(
@@ -49,6 +52,7 @@ router.patch(
   usersController.changePassword
 );
 
+//////////////////// User: Profile ////////////////////
 router.patch(
   "/update",
   auth("updateOwn", "user"),
@@ -56,6 +60,7 @@ router.patch(
   usersController.updateProfile
 );
 
+//////////////////// User: Notifications ////////////////////
 router.get(
   "/see-notifications",
   auth("readOwn", "notification"),
@@ -68,7 +73,44 @@ router.delete(
   usersController.clearNotifications
 );
 
-////////////// ADMIN APIs //////////////
+//////////////////// User: Payment Cards ////////////////////
+// TODO:
+router.post(
+  "/add-payment-card",
+  auth("createOwn", "paymentCard"),
+  usersController.addPaymentCard
+);
+
+// TODO:
+router.post(
+  "/update-payment-card",
+  auth("updateOwn", "paymentCard"),
+  usersController.updatePaymentCard
+);
+
+// TODO:
+router.post(
+  "/delete-payment-card",
+  auth("deleteOwn", "paymentCard"),
+  usersController.deletePaymentCard
+);
+
+//////////////////// User: Favorites ////////////////////
+// TODO:
+router.get(
+  "/my-favorites",
+  auth("readOwn", "favorites"),
+  usersController.addToFavorites
+);
+
+// TODO:
+router.delete(
+  "/delete-favorite",
+  auth("deleteOwn", "favorites"),
+  usersController.deleteFromFavorites
+);
+
+//////////////////// Admin: Profile ////////////////////
 router.patch(
   "/admin/update-profile",
   auth("updateAny", "user"),
@@ -76,18 +118,12 @@ router.patch(
   usersController.updateUserProfile
 );
 
+//////////////////// Admin: Role ////////////////////
 router.patch(
   "/admin/change-user-role",
   auth("updateAny", "user"),
   userValidator.validateUpdateUserRole,
   usersController.changeUserRole
-);
-
-router.patch(
-  "/admin/verify-user",
-  auth("updateAny", "user"),
-  userValidator.validateVerifyUser,
-  usersController.verifyUser
 );
 
 router.get(
@@ -97,6 +133,15 @@ router.get(
   usersController.findUserByEmailOrPhone
 );
 
+//////////////////// Admin: Verification ////////////////////
+router.patch(
+  "/admin/verify-user",
+  auth("updateAny", "user"),
+  userValidator.validateVerifyUser,
+  usersController.verifyUser
+);
+
+//////////////////// Admin: Notifications ////////////////////
 router.post(
   "/send-notification",
   auth("createAny", "notification"),
