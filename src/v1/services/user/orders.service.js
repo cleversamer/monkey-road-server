@@ -12,7 +12,7 @@ module.exports.getMyOrders = async (user, skip) => {
 
     if (!orders || !orders.length) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notFound;
+      const message = errors.order.noOrders;
       throw new ApiError(statusCode, message);
     }
 
@@ -59,6 +59,36 @@ module.exports.getOrder = async (user, orderId) => {
     ]);
 
     return orders[0];
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.cancelOrder = async (user, orderId) => {
+  try {
+    // Check if orders exists
+    const order = await Order.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if the user is the order owner
+    const isOrderOwner = order.author.ref.toString() === user._id.toString();
+    if (!isOrderOwner) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notOwner;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Update order's status
+    order.cancel();
+
+    // Save the order
+    await order.save();
+
+    return order;
   } catch (err) {
     throw err;
   }

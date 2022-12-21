@@ -12,11 +12,17 @@ router.get(
   ordersController.getOrder
 );
 
-// TODO:
 router.delete(
   "/cancel",
   auth("deleteOwn", "order"),
   ordersController.cancelOrder
+);
+
+// TODO:
+router.delete(
+  "/delete",
+  auth("deleteOwn", "order"),
+  ordersController.deleteOrder
 );
 
 //////////////////// Rent Car Routes ////////////////////

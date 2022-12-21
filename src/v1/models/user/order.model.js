@@ -122,6 +122,12 @@ orderSchema.pre("save", function (next) {
 // fetch user's orders.
 orderSchema.index({ author: 1 });
 
+// Order object methods
+orderSchema.methods.cancel = function () {
+  this.status.en = "closed";
+  this.status.ar = "مغلق";
+};
+
 // Creating the model
 const Order = model("Order", orderSchema);
 
