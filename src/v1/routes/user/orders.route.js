@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const { ordersController } = require("../../controllers");
-const { authValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
 //////////////////// Common Routes ////////////////////

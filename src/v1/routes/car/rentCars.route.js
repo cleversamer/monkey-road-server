@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const { rentCarsController } = require("../../controllers");
-const { authValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
 //////////////////// User Routes ////////////////////
