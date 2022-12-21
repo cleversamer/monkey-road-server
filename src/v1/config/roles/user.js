@@ -18,4 +18,16 @@ module.exports = Object.freeze({
     "read:own": ["*"],
     "delete:own": ["*"],
   },
+  purchaseCar: {
+    "create:own": ["*"],
+    "read:own": ["*"],
+  },
+  rentOrder: {
+    "create:own": ["*"],
+  },
+  order: {
+    "read:own": ["*"],
+    "update:own": ["*"],
+    "delete:own": ["*"],
+  },
 });

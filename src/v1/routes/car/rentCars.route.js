@@ -22,6 +22,6 @@ router.get("/search", rentCarsController.searchCars);
 router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyCars);
 
 // TODO: waiting for brand apis
-// router.post("/add", auth("createAny", "rentCar"), rentCarsController.addCar);
+// router.post("/add", auth("createOwn", "rentCar"), rentCarsController.addCar);
 
 module.exports = router;

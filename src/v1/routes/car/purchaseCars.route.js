@@ -21,7 +21,7 @@ router.get(
 
 router.post(
   "/add",
-  auth("createAny", "purchaseCar"),
+  auth("createOwn", "purchaseCar"),
   purchaseCarsController.addCar
 );
 

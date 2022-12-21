@@ -6,4 +6,8 @@ module.exports = Object.freeze({
   phoneVerificationCode: allRights,
   password: allRights,
   notification: allRights,
+  purchaseCar: allRights,
+  rentCar: allRights,
+  rentOrder: allRights,
+  order: allRights,
 });
