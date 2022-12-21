@@ -411,26 +411,26 @@ userSchema.methods.updatePassword = async function (newPassword) {
   }
 };
 
-userSchema.methods.addToFavorites = function (rentCarId) {
+userSchema.methods.addToFavorites = function (purchaseCarId) {
   try {
     // Ensure that `rentCarId` is a valid MongoDB ObjectId
-    if (isValidObjectId(rentCarId)) {
-      rentCarId = Types.ObjectId(rentCarId);
+    if (isValidObjectId(purchaseCarId)) {
+      purchaseCarId = Types.ObjectId(purchaseCarId);
     }
 
     // Add the rentCarId to the start of favorites array
-    this.favorites.unshift(rentCarId);
+    this.favorites.unshift(purchaseCarId);
   } catch (err) {
     // TODO: write the error to the database
   }
 };
 
-userSchema.methods.removeFromFavorites = function (rentCardId) {
+userSchema.methods.removeFromFavorites = function (purchaseCarId) {
   try {
     // Filter the favorites and delete the specified
     // rentCarId argument.
     this.favorites = this.favorites.filter(
-      (item) => item.toString() !== rentCardId.toString()
+      (item) => item.toString() !== purchaseCarId.toString()
     );
   } catch (err) {
     // TODO: write the error to the database

@@ -177,6 +177,23 @@ module.exports.clearNotifications = async (req, res, next) => {
   }
 };
 
+module.exports.addToFavorites = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { purchaseCarId } = req.body;
+
+    const favorites = await usersService.addToFavorites(user, purchaseCarId);
+
+    const response = {
+      favorites,
+    };
+
+    res.startsWith(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 ///////////////////////////// ADMIN /////////////////////////////
 module.exports.updateUserProfile = async (req, res, next) => {
   try {

@@ -18,6 +18,11 @@ module.exports = Object.freeze({
     "read:own": ["*"],
     "delete:own": ["*"],
   },
+  favorites: {
+    "create:own": ["*"],
+    "read:own": ["*"],
+    "delete:own": ["*"],
+  },
   purchaseCar: {
     "create:own": ["*"],
     "read:own": ["*"],

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status");
 const emailService = require("./email.service");
 const notificationsService = require("./notifications.service");
+const purchaseCarsService = require("../car/purchaseCars.service");
 const localStorage = require("../storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const errors = require("../../config/errors");
@@ -324,6 +325,24 @@ module.exports.clearNotifications = async (user) => {
 
     // Return user's notifications
     return user.notifications;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.addToFavorites = async (user, purchaseCarId) => {
+  try {
+    const purchaseCar = await purchaseCarsService.getCar(purchaseCarId);
+    if (!purchaseCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.purchaseCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    user.addToFavorites(purchaseCar._id);
+    await user.save();
+
+    return user.favorites;
   } catch (err) {
     throw err;
   }

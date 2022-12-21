@@ -96,16 +96,22 @@ router.delete(
 // );
 
 //////////////////// User: Favorites ////////////////////
+router.post(
+  "/favorites/add",
+  auth("createOwn", "favorites"),
+  usersController.addToFavorites
+);
+
 // TODO:
 // router.get(
-//   "/my-favorites",
+//   "/favorites/my",
 //   auth("readOwn", "favorites"),
-//   usersController.addToFavorites
+//   usersController.getMyFavorites
 // );
 
 // TODO:
 // router.delete(
-//   "/delete-favorite",
+//   "/favorites/delete",
 //   auth("deleteOwn", "favorites"),
 //   usersController.deleteFromFavorites
 // );
