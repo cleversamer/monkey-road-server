@@ -5,11 +5,13 @@ const { order: validation } = require("../../middleware/validation/models");
 const CLIENT_SCHEMA = [
   "_id",
   "author",
+  "seller",
+  "shippingAddress",
+  "totalPrice",
+  "rentCar",
   "purpose",
   "status",
   "date",
-  "totalPrice",
-  "rentCar",
 ];
 
 // The default schema of the model

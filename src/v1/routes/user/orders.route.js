@@ -6,7 +6,6 @@ const auth = require("../../middleware/auth");
 //////////////////// Common Routes ////////////////////
 router.get("/my", auth("readOwn", "order"), ordersController.getMyOrders);
 
-// TODO:
 router.get(
   "/:orderId/details",
   auth("readOwn", "order"),

@@ -21,3 +21,45 @@ module.exports.getMyOrders = async (user, skip) => {
     throw err;
   }
 };
+
+module.exports.getOrder = async (user, orderId) => {
+  try {
+    const orders = await Order.aggregate([
+      { $match: { "author.ref": user._id, _id: orderId } },
+      {
+        $lookup: {
+          from: "User",
+          localField: "seller",
+          foreignField: "_id",
+          as: "seller",
+        },
+      },
+      {
+        $lookup: {
+          from: "RentCar",
+          localField: "rentCar",
+          foreignField: "_id",
+          as: "rentCar",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          author: 1,
+          seller: 1,
+          shippingAddress: 1,
+          totalPrice: 1,
+          rentCar: 1,
+          purpose: 1,
+          status: 1,
+          date: 1,
+          seller: { $arrayElemAt: ["$seller", 0] },
+        },
+      },
+    ]);
+
+    return orders[0];
+  } catch (err) {
+    throw err;
+  }
+};
