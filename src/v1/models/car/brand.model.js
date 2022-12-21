@@ -54,5 +54,4 @@ const Brand = model("Brand", brandSchema);
 module.exports = {
   Brand,
   CLIENT_SCHEMA,
-  SUPPORTED_ROLES,
 };

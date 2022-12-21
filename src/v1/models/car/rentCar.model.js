@@ -100,14 +100,12 @@ const rentCarSchema = new Schema(
       weekly: {
         type: Number,
         required: true,
-        default: this.price.daily,
         min: validation.price.weekly.min,
         max: validation.price.weekly.max,
       },
       monthly: {
         type: Number,
         required: true,
-        default: this.price.weekly,
         min: validation.price.monthly.min,
         max: validation.price.monthly.max,
       },
@@ -183,5 +181,4 @@ const RentCar = model("RentCar", rentCarSchema);
 module.exports = {
   RentCar,
   CLIENT_SCHEMA,
-  SUPPORTED_ROLES,
 };

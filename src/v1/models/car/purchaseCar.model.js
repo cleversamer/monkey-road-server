@@ -92,10 +92,18 @@ const purchaseCarSchema = new Schema(
     },
     // The color of the car
     color: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: CARS.COLORS,
+      en: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.COLORS.EN,
+      },
+      ar: {
+        type: String,
+        required: true,
+        trim: true,
+        enum: CARS.COLORS.AR,
+      },
     },
     // The trim level of the car
     trimLevel: {
@@ -116,7 +124,7 @@ const purchaseCarSchema = new Schema(
         type: String,
         required: true,
         trim: true,
-        enum: CARS.VEHICLE_TYPES.AR``,
+        enum: CARS.VEHICLE_TYPES.AR,
       },
     },
     // The fuel type of the car
@@ -151,8 +159,8 @@ const purchaseCarSchema = new Schema(
     price: {
       type: Number,
       required: true,
-      min: validation.price.daily.min,
-      max: validation.price.daily.max,
+      min: validation.price.min,
+      max: validation.price.max,
     },
     // The phone number of the car's owner
     phoneNumber: {
@@ -207,7 +215,7 @@ purchaseCarSchema.index({ year: 1 });
 
 // Creating a text index based on multiple fields to enhance
 // search alogrithms and reach more relevant search results.
-rentCarSchema.index({
+purchaseCarSchema.index({
   name: "text",
   "owner.name": "text",
   model: "text",
@@ -232,5 +240,4 @@ const PurchaseCar = model("PurchaseCar", purchaseCarSchema);
 module.exports = {
   PurchaseCar,
   CLIENT_SCHEMA,
-  SUPPORTED_ROLES,
 };

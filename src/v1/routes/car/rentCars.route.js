@@ -13,16 +13,16 @@ router.get("/similar", rentCarsController.getSimilarCars);
 router.get("/search", rentCarsController.searchCars);
 
 // TODO: waiting for order apis
-router.post(
-  "/rent",
-  auth("createOwn", "rentOrder"),
-  rentCarsController.requestCarRental
-);
+// router.post(
+//   "/rent",
+//   auth("createOwn", "rentOrder"),
+//   rentCarsController.requestCarRental
+// );
 
 //////////////////// Office Routes ////////////////////
 router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyCars);
 
 // TODO: waiting for brand apis
-router.post("/add", auth("createAny", "rentCar"), rentCarsController.addCar);
+// router.post("/add", auth("createAny", "rentCar"), rentCarsController.addCar);
 
 module.exports = router;

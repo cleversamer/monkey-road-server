@@ -75,40 +75,40 @@ router.delete(
 
 //////////////////// User: Payment Cards ////////////////////
 // TODO:
-router.post(
-  "/add-payment-card",
-  auth("createOwn", "paymentCard"),
-  usersController.addPaymentCard
-);
+// router.post(
+//   "/add-payment-card",
+//   auth("createOwn", "paymentCard"),
+//   usersController.addPaymentCard
+// );
 
 // TODO:
-router.post(
-  "/update-payment-card",
-  auth("updateOwn", "paymentCard"),
-  usersController.updatePaymentCard
-);
+// router.post(
+//   "/update-payment-card",
+//   auth("updateOwn", "paymentCard"),
+//   usersController.updatePaymentCard
+// );
 
 // TODO:
-router.post(
-  "/delete-payment-card",
-  auth("deleteOwn", "paymentCard"),
-  usersController.deletePaymentCard
-);
+// router.post(
+//   "/delete-payment-card",
+//   auth("deleteOwn", "paymentCard"),
+//   usersController.deletePaymentCard
+// );
 
 //////////////////// User: Favorites ////////////////////
 // TODO:
-router.get(
-  "/my-favorites",
-  auth("readOwn", "favorites"),
-  usersController.addToFavorites
-);
+// router.get(
+//   "/my-favorites",
+//   auth("readOwn", "favorites"),
+//   usersController.addToFavorites
+// );
 
 // TODO:
-router.delete(
-  "/delete-favorite",
-  auth("deleteOwn", "favorites"),
-  usersController.deleteFromFavorites
-);
+// router.delete(
+//   "/delete-favorite",
+//   auth("deleteOwn", "favorites"),
+//   usersController.deleteFromFavorites
+// );
 
 //////////////////// Admin: Profile ////////////////////
 router.patch(

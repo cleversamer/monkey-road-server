@@ -135,5 +135,4 @@ const Order = model("Order", orderSchema);
 module.exports = {
   Order,
   CLIENT_SCHEMA,
-  SUPPORTED_ROLES,
 };

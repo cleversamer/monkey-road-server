@@ -26,11 +26,11 @@ router.delete(
 
 //////////////////// Rent Car Routes ////////////////////
 // TODO:
-router.post(
-  "/complete",
-  auth("updateOwn", "order"),
-  ordersController.completeOrder
-);
+// router.post(
+//   "/complete",
+//   auth("updateOwn", "order"),
+//   ordersController.completeOrder
+// );
 
 //////////////////// Purchase Car Routes ////////////////////
 

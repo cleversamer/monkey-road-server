@@ -1,4 +1,4 @@
-const { CLIENT_SCHEMA: brandSchema } = require("../../models/user/brand.model");
+const { CLIENT_SCHEMA: brandSchema } = require("../../models/car/brand.model");
 const { brandsService } = require("../../services");
 const httpStatus = require("http-status");
 const _ = require("lodash");
