@@ -23,11 +23,11 @@ module.exports.getAllCars = async (req, res, next) => {
   }
 };
 
-module.exports.getCar = async (req, res, next) => {
+module.exports.getCarDetails = async (req, res, next) => {
   try {
     const { carId } = req.query;
 
-    const car = await rentCarsService.getCar(carId);
+    const car = await rentCarsService.getCarDetails(carId);
 
     const response = _.pick(car, rentCarSchema);
 

@@ -24,7 +24,7 @@ module.exports.getAllCars = async (skip) => {
   }
 };
 
-module.exports.getCar = async (carId) => {
+module.exports.getCarDetails = async (carId) => {
   try {
     const rentCar = await RentCar.findById(carId);
     if (!rentCar) {

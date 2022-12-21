@@ -5,7 +5,7 @@ const auth = require("../../middleware/auth");
 //////////////////// User Routes ////////////////////
 router.get("/get", rentCarsController.getAllCars);
 
-router.get("/:carId", rentCarsController.getCar);
+router.get("/details/:carId", rentCarsController.getCarDetails);
 
 router.get("/similar", rentCarsController.getSimilarCars);
 
