@@ -45,3 +45,16 @@ module.exports.cancelOrder = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.deleteOrder = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { orderId } = req.params;
+
+    const order = await ordersService.deleteOrder(user, orderId);
+
+    res.status(httpStatus.OK).json(order);
+  } catch (err) {
+    next(err);
+  }
+};

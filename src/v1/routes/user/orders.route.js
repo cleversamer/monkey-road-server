@@ -18,7 +18,6 @@ router.delete(
   ordersController.cancelOrder
 );
 
-// TODO:
 router.delete(
   "/delete",
   auth("deleteOwn", "order"),

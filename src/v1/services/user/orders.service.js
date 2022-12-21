@@ -93,3 +93,30 @@ module.exports.cancelOrder = async (user, orderId) => {
     throw err;
   }
 };
+
+module.exports.deleteOrder = async (user, orderId) => {
+  try {
+    // Check if orders exists
+    const order = await Order.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if the user is the order owner
+    const isOrderOwner = order.author.ref.toString() === user._id.toString();
+    if (!isOrderOwner) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notOwner;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Delete the order
+    await order.delete();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
