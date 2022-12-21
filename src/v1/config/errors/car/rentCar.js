@@ -9,7 +9,7 @@ module.exports = Object.freeze({
   },
   noSearchCars: {
     en: "No cars match your search term",
-    ar: "لا توجد سيّارات لنتيجة مشابهة لنتيجة بحثك",
+    ar: "لا توجد سيّارات مشابهة لنتيجة بحثك",
   },
   noSimilarCars: {
     en: "There're no similar cars",

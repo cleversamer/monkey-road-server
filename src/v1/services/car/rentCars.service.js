@@ -75,7 +75,7 @@ module.exports.searchCars = async (searchTerm, skip) => {
     const rentCars = await RentCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
       { $sort: { score: { $meta: "textScore" } } },
-      { $skip: skip },
+      { $skip: parseInt(skip) },
       { $limit: 10 },
     ]);
 
