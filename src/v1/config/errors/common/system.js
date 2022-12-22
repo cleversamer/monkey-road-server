@@ -49,4 +49,8 @@ module.exports = Object.freeze({
     en: "Error sending notification",
     ar: "حصل خطأ عند إرسال الإشعار",
   },
+  invalidSkip: {
+    en: "Skip number is required",
+    ar: "عدد التخطي مطلوب",
+  },
 });

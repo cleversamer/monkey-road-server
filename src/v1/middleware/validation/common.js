@@ -217,6 +217,10 @@ const checkFile =
     next();
   };
 
+const checkSkip = check("skip")
+  .isNumeric()
+  .withMessage(errors.system.invalidSkip);
+
 module.exports = {
   next,
   checkPhone,
@@ -234,4 +238,5 @@ module.exports = {
   checkName,
   checkRole,
   checkDeviceToken,
+  checkSkip,
 };
