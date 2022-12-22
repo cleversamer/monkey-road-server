@@ -7,11 +7,11 @@ const httpStatus = require("http-status");
 const _ = require("lodash");
 
 //////////////////// User Controllers ////////////////////
-module.exports.getAllCars = async (req, res, next) => {
+module.exports.getAllRentCars = async (req, res, next) => {
   try {
     const { skip } = req.query;
 
-    const cars = await rentCarsService.getAllCars(skip);
+    const cars = await rentCarsService.getAllRentCars(skip);
 
     const response = {
       cars: cars.map((car) => _.pick(car, rentCarSchema)),
@@ -23,11 +23,11 @@ module.exports.getAllCars = async (req, res, next) => {
   }
 };
 
-module.exports.getCarDetails = async (req, res, next) => {
+module.exports.getRentCarDetails = async (req, res, next) => {
   try {
     const { carId } = req.query;
 
-    const car = await rentCarsService.getCarDetails(carId);
+    const car = await rentCarsService.getRentCarDetails(carId);
 
     const response = _.pick(car, rentCarSchema);
 
@@ -37,7 +37,7 @@ module.exports.getCarDetails = async (req, res, next) => {
   }
 };
 
-module.exports.getSimilarCars = async (req, res, next) => {
+module.exports.getSimilarRentCars = async (req, res, next) => {
   try {
     const {
       name,
@@ -50,7 +50,7 @@ module.exports.getSimilarCars = async (req, res, next) => {
       description,
     } = req.query;
 
-    const cars = await rentCarsService.getSimilarCars(
+    const cars = await rentCarsService.getSimilarRentCars(
       name,
       model,
       brandEN,
@@ -71,11 +71,11 @@ module.exports.getSimilarCars = async (req, res, next) => {
   }
 };
 
-module.exports.searchCars = async (req, res, next) => {
+module.exports.searchRentCars = async (req, res, next) => {
   try {
     const { searchTerm, skip } = req.query;
 
-    const cars = await rentCarsService.searchCars(searchTerm, skip);
+    const cars = await rentCarsService.searchRentCars(searchTerm, skip);
 
     const response = {
       cars: cars.map((car) => _.pick(car, rentCarSchema)),
@@ -112,7 +112,7 @@ module.exports.requestCarRental = async (req, res, next) => {
 };
 
 //////////////////// Office Controllers ////////////////////
-module.exports.getMyCars = async (req, res, next) => {
+module.exports.getMyRentCars = async (req, res, next) => {
   try {
     const user = req.user;
     const { skip } = req.query;
@@ -129,7 +129,7 @@ module.exports.getMyCars = async (req, res, next) => {
   }
 };
 
-module.exports.addCar = async (req, res, next) => {
+module.exports.addRentCar = async (req, res, next) => {
   try {
     const user = req.user;
     const {

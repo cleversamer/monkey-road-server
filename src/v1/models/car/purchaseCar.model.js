@@ -1,8 +1,6 @@
 const { Schema, model, Types } = require("mongoose");
 const CARS = require("../../data/cars");
-const {
-  purchaseCar: validation,
-} = require("../../middleware/validation/models");
+const { purchaseCar: validation } = require("../../config/models");
 
 // The data that will be received by the client side
 const CLIENT_SCHEMA = [

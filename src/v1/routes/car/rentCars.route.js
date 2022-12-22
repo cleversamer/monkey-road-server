@@ -3,13 +3,13 @@ const { rentCarsController } = require("../../controllers");
 const auth = require("../../middleware/auth");
 
 //////////////////// User Routes ////////////////////
-router.get("/get", rentCarsController.getAllCars);
+router.get("/get", rentCarsController.getAllRentCars);
 
-router.get("/details/:carId", rentCarsController.getCarDetails);
+router.get("/details/:carId", rentCarsController.getRentCarDetails);
 
-router.get("/similar", rentCarsController.getSimilarCars);
+router.get("/similar", rentCarsController.getSimilarRentCars);
 
-router.get("/search", rentCarsController.searchCars);
+router.get("/search", rentCarsController.searchRentCars);
 
 // TODO: waiting for order apis
 // router.post(
@@ -19,9 +19,9 @@ router.get("/search", rentCarsController.searchCars);
 // );
 
 //////////////////// Office Routes ////////////////////
-router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyCars);
+router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyRentCars);
 
 // TODO: waiting for brand apis
-// router.post("/add", auth("createOwn", "rentCar"), rentCarsController.addCar);
+// router.post("/add", auth("createOwn", "rentCar"), rentCarsController.addRentCar);
 
 module.exports = router;

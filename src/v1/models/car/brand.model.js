@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { brand: validation } = require("../../middleware/validation/models");
+const { brand: validation } = require("../../config/models");
 
 // The data that will be received by the client side
 const CLIENT_SCHEMA = ["_id", "name", "photoURL"];

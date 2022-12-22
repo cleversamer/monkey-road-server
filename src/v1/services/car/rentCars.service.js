@@ -6,7 +6,7 @@ const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
 //////////////////// User Services ////////////////////
-module.exports.getAllCars = async (skip) => {
+module.exports.getAllRentCars = async (skip) => {
   try {
     const rentCars = await RentCar.find({})
       .sort({ _id: -1 })
@@ -24,7 +24,7 @@ module.exports.getAllCars = async (skip) => {
   }
 };
 
-module.exports.getCarDetails = async (carId) => {
+module.exports.getRentCarDetails = async (carId) => {
   try {
     const rentCar = await RentCar.findById(carId);
     if (!rentCar) {
@@ -39,7 +39,7 @@ module.exports.getCarDetails = async (carId) => {
   }
 };
 
-module.exports.getSimilarCars = async (
+module.exports.getSimilarRentCars = async (
   name,
   model,
   brandEN,
@@ -70,7 +70,7 @@ module.exports.getSimilarCars = async (
   }
 };
 
-module.exports.searchCars = async (searchTerm, skip) => {
+module.exports.searchRentCars = async (searchTerm, skip) => {
   try {
     const rentCars = await RentCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },

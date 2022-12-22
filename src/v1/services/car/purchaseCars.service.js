@@ -5,7 +5,7 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
-module.exports.getCarDetails = async (carId) => {
+module.exports.getPurchaseCarDetails = async (carId) => {
   try {
     const purchaseCar = await PurchaseCar.findById(carId);
     if (!purchaseCar) {
@@ -20,7 +20,7 @@ module.exports.getCarDetails = async (carId) => {
   }
 };
 
-module.exports.getRecentlyArrivedCars = async (skip) => {
+module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
   try {
     const purchaseCars = await PurchaseCar.find({})
       .sort({ _id: -1 })
@@ -38,7 +38,7 @@ module.exports.getRecentlyArrivedCars = async (skip) => {
   }
 };
 
-module.exports.getLatestModelsCars = async (skip) => {
+module.exports.getLatestModelsPurchaseCars = async (skip) => {
   try {
     const purchaseCars = await PurchaseCar.find({}).skip(skip).limit(10);
     if (!purchaseCars || !purchaseCars.length) {
@@ -53,7 +53,7 @@ module.exports.getLatestModelsCars = async (skip) => {
   }
 };
 
-module.exports.getBestSellerCars = async (skip) => {
+module.exports.getBestSellerPurchaseCars = async (skip) => {
   try {
     const purchaseCars = await PurchaseCar.find({})
       .sort({ model: 1 })
@@ -72,7 +72,7 @@ module.exports.getBestSellerCars = async (skip) => {
   }
 };
 
-module.exports.searchRentCars = async (searchTerm, skip) => {
+module.exports.searchPurchaseCars = async (searchTerm, skip) => {
   try {
     const purchaseCars = await PurchaseCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
@@ -93,7 +93,7 @@ module.exports.searchRentCars = async (searchTerm, skip) => {
   }
 };
 
-module.exports.getMyCars = async (user, skip) => {
+module.exports.getMyPurchaseCars = async (user, skip) => {
   try {
     const myCars = await PurchaseCar.find({ "owner.ref": user._id })
       .sort({ _id: -1 })
@@ -112,7 +112,7 @@ module.exports.getMyCars = async (user, skip) => {
   }
 };
 
-module.exports.addCar = async (
+module.exports.addPurchaseCar = async (
   user,
   name,
   vin,

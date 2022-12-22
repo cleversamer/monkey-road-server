@@ -1,5 +1,5 @@
 const { Schema, model, Types } = require("mongoose");
-const { order: validation } = require("../../middleware/validation/models");
+const { order: validation } = require("../../config/models");
 
 // The data that will be received by the client side
 const CLIENT_SCHEMA = [

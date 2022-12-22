@@ -2,7 +2,7 @@ const { Schema, model, Types, isValidObjectId } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { server } = require("../../config/system");
-const { user: validation } = require("../../middleware/validation/models");
+const { user: validation } = require("../../config/models");
 const countriesData = require("../../data/countries");
 
 const CLIENT_SCHEMA = [

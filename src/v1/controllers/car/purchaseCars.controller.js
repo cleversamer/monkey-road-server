@@ -5,11 +5,11 @@ const { purchaseCarsService } = require("../../services");
 const httpStatus = require("http-status");
 const _ = require("lodash");
 
-module.exports.getCarDetails = async (req, res, next) => {
+module.exports.getPurchaseCarDetails = async (req, res, next) => {
   try {
     const { carId } = req.query;
 
-    const car = await purchaseCarsService.getCarDetails(carId);
+    const car = await purchaseCarsService.getPurchaseCarDetails(carId);
 
     const response = _.pick(car, purchaseCarSchema);
 
@@ -19,11 +19,11 @@ module.exports.getCarDetails = async (req, res, next) => {
   }
 };
 
-module.exports.getRecentlyArrivedCars = async (req, res, next) => {
+module.exports.getRecentlyArrivedPurchaseCars = async (req, res, next) => {
   try {
     const { skip } = req.query;
 
-    const cars = await purchaseCarsService.getRecentlyArrivedCars(skip);
+    const cars = await purchaseCarsService.getRecentlyArrivedPurchaseCars(skip);
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
@@ -35,11 +35,11 @@ module.exports.getRecentlyArrivedCars = async (req, res, next) => {
   }
 };
 
-module.exports.getLatestModelsCars = async (req, res, next) => {
+module.exports.getLatestModelsPurchaseCars = async (req, res, next) => {
   try {
     const { skip } = req.query;
 
-    const cars = await purchaseCarsService.getLatestModelsCars(skip);
+    const cars = await purchaseCarsService.getLatestModelsPurchaseCars(skip);
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
@@ -51,11 +51,11 @@ module.exports.getLatestModelsCars = async (req, res, next) => {
   }
 };
 
-module.exports.getBestSellerCars = async (req, res, next) => {
+module.exports.getBestSellerPurchaseCars = async (req, res, next) => {
   try {
     const { skip } = req.query;
 
-    const cars = await purchaseCarsService.getBestSellerCars(skip);
+    const cars = await purchaseCarsService.getBestSellerPurchaseCars(skip);
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
@@ -67,11 +67,11 @@ module.exports.getBestSellerCars = async (req, res, next) => {
   }
 };
 
-module.exports.searchRentCars = async (req, res, next) => {
+module.exports.searchPurchaseCars = async (req, res, next) => {
   try {
     const { searchTerm, skip } = req.query;
 
-    const cars = await purchaseCarsService.searchRentCars(searchTerm, skip);
+    const cars = await purchaseCarsService.searchPurchaseCars(searchTerm, skip);
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
@@ -83,11 +83,11 @@ module.exports.searchRentCars = async (req, res, next) => {
   }
 };
 
-module.exports.getMyCars = async (req, res, next) => {
+module.exports.getMyPurchaseCars = async (req, res, next) => {
   try {
     const user = req.user;
 
-    const cars = await purchaseCarsService.getMyCars(user);
+    const cars = await purchaseCarsService.getMyPurchaseCars(user);
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
@@ -99,7 +99,7 @@ module.exports.getMyCars = async (req, res, next) => {
   }
 };
 
-module.exports.addCar = async (req, res, next) => {
+module.exports.addPurchaseCar = async (req, res, next) => {
   try {
     const user = req.user;
     const {
@@ -125,7 +125,7 @@ module.exports.addCar = async (req, res, next) => {
     const photo5 = req?.files?.photo5;
     const photo6 = req?.files?.photo6;
 
-    const car = await purchaseCarsService.addCar(
+    const car = await purchaseCarsService.addPurchaseCar(
       user,
       name,
       vin,
