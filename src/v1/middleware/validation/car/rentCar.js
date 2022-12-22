@@ -12,7 +12,7 @@ const getAllRentCarsValidator = [
 ];
 
 const getRentCarDetailsValidator = [
-  commonMiddleware.checkMongoIdQueryParam,
+  commonMiddleware.checkMongoIdParam,
   commonMiddleware.next,
 ];
 
