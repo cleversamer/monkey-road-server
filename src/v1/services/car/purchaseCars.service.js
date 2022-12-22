@@ -5,7 +5,7 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
-module.exports.getCar = async (carId) => {
+module.exports.getCarDetails = async (carId) => {
   try {
     const purchaseCar = await PurchaseCar.findById(carId);
     if (!purchaseCar) {

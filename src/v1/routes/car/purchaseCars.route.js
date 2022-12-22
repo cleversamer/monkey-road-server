@@ -3,7 +3,7 @@ const { purchaseCarsController } = require("../../controllers");
 const auth = require("../../middleware/auth");
 
 //////////////////// User Routes ////////////////////
-router.get("/:carId", purchaseCarsController.getCar);
+router.get("/details/:carId", purchaseCarsController.getCarDetails);
 
 router.get("/recently-arrived", purchaseCarsController.getRecentlyArrivedCars);
 

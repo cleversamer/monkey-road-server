@@ -5,11 +5,11 @@ const { purchaseCarsService } = require("../../services");
 const httpStatus = require("http-status");
 const _ = require("lodash");
 
-module.exports.getCar = async (req, res, next) => {
+module.exports.getCarDetails = async (req, res, next) => {
   try {
     const { carId } = req.query;
 
-    const car = await purchaseCarsService.getCar(carId);
+    const car = await purchaseCarsService.getCarDetails(carId);
 
     const response = _.pick(car, purchaseCarSchema);
 

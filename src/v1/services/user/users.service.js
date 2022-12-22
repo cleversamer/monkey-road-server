@@ -332,7 +332,7 @@ module.exports.clearNotifications = async (user) => {
 
 module.exports.addToFavorites = async (user, purchaseCarId) => {
   try {
-    const purchaseCar = await purchaseCarsService.getCar(purchaseCarId);
+    const purchaseCar = await purchaseCarsService.getCarDetails(purchaseCarId);
     if (!purchaseCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.notFound;
