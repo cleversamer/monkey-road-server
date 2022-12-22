@@ -11,6 +11,12 @@ const getAllRentCarsValidator = [
   commonMiddleware.next,
 ];
 
+const getRentCarDetailsValidator = [
+  commonMiddleware.checkMongoIdQueryParam,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getAllRentCarsValidator,
+  getRentCarDetailsValidator,
 };

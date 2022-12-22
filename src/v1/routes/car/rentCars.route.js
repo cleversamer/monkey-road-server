@@ -10,7 +10,11 @@ router.get(
   rentCarsController.getAllRentCars
 );
 
-router.get("/details/:carId", rentCarsController.getRentCarDetails);
+router.get(
+  "/details/:carId",
+  rentCarValidator.getRentCarDetailsValidator,
+  rentCarsController.getRentCarDetails
+);
 
 router.get("/similar", rentCarsController.getSimilarRentCars);
 
