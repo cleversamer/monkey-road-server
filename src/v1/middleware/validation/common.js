@@ -273,6 +273,13 @@ const checkRentCarDescription = check("description")
   })
   .withMessage(errors.rentCar.invalidDescription);
 
+const checkSearchTerm = check("searchTerm")
+  .isLength({
+    min: rentCarValidation.searchTerm.minLength,
+    max: rentCarValidation.searchTerm.maxLength,
+  })
+  .withMessage(errors.rentCar.invalidSearchTerm);
+
 module.exports = {
   next,
   checkPhone,
@@ -299,4 +306,5 @@ module.exports = {
   checkRentCarARBrand,
   checkRentCarYear,
   checkRentCarDescription,
+  checkSearchTerm,
 };

@@ -28,8 +28,15 @@ const getSimilarRentCarsValidator = [
   commonMiddleware.next,
 ];
 
+const searchRentCarsValidator = [
+  commonMiddleware.checkSkip,
+  commonMiddleware.checkSearchTerm,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getAllRentCarsValidator,
   getRentCarDetailsValidator,
   getSimilarRentCarsValidator,
+  searchRentCarsValidator,
 };

@@ -1,4 +1,9 @@
-const { name, model, description } = require("../../models/rentCar");
+const {
+  name,
+  model,
+  description,
+  searchTerm,
+} = require("../../models/rentCar");
 const brand = require("../../models/brand");
 
 module.exports = Object.freeze({
@@ -53,5 +58,9 @@ module.exports = Object.freeze({
   invalidDescription: {
     en: `Car's description should be ${description.minLength}-${description.maxLength} characters length`,
     en: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
+  },
+  invalidSearchTerm: {
+    en: `Search term should be ${searchTerm.minLength}-${searchTerm.maxLength} characters length`,
+    ar: `عبارة البحث يجب أن تكون بين ${searchTerm.minLength}-${searchTerm.maxLength} حرفًا`,
   },
 });

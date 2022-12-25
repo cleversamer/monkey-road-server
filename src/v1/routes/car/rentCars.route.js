@@ -22,7 +22,11 @@ router.get(
   rentCarsController.getSimilarRentCars
 );
 
-router.get("/search", rentCarsController.searchRentCars);
+router.get(
+  "/search",
+  rentCarValidator.searchRentCarsValidator,
+  rentCarsController.searchRentCars
+);
 
 // TODO: waiting for order apis
 // router.post(
