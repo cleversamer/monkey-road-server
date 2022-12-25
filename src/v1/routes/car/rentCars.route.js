@@ -36,7 +36,12 @@ router.get(
 // );
 
 //////////////////// Office Routes ////////////////////
-router.get("/my", auth("readOwn", "rentCar"), rentCarsController.getMyRentCars);
+router.get(
+  "/my",
+  auth("readOwn", "rentCar"),
+  rentCarValidator.getMyRentCarsValidator,
+  rentCarsController.getMyRentCars
+);
 
 // TODO: waiting for brand apis
 // router.post("/add", auth("createOwn", "rentCar"), rentCarsController.addRentCar);
