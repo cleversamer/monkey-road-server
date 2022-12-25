@@ -5,7 +5,12 @@ const { ApiError } = require("../apiError");
 const errors = require("../../config/errors");
 const { server } = require("../../config/system");
 const countries = require("../../data/countries.json");
-const { user: userValidation } = require("../../config/models");
+const carsData = require("../../data/cars");
+const {
+  user: userValidation,
+  rentCar: rentCarValidation,
+  brand: brandValidation,
+} = require("../../config/models");
 
 const next = (req, res, next) => {
   const errors = validationResult(req);
@@ -221,6 +226,53 @@ const checkSkip = check("skip")
   .isNumeric()
   .withMessage(errors.system.invalidSkip);
 
+const checkRentCarName = check("carName")
+  .isLength({
+    min: rentCarValidation.name.minLength,
+    max: rentCarValidation.name.maxLength,
+  })
+  .withMessage(errors.rentCar.invalidName);
+
+const checkRentCarModel = check("model")
+  .isLength({
+    min: rentCarValidation.model.minLength,
+    max: rentCarValidation.model.maxLength,
+  })
+  .withMessage(errors.rentCar.invalidModel);
+
+const checkRentCarENColor = check("colorEN")
+  .isIn(carsData.COLORS.EN)
+  .withMessage(errors.rentCar.invalidENColor);
+
+const checkRentCarARColor = check("colorAR")
+  .isIn(carsData.COLORS.EN)
+  .withMessage(errors.rentCar.invalidARColor);
+
+const checkRentCarENBrand = check("brandEN")
+  .isLength({
+    min: brandValidation.name.minLength,
+    max: brandValidation.name.maxLength,
+  })
+  .withMessage(errors.rentCar.invalidENBrand);
+
+const checkRentCarARBrand = check("brandEN")
+  .isLength({
+    min: brandValidation.name.minLength,
+    max: brandValidation.name.maxLength,
+  })
+  .withMessage(errors.rentCar.invalidARBrand);
+
+const checkRentCarYear = check("year")
+  .isIn(carsData.YEARS)
+  .withMessage(errors.rentCar.invalidYear);
+
+const checkRentCarDescription = check("description")
+  .isLength({
+    min: rentCarValidation.description.minLength,
+    max: rentCarValidation.description.maxLength,
+  })
+  .withMessage(errors.rentCar.invalidDescription);
+
 module.exports = {
   next,
   checkPhone,
@@ -239,4 +291,12 @@ module.exports = {
   checkRole,
   checkDeviceToken,
   checkSkip,
+  checkRentCarName,
+  checkRentCarModel,
+  checkRentCarENColor,
+  checkRentCarARColor,
+  checkRentCarENBrand,
+  checkRentCarARBrand,
+  checkRentCarYear,
+  checkRentCarDescription,
 };

@@ -1,3 +1,6 @@
+const { name, model, description } = require("../../models/rentCar");
+const brand = require("../../models/brand");
+
 module.exports = Object.freeze({
   notFound: {
     en: "Car was not found",
@@ -18,5 +21,37 @@ module.exports = Object.freeze({
   noPostedCars: {
     en: "You haven't posted any car for rent",
     ar: "أنت لا تملك سيّارات للإيجار بعد",
+  },
+  invalidName: {
+    en: `Car name should be (${name.minLength}-${name.maxLength} characters) length`,
+    ar: `إسم السيّارة يجب أن يكون بين ${name.minLength}-${name.maxLength} حرفًا`,
+  },
+  invalidModel: {
+    en: `Car model should be (${model.minLength}-${model.maxLength} characters) length`,
+    ar: `موديل السيّارة يجب أن يكون بين ${model.minLength}-${model.maxLength} حرفًا`,
+  },
+  invalidENColor: {
+    en: "English car's color isn't supported",
+    ar: "لون السيّارة الإنجليزي غير مدعوم",
+  },
+  invalidARColor: {
+    en: "Arabic car's color isn't supported",
+    ar: "لون السيّارة العربي غير مدعوم",
+  },
+  invalidENBrand: {
+    en: `English car's brand should be ${brand.name.minLength}-${brand.name.maxLength} characters length`,
+    ar: `إسم الشركة المصنّعة الإنجليزي للسيّارة يجب أن يكون بين ${brand.name.minLength}-${brand.name.maxLength} حرفًا`,
+  },
+  invalidARBrand: {
+    en: `Arabic car's brand should be ${brand.name.minLength}-${brand.name.maxLength} characters length`,
+    ar: `إسم الشركة المصنّعة العربي للسيّارة يجب أن يكون بين ${brand.name.minLength}-${brand.name.maxLength} حرفًا`,
+  },
+  invalidYear: {
+    en: "Unsupported car's year",
+    en: "موديل سنة السيّارة غير مدعوم",
+  },
+  invalidDescription: {
+    en: `Car's description should be ${description.minLength}-${description.maxLength} characters length`,
+    en: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
   },
 });

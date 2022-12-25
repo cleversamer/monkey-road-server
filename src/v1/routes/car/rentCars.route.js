@@ -16,7 +16,11 @@ router.get(
   rentCarsController.getRentCarDetails
 );
 
-router.get("/similar", rentCarsController.getSimilarRentCars);
+router.get(
+  "/similar",
+  rentCarValidator.getSimilarRentCarsValidator,
+  rentCarsController.getSimilarRentCars
+);
 
 router.get("/search", rentCarsController.searchRentCars);
 

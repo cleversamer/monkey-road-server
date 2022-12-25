@@ -16,7 +16,20 @@ const getRentCarDetailsValidator = [
   commonMiddleware.next,
 ];
 
+const getSimilarRentCarsValidator = [
+  commonMiddleware.checkRentCarName,
+  commonMiddleware.checkRentCarModel,
+  commonMiddleware.checkRentCarENBrand,
+  commonMiddleware.checkRentCarARBrand,
+  commonMiddleware.checkRentCarENColor,
+  commonMiddleware.checkRentCarARColor,
+  commonMiddleware.checkRentCarYear,
+  commonMiddleware.checkRentCarDescription,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getAllRentCarsValidator,
   getRentCarDetailsValidator,
+  getSimilarRentCarsValidator,
 };
