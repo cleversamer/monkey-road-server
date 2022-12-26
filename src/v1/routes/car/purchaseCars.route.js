@@ -12,11 +12,13 @@ router.get(
 
 router.get(
   "/recently-arrived",
+  purchaseCarValidator.getRecentlyArrivedPurchaseCarsValidator,
   purchaseCarsController.getRecentlyArrivedPurchaseCars
 );
 
 router.get(
   "/latest-models",
+  purchaseCarValidator.getLatestModelsPurchaseCarsValidator,
   purchaseCarsController.getLatestModelsPurchaseCars
 );
 

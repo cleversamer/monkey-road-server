@@ -5,6 +5,20 @@ const getPurchaseCarDetailsValidator = [
   commonMiddleware.next,
 ];
 
+const getRecentlyArrivedPurchaseCarsValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkSkip,
+  commonMiddleware.next,
+];
+
+const getLatestModelsPurchaseCarsValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkSkip,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getPurchaseCarDetailsValidator,
+  getRecentlyArrivedPurchaseCarsValidator,
+  getLatestModelsPurchaseCarsValidator,
 };
