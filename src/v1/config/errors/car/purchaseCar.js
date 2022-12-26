@@ -5,6 +5,7 @@ const {
   kiloPerHour,
   phoneNumber,
   description,
+  price,
 } = require("../../models/purchaseCar");
 
 module.exports = Object.freeze({
@@ -70,11 +71,11 @@ module.exports = Object.freeze({
   },
   invalidKiloPerHour: {
     en: `Car's velocity should be ${kiloPerHour.min}-${kiloPerHour.max} km/h`,
-    ar: `سرعة السيّارة يجب أن تكون بين ${kiloPerHour.min}-${kiloPerHour.max} كم/ساعة`,
+    ar: `سرعة السيّارة يجب أن تكون بين ${kiloPerHour.min}-${kiloPerHour.max} كيلومتر في الساعة`,
   },
   invalidPrice: {
-    en: `Car's price should be ${kiloPerHour.min}-${kiloPerHour.max} AED`,
-    ar: `سعر السيّارة يجب أن تكون بين ${kiloPerHour.min}-${kiloPerHour.max} درهم إماراتي`,
+    en: `Car's price should be ${price.min.toLocaleString()}-${price.max.toLocaleString()} AED`,
+    ar: `سعر السيّارة يجب أن تكون بين ${price.min.toLocaleString()}-${price.max.toLocaleString()} درهم إماراتي`,
   },
   invalidPhoneNumber: {
     en: `Phone number should be ${phoneNumber.minLength}-${phoneNumber.maxLength} characters length`,
@@ -82,6 +83,6 @@ module.exports = Object.freeze({
   },
   invalidDescription: {
     en: `Car's description should be ${description.minLength}-${description.maxLength} characters length`,
-    en: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
+    ar: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
   },
 });

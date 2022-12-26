@@ -18,7 +18,7 @@ router.get(
   ordersController.getOrderDetails
 );
 
-router.delete(
+router.patch(
   "/:orderId/cancel",
   orderValidator.cancelOrderValidator,
   auth("deleteOwn", "order"),

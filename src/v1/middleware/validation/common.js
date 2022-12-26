@@ -371,7 +371,6 @@ const checkPurchaseCarARVehicleType = check("vehicleTypeAR")
 
 const checkPurchaseCarNoOfSeats = check("noOfSeats")
   .trim()
-  .isNumeric()
   .isIn(carsData.SEATS_NUMBER)
   .withMessage(errors.purchaseCar.invalidNoOfSeats);
 
