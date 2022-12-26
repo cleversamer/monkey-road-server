@@ -570,10 +570,6 @@ userSchema.methods.clearNotifications = function () {
   }
 };
 
-// Creatin an index on the role field to easily
-// fetch users based on a certain role.
-userSchema.index({ role: 1 });
-
 const User = model("User", userSchema);
 
 module.exports = {
