@@ -53,4 +53,8 @@ module.exports = Object.freeze({
     en: "Skip number is required",
     ar: "عدد التخطي مطلوب",
   },
+  emailError: {
+    en: "Error sending email",
+    ar: "حصل خطأ في إرسال البريد",
+  },
 });

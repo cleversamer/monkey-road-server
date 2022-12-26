@@ -1,5 +1,8 @@
 const nodemailer = require("nodemailer");
 const { mail } = require("../../config/system");
+const httpStatus = require("http-status");
+const errors = require("../../config/errors");
+const { ApiError } = require("../../middleware/apiError");
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -35,7 +38,9 @@ module.exports.registerEmail = async (lang, email, user) => {
     await transporter.sendMail(message);
     return true;
   } catch (err) {
-    throw err;
+    const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+    const message = errors.system.emailError;
+    throw new ApiError(statusCode, message);
   }
 };
 
@@ -64,7 +69,9 @@ module.exports.changeEmail = async (lang, email, user) => {
     await transporter.sendMail(message);
     return true;
   } catch (err) {
-    throw err;
+    const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+    const message = errors.system.emailError;
+    throw new ApiError(statusCode, message);
   }
 };
 
@@ -93,6 +100,8 @@ module.exports.forgotPasswordEmail = async (lang, email, user) => {
     await transporter.sendMail(message);
     return true;
   } catch (err) {
-    throw err;
+    const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+    const message = errors.system.emailError;
+    throw new ApiError(statusCode, message);
   }
 };
