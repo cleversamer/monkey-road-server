@@ -41,7 +41,7 @@ module.exports = {
   ],
   VEHICLE_TYPES: {
     EN: ["Automatic", "Half-Automatic"],
-    AR: ["اوتوماتيك", "نصف اوتوماتيك"],
+    AR: ["أوتوماتيك", "نصف أوتوماتيك"],
   },
   FUEL_TYPES: {
     EN: ["Solar", "Benzin"],
