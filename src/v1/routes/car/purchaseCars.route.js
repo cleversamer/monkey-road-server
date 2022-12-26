@@ -36,15 +36,15 @@ router.get(
 
 router.get(
   "/my",
-  auth("readOwn", "purchaseCar"),
   purchaseCarValidator.getMyPurchaseCarsValidator,
+  auth("readOwn", "purchaseCar"),
   purchaseCarsController.getMyPurchaseCars
 );
 
 router.post(
   "/add",
-  auth("createOwn", "purchaseCar"),
   purchaseCarValidator.addPurchaseCarValidator,
+  auth("createOwn", "purchaseCar"),
   purchaseCarsController.addPurchaseCar
 );
 

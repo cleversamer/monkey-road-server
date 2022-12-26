@@ -38,8 +38,8 @@ router.get(
 //////////////////// Office Routes ////////////////////
 router.get(
   "/my",
-  auth("readOwn", "rentCar"),
   rentCarValidator.getMyRentCarsValidator,
+  auth("readOwn", "rentCar"),
   rentCarsController.getMyRentCars
 );
 

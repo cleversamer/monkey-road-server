@@ -10,26 +10,26 @@ router.get("/isauth", auth("readOwn", "user", true), usersController.isAuth);
 router
   .route("/verify-email")
   .get(
-    auth("readOwn", "emailVerificationCode", true),
     authValidator.resendCodeValidator,
+    auth("readOwn", "emailVerificationCode", true),
     usersController.resendEmailOrPhoneVerificationCode("email")
   )
   .post(
-    auth("updateOwn", "emailVerificationCode", true),
     authValidator.codeValidator,
+    auth("updateOwn", "emailVerificationCode", true),
     usersController.verifyEmailOrPhone("email")
   );
 
 router
   .route("/verify-phone")
   .get(
-    auth("readOwn", "phoneVerificationCode", true),
     authValidator.resendCodeValidator,
+    auth("readOwn", "phoneVerificationCode", true),
     usersController.resendEmailOrPhoneVerificationCode("phone")
   )
   .post(
-    auth("updateOwn", "phoneVerificationCode", true),
     authValidator.codeValidator,
+    auth("updateOwn", "phoneVerificationCode", true),
     usersController.verifyEmailOrPhone("phone")
   );
 
@@ -47,16 +47,16 @@ router
 
 router.patch(
   "/change-password",
-  auth("updateOwn", "password"),
   authValidator.changePasswordValidator,
+  auth("updateOwn", "password"),
   usersController.changePassword
 );
 
 //////////////////// User: Profile ////////////////////
 router.patch(
   "/update",
-  auth("updateOwn", "user"),
   userValidator.validateUpdateProfile,
+  auth("updateOwn", "user"),
   usersController.updateProfile
 );
 
@@ -119,31 +119,31 @@ router.post(
 //////////////////// Admin: Profile ////////////////////
 router.patch(
   "/admin/update-profile",
-  auth("updateAny", "user"),
   userValidator.validateUpdateUserProfile,
+  auth("updateAny", "user"),
   usersController.updateUserProfile
 );
 
 //////////////////// Admin: Role ////////////////////
 router.patch(
   "/admin/change-user-role",
-  auth("updateAny", "user"),
   userValidator.validateUpdateUserRole,
+  auth("updateAny", "user"),
   usersController.changeUserRole
 );
 
 router.get(
   "/:role/:id",
-  auth("readAny", "user"),
   userValidator.validateFindUserByEmailOrPhone,
+  auth("readAny", "user"),
   usersController.findUserByEmailOrPhone
 );
 
 //////////////////// Admin: Verification ////////////////////
 router.patch(
   "/admin/verify-user",
-  auth("updateAny", "user"),
   userValidator.validateVerifyUser,
+  auth("updateAny", "user"),
   usersController.verifyUser
 );
 
