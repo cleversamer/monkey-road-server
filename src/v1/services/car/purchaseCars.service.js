@@ -114,7 +114,7 @@ module.exports.getMyPurchaseCars = async (user, skip) => {
 
 module.exports.addPurchaseCar = async (
   user,
-  name,
+  carName,
   vin,
   model,
   brandId,
@@ -146,7 +146,7 @@ module.exports.addPurchaseCar = async (
         name: user.name,
         ref: user._id,
       },
-      name,
+      name: carName,
       vin,
       model,
       brand: {

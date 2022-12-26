@@ -44,6 +44,7 @@ router.get(
 router.post(
   "/add",
   auth("createOwn", "purchaseCar"),
+  purchaseCarValidator.addPurchaseCarValidator,
   purchaseCarsController.addPurchaseCar
 );
 

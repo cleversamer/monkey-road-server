@@ -104,7 +104,7 @@ module.exports.addPurchaseCar = async (req, res, next) => {
   try {
     const user = req.user;
     const {
-      name,
+      carName,
       vin,
       model,
       brandId,
@@ -131,7 +131,7 @@ module.exports.addPurchaseCar = async (req, res, next) => {
 
     const car = await purchaseCarsService.addPurchaseCar(
       user,
-      name,
+      carName,
       vin,
       model,
       brandId,

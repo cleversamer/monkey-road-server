@@ -9,6 +9,7 @@ const carsData = require("../../data/cars");
 const {
   user: userValidation,
   rentCar: rentCarValidation,
+  purchaseCar: purchaseCarValidation,
   brand: brandValidation,
 } = require("../../config/models");
 
@@ -289,6 +290,88 @@ const checkSearchTerm = check("searchTerm")
   })
   .withMessage(errors.rentCar.invalidSearchTerm);
 
+const checkPurchaseCarName = check("carName")
+  .isLength({
+    min: purchaseCarValidation.name.minLength,
+    max: purchaseCarValidation.name.maxLength,
+  })
+  .withMessage(errors.purchaseCar.invalidName);
+
+const checkPurchaseCarVIN = check("carName")
+  .isLength({
+    min: purchaseCarValidation.vin.exactLength,
+    max: purchaseCarValidation.vin.exactLength,
+  })
+  .withMessage(errors.purchaseCar.invalidVIN);
+
+const checkPurchaseCarModel = check("model")
+  .isLength({
+    min: purchaseCarValidation.model.minLength,
+    max: purchaseCarValidation.model.maxLength,
+  })
+  .withMessage(errors.purchaseCar.invalidModel);
+
+const checkBrand = check("brandId")
+  .isMongoId()
+  .withMessage(errors.brand.invalidId);
+
+const checkPurchaseCarYear = check("year")
+  .isIn(carsData.YEARS)
+  .withMessage(errors.purchaseCar.invalidYear);
+
+const checkPurchaseCarENColor = check("colorEN")
+  .isIn(carsData.COLORS.EN)
+  .withMessage(errors.purchaseCar.invalidENColor);
+
+const checkPurchaseCarARColor = check("colorAR")
+  .isIn(carsData.COLORS.EN)
+  .withMessage(errors.purchaseCar.invalidENColor);
+
+const checkPurchaseCarTrimeLevel = check("trimLevel")
+  .isIn(carsData.TRIM_LEVELS)
+  .withMessage(errors.purchaseCar.invalidTrimLevel);
+
+const checkPurchaseCarENVehicleType = check("vehicleTypeEN")
+  .isIn(carsData.VEHICLE_TYPES.EN)
+  .withMessage(errors.purchaseCar.invalidENVehicleType);
+
+const checkPurchaseCarARVehicleType = check("vehicleTypeAR")
+  .isIn(carsData.VEHICLE_TYPES.AR)
+  .withMessage(errors.purchaseCar.invalidARVehicleType);
+
+const checkPurchaseCarNoOfSeats = check("noOfSeats")
+  .isNumeric()
+  .isIn(carsData.SEATS_NUMBER)
+  .withMessage(errors.purchaseCar.invalidNoOfSeats);
+
+const checkPurchaseCarKiloPerHour = check("kiloPerHour")
+  .isInt({
+    min: purchaseCarValidation.kiloPerHour.min,
+    max: purchaseCarValidation.kiloPerHour.max,
+  })
+  .withMessage(errors.purchaseCar.invalidKiloPerHour);
+
+const checkPurchaseCarPrice = check("price")
+  .isInt({
+    min: purchaseCarValidation.price.min,
+    max: purchaseCarValidation.price.max,
+  })
+  .withMessage(errors.purchaseCar.invalidPrice);
+
+const checkPurchaseCarPhoneNumber = check("phoneNumber")
+  .isLength({
+    min: purchaseCarValidation.phoneNumber.minLength,
+    max: purchaseCarValidation.phoneNumber.maxLength,
+  })
+  .withMessage(errors.purchaseCar.invalidPhoneNumber);
+
+const checkPurchaseCarDescription = check("description")
+  .isLength({
+    min: purchaseCarValidation.description.minLength,
+    max: purchaseCarValidation.description.maxLength,
+  })
+  .withMessage(errors.purchaseCar.invalidDescription);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -317,4 +400,19 @@ module.exports = {
   checkRentCarYear,
   checkRentCarDescription,
   checkSearchTerm,
+  checkPurchaseCarName,
+  checkPurchaseCarVIN,
+  checkPurchaseCarModel,
+  checkBrand,
+  checkPurchaseCarYear,
+  checkPurchaseCarENColor,
+  checkPurchaseCarARColor,
+  checkPurchaseCarTrimeLevel,
+  checkPurchaseCarENVehicleType,
+  checkPurchaseCarARVehicleType,
+  checkPurchaseCarNoOfSeats,
+  checkPurchaseCarKiloPerHour,
+  checkPurchaseCarPrice,
+  checkPurchaseCarPhoneNumber,
+  checkPurchaseCarDescription,
 };

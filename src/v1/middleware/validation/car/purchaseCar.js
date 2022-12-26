@@ -36,6 +36,25 @@ const getMyPurchaseCarsValidator = [
   commonMiddleware.next,
 ];
 
+const addPurchaseCarValidator = [
+  commonMiddleware.checkPurchaseCarName,
+  commonMiddleware.checkPurchaseCarVIN,
+  commonMiddleware.checkPurchaseCarModel,
+  commonMiddleware.checkBrand,
+  commonMiddleware.checkPurchaseCarYear,
+  commonMiddleware.checkPurchaseCarENColor,
+  commonMiddleware.checkPurchaseCarARColor,
+  commonMiddleware.checkPurchaseCarTrimeLevel,
+  commonMiddleware.checkPurchaseCarENVehicleType,
+  commonMiddleware.checkPurchaseCarARVehicleType,
+  commonMiddleware.checkPurchaseCarNoOfSeats,
+  commonMiddleware.checkPurchaseCarKiloPerHour,
+  commonMiddleware.checkPurchaseCarPrice,
+  commonMiddleware.checkPurchaseCarPhoneNumber,
+  commonMiddleware.checkPurchaseCarDescription,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getPurchaseCarDetailsValidator,
   getRecentlyArrivedPurchaseCarsValidator,
@@ -43,4 +62,5 @@ module.exports = {
   getBestSellerPurchaseCarsValidator,
   searchPurchaseCarsValidator,
   getMyPurchaseCarsValidator,
+  addPurchaseCarValidator,
 };
