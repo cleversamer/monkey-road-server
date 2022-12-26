@@ -37,6 +37,7 @@ router.get(
 router.get(
   "/my",
   auth("readOwn", "purchaseCar"),
+  purchaseCarValidator.getMyPurchaseCarsValidator,
   purchaseCarsController.getMyPurchaseCars
 );
 

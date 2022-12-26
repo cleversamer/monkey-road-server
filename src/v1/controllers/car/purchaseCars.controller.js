@@ -86,6 +86,7 @@ module.exports.searchPurchaseCars = async (req, res, next) => {
 module.exports.getMyPurchaseCars = async (req, res, next) => {
   try {
     const user = req.user;
+    const { skip } = req.query;
 
     const cars = await purchaseCarsService.getMyPurchaseCars(user);
 
