@@ -13,6 +13,7 @@ router.get(
 
 router.get(
   "/:orderId/details",
+  orderValidator.getOrderDetailsValidator,
   auth("readOwn", "order"),
   ordersController.getOrderDetails
 );

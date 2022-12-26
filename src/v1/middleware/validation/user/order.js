@@ -1,4 +1,3 @@
-const errors = require("../../../config/errors");
 const commonMiddleware = require("../common");
 
 const getMyOrdersValidator = [
@@ -7,6 +6,12 @@ const getMyOrdersValidator = [
   commonMiddleware.next,
 ];
 
+const getOrderDetailsValidator = [
+  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getMyOrdersValidator,
+  getOrderDetailsValidator,
 };
