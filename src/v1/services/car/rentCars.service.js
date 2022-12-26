@@ -52,11 +52,15 @@ module.exports.getSimilarRentCars = async (
   try {
     const searchTerm = `${name} ${model} ${brandEN} ${brandAR} ${colorEN} ${colorAR} ${year} ${description}`;
 
-    const rentCars = await RentCar.aggregate([
+    let rentCars = await RentCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
       { $sort: { score: { $meta: "textScore" } } },
       { $limit: 10 },
     ]);
+
+    if (!rentCars || !rentCars.length) {
+      rentCars = await RentCar.find({}).sort({ _id: -1 }).limit(10);
+    }
 
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -72,12 +76,16 @@ module.exports.getSimilarRentCars = async (
 
 module.exports.searchRentCars = async (searchTerm, skip) => {
   try {
-    const rentCars = await RentCar.aggregate([
+    let rentCars = await RentCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
       { $sort: { score: { $meta: "textScore" } } },
       { $skip: parseInt(skip) },
       { $limit: 10 },
     ]);
+
+    if (!rentCars || !rentCars.length) {
+      rentCars = await RentCar.find({}).sort({ _id: -1 }).limit(10);
+    }
 
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
