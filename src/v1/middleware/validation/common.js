@@ -270,7 +270,7 @@ const checkRentCarENColor = check("colorEN")
   .withMessage(errors.rentCar.invalidENColor);
 
 const checkRentCarARColor = check("colorAR")
-  .isIn(carsData.COLORS.EN)
+  .isIn(carsData.COLORS.AR)
   .withMessage(errors.rentCar.invalidARColor);
 
 const checkRentCarENBrand = check("brandEN")

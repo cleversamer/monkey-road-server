@@ -53,11 +53,11 @@ module.exports = Object.freeze({
   },
   invalidYear: {
     en: "Unsupported car's year",
-    en: "موديل سنة السيّارة غير مدعوم",
+    ar: "موديل سنة السيّارة غير مدعوم",
   },
   invalidDescription: {
     en: `Car's description should be ${description.minLength}-${description.maxLength} characters length`,
-    en: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
+    ar: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
   },
   invalidSearchTerm: {
     en: `Search term should be ${searchTerm.minLength}-${searchTerm.maxLength} characters length`,
