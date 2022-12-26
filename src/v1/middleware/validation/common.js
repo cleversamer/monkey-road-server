@@ -351,7 +351,7 @@ const checkPurchaseCarENColor = check("colorEN")
 
 const checkPurchaseCarARColor = check("colorAR")
   .trim()
-  .isIn(carsData.COLORS.EN)
+  .isIn(carsData.COLORS.AR)
   .withMessage(errors.purchaseCar.invalidARColor);
 
 const checkPurchaseCarTrimeLevel = check("trimLevel")

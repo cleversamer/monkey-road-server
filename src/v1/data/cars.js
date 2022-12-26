@@ -1,15 +1,15 @@
 module.exports = {
   COLORS: {
     EN: [
-      "black",
-      "blue",
-      "cyan",
-      "green",
-      "orange",
-      "purple",
-      "red",
-      "white",
-      "yellow",
+      "Black",
+      "Blue",
+      "Cyan",
+      "Green",
+      "Orange",
+      "Purple",
+      "Red",
+      "White",
+      "Yellow",
     ],
     AR: [
       "أسود",
