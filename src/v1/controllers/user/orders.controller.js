@@ -20,12 +20,12 @@ module.exports.getMyOrders = async (req, res, next) => {
   }
 };
 
-module.exports.getOrder = async (req, res, next) => {
+module.exports.getOrderDetails = async (req, res, next) => {
   try {
     const user = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.getOrder(user, orderId);
+    const order = await ordersService.getOrderDetails(user, orderId);
 
     res.status(httpStatus.OK).json(order);
   } catch (err) {

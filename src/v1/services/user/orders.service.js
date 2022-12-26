@@ -22,7 +22,7 @@ module.exports.getMyOrders = async (user, skip) => {
   }
 };
 
-module.exports.getOrder = async (user, orderId) => {
+module.exports.getOrderDetails = async (user, orderId) => {
   try {
     const orders = await Order.aggregate([
       { $match: { "author.ref": user._id, _id: orderId } },

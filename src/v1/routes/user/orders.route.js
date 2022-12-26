@@ -14,7 +14,7 @@ router.get(
 router.get(
   "/:orderId/details",
   auth("readOwn", "order"),
-  ordersController.getOrder
+  ordersController.getOrderDetails
 );
 
 router.delete(
