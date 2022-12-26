@@ -19,13 +19,14 @@ router.get(
 );
 
 router.delete(
-  "/cancel",
+  "/:orderId/cancel",
+  orderValidator.cancelOrderValidator,
   auth("deleteOwn", "order"),
   ordersController.cancelOrder
 );
 
 router.delete(
-  "/delete",
+  "/:orderId/delete",
   auth("deleteOwn", "order"),
   ordersController.deleteOrder
 );
