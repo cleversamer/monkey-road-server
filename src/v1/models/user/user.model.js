@@ -133,6 +133,7 @@ const userSchema = new Schema(
           type: String,
           required: true,
           trim: true,
+          default: validation.paymentCardStatus[0],
           enum: validation.paymentCardStatus,
         },
         // Visa card info

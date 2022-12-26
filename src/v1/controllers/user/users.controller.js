@@ -177,12 +177,54 @@ module.exports.clearNotifications = async (req, res, next) => {
   }
 };
 
+module.exports.addPaymentCard = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const {
+      // Shared data
+      type,
+      postalCode,
+      // Visa data
+      visaNameOnCard,
+      visaCardNumber,
+      visaCVC,
+      visaExpiryDate,
+      // Paypal data
+      paypalFirstName,
+      paypalLastName,
+      paypalAddressLine1,
+      paypalAddressLine2,
+      paypalCity,
+      paypalRegion,
+      paypalCountry,
+    } = req.body;
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.addToFavorites = async (req, res, next) => {
   try {
     const user = req.user;
     const { purchaseCarId } = req.body;
 
     const favorites = await usersService.addToFavorites(user, purchaseCarId);
+
+    const response = {
+      favorites,
+    };
+
+    res.startsWith(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getMyFavorites = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const favorites = await usersService.getMyFavorites(user);
 
     const response = {
       favorites,

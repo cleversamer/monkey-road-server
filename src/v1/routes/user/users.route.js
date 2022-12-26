@@ -102,12 +102,11 @@ router.post(
   usersController.addToFavorites
 );
 
-// TODO:
-// router.get(
-//   "/favorites/my",
-//   auth("readOwn", "favorites"),
-//   usersController.getMyFavorites
-// );
+router.get(
+  "/favorites/my",
+  auth("readOwn", "favorites"),
+  usersController.getMyFavorites
+);
 
 // TODO:
 // router.delete(

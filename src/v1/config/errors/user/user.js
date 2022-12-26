@@ -51,4 +51,8 @@ module.exports = Object.freeze({
     en: "You don't have any notifications",
     ar: "ليس لديك إشعارات",
   },
+  noFavorites: {
+    en: "You don't have favorite cars",
+    ar: "ليس لديك سيّارات في المفضّلة",
+  },
 });
