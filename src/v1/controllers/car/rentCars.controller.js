@@ -133,9 +133,10 @@ module.exports.addRentCar = async (req, res, next) => {
   try {
     const user = req.user;
     const {
-      name,
+      carName,
       model,
-      color,
+      colorEN,
+      colorAR,
       brandId,
       year,
       dailyPrice,
@@ -151,11 +152,12 @@ module.exports.addRentCar = async (req, res, next) => {
     const photo5 = req?.files?.photo5;
     const photo6 = req?.files?.photo6;
 
-    const myCars = await rentCarsService.addCar(
+    const myCars = await rentCarsService.addRentCar(
       user,
-      name,
+      carName,
       model,
-      color,
+      colorEN,
+      colorAR,
       brandId,
       year,
       dailyPrice,

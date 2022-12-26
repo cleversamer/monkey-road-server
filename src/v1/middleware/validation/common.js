@@ -294,6 +294,34 @@ const checkRentCarYear = check("year")
   .isIn(carsData.YEARS)
   .withMessage(errors.rentCar.invalidYear);
 
+const checkRentCarDailyPrice = check("dailyPrice")
+  .isInt({
+    min: rentCarValidation.price.daily.min,
+    max: rentCarValidation.price.daily.max,
+  })
+  .withMessage(errors.rentCar.invalidDailyPrice);
+
+const checkRentCarWeeklyPrice = check("weeklyPrice")
+  .isInt({
+    min: rentCarValidation.price.weekly.min,
+    max: rentCarValidation.price.weekly.max,
+  })
+  .withMessage(errors.rentCar.invalidWeeklyPrice);
+
+const checkRentCarMonthlyPrice = check("monthlyPrice")
+  .isInt({
+    min: rentCarValidation.price.monthly.min,
+    max: rentCarValidation.price.monthly.max,
+  })
+  .withMessage(errors.rentCar.invalidMonthlyPrice);
+
+const checkRentCarDeposit = check("deposit")
+  .isInt({
+    min: rentCarValidation.price.deposit.min,
+    max: rentCarValidation.price.deposit.max,
+  })
+  .withMessage(errors.rentCar.invalidDeposit);
+
 const checkRentCarDescription = check("description")
   .trim()
   .isLength({
@@ -447,4 +475,8 @@ module.exports = {
   checkPurchaseCarPrice,
   checkPurchaseCarPhoneNumber,
   checkPurchaseCarDescription,
+  checkRentCarDailyPrice,
+  checkRentCarWeeklyPrice,
+  checkRentCarMonthlyPrice,
+  checkRentCarDeposit,
 };

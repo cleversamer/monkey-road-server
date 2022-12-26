@@ -43,7 +43,11 @@ router.get(
   rentCarsController.getMyRentCars
 );
 
-// TODO: waiting for brand apis
-// router.post("/add", auth("createOwn", "rentCar"), rentCarsController.addRentCar);
+router.post(
+  "/add",
+  rentCarValidator.addRentCarValidator,
+  auth("createOwn", "rentCar"),
+  rentCarsController.addRentCar
+);
 
 module.exports = router;

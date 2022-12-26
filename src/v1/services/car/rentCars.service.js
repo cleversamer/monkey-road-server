@@ -142,11 +142,12 @@ module.exports.getMyCars = async (user, skip) => {
 };
 
 // TODO: complete this after completing brand apis
-module.exports.addCar = async (
+module.exports.addRentCar = async (
   user,
-  name,
+  carName,
   model,
-  color,
+  colorEN,
+  colorAR,
   brandId,
   year,
   dailyPrice,
@@ -169,9 +170,12 @@ module.exports.addCar = async (
         name: user.name,
         ref: user._id,
       },
-      name,
+      name: carName,
       model,
-      color,
+      color: {
+        en: colorEN,
+        ar: colorAR,
+      },
       brand: {
         name: {
           en: brand.name.en,

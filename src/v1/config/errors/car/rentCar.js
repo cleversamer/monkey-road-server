@@ -3,6 +3,7 @@ const {
   model,
   description,
   searchTerm,
+  price,
 } = require("../../models/rentCar");
 const brand = require("../../models/brand");
 
@@ -62,5 +63,21 @@ module.exports = Object.freeze({
   invalidSearchTerm: {
     en: `Search term should be ${searchTerm.minLength}-${searchTerm.maxLength} characters length`,
     ar: `عبارة البحث يجب أن تكون بين ${searchTerm.minLength}-${searchTerm.maxLength} حرفًا`,
+  },
+  invalidDailyPrice: {
+    en: `Daily car rental price should be ${price.daily.min.toLocaleString()}-${price.daily.max.toLocaleString()} AED`,
+    ar: `سعر تأجير السيّارة اليومي يجب أن يكون بين ${price.daily.min.toLocaleString()}-${price.daily.max.toLocaleString()} درهم إماراتي`,
+  },
+  invalidWeeklyPrice: {
+    en: `Weekly car rental price should be ${price.weekly.min.toLocaleString()}-${price.weekly.max.toLocaleString()} AED`,
+    ar: `سعر تأجير السيّارة الإسبوعي يجب أن يكون بين ${price.weekly.min.toLocaleString()}-${price.weekly.max.toLocaleString()} درهم إماراتي`,
+  },
+  invalidMonthlyPrice: {
+    en: `Monthly car rental price should be ${price.monthly.min.toLocaleString()}-${price.monthly.max.toLocaleString()} AED`,
+    ar: `سعر تأجير السيّارة الشهري يجب أن يكون بين ${price.monthly.min.toLocaleString()}-${price.monthly.max.toLocaleString()} درهم إماراتي`,
+  },
+  invalidDeposit: {
+    en: `Car's depost should be ${price.deposit.min.toLocaleString()}-${price.deposit.max.toLocaleString()} AED`,
+    ar: `تأمين السيّارة يجب أن يكون بين  ${price.deposit.min.toLocaleString()}-${price.deposit.max.toLocaleString()} درهم إماراتي`,
   },
 });
