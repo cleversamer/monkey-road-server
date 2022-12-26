@@ -1,9 +1,15 @@
 const router = require("express").Router();
 const { ordersController } = require("../../controllers");
+const { orderValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
 //////////////////// Common Routes ////////////////////
-router.get("/my", auth("readOwn", "order"), ordersController.getMyOrders);
+router.get(
+  "/my",
+  orderValidator.getMyOrdersValidator,
+  auth("readOwn", "order"),
+  ordersController.getMyOrders
+);
 
 router.get(
   "/:orderId/details",
