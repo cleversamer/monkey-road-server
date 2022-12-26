@@ -23,9 +23,17 @@ const getBestSellerPurchaseCarsValidator = [
   commonMiddleware.next,
 ];
 
+const searchPurchaseCarsValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkSkip,
+  commonMiddleware.checkSearchTerm,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getPurchaseCarDetailsValidator,
   getRecentlyArrivedPurchaseCarsValidator,
   getLatestModelsPurchaseCarsValidator,
   getBestSellerPurchaseCarsValidator,
+  searchPurchaseCarsValidator,
 };

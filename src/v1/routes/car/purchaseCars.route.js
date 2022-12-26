@@ -28,7 +28,11 @@ router.get(
   purchaseCarsController.getBestSellerPurchaseCars
 );
 
-router.get("/search", purchaseCarsController.searchPurchaseCars);
+router.get(
+  "/search",
+  purchaseCarValidator.searchPurchaseCarsValidator,
+  purchaseCarsController.searchPurchaseCars
+);
 
 router.get(
   "/my",
