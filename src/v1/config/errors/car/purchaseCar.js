@@ -42,7 +42,7 @@ module.exports = Object.freeze({
   },
   invalidYear: {
     en: "Unsupported car's year",
-    en: "موديل سنة السيّارة غير مدعوم",
+    ar: "موديل سنة السيّارة غير مدعوم",
   },
   invalidENColor: {
     en: "English car's color isn't supported",
