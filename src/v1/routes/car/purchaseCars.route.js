@@ -1,9 +1,14 @@
 const router = require("express").Router();
 const { purchaseCarsController } = require("../../controllers");
+const { purchaseCarValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
 //////////////////// User Routes ////////////////////
-router.get("/details/:carId", purchaseCarsController.getPurchaseCarDetails);
+router.get(
+  "/details/:carId",
+  purchaseCarValidator.getPurchaseCarDetailsValidator,
+  purchaseCarsController.getPurchaseCarDetails
+);
 
 router.get(
   "/recently-arrived",

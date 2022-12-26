@@ -1,3 +1,10 @@
 const commonMiddleware = require("../common");
 
-module.exports = {};
+const getPurchaseCarDetailsValidator = [
+  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.next,
+];
+
+module.exports = {
+  getPurchaseCarDetailsValidator,
+};
