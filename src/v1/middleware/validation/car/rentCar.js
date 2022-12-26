@@ -1,14 +1,7 @@
 const commonMiddleware = require("../common");
 
 const getAllRentCarsValidator = [
-  (req, res, next) => {
-    req.body = {
-      ...req.body,
-      ...req.query,
-    };
-
-    next();
-  },
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
   commonMiddleware.next,
 ];
@@ -19,14 +12,7 @@ const getRentCarDetailsValidator = [
 ];
 
 const getSimilarRentCarsValidator = [
-  (req, res, next) => {
-    req.body = {
-      ...req.body,
-      ...req.query,
-    };
-
-    next();
-  },
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkRentCarName,
   commonMiddleware.checkRentCarModel,
   commonMiddleware.checkRentCarENBrand,
@@ -39,28 +25,14 @@ const getSimilarRentCarsValidator = [
 ];
 
 const searchRentCarsValidator = [
-  (req, res, next) => {
-    req.body = {
-      ...req.body,
-      ...req.query,
-    };
-
-    next();
-  },
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
   commonMiddleware.checkSearchTerm,
   commonMiddleware.next,
 ];
 
 const getMyRentCarsValidator = [
-  (req, res, next) => {
-    req.body = {
-      ...req.body,
-      ...req.query,
-    };
-
-    next();
-  },
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
   commonMiddleware.next,
 ];

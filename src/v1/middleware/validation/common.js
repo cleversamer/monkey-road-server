@@ -12,6 +12,15 @@ const {
   brand: brandValidation,
 } = require("../../config/models");
 
+const putQueryParamsInBody = (req, res, next) => {
+  req.body = {
+    ...req.body,
+    ...req.query,
+  };
+
+  next();
+};
+
 const next = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -282,6 +291,7 @@ const checkSearchTerm = check("searchTerm")
 
 module.exports = {
   next,
+  putQueryParamsInBody,
   checkPhone,
   checkMongoIdQueryParam,
   conditionalCheck,
