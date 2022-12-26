@@ -8,6 +8,7 @@ const errors = require("../../config/errors");
 module.exports.getPurchaseCarDetails = async (carId) => {
   try {
     const purchaseCar = await PurchaseCar.findById(carId);
+
     if (!purchaseCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.notFound;
@@ -26,6 +27,7 @@ module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
       .sort({ _id: -1 })
       .skip(skip)
       .limit(10);
+
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noCars;
@@ -41,6 +43,7 @@ module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
 module.exports.getLatestModelsPurchaseCars = async (skip) => {
   try {
     const purchaseCars = await PurchaseCar.find({}).skip(skip).limit(10);
+
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noCars;
@@ -74,12 +77,19 @@ module.exports.getBestSellerPurchaseCars = async (skip) => {
 
 module.exports.searchPurchaseCars = async (searchTerm, skip) => {
   try {
-    const purchaseCars = await PurchaseCar.aggregate([
+    let purchaseCars = await PurchaseCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
       { $sort: { score: { $meta: "textScore" } } },
       { $skip: skip },
       { $limit: 10 },
     ]);
+
+    if (!purchaseCars || !purchaseCars.length) {
+      rentCars = await PurchaseCar.find({})
+        .sort({ _id: -1 })
+        .skip(skip)
+        .limit(10);
+    }
 
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
