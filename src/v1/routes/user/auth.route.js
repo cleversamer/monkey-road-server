@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { authController } = require("../../controllers");
 const { authValidator } = require("../../middleware/validation");
 
+//////////////////// Common Routes ////////////////////
 router.post(
   "/register",
   authValidator.registerValidator,

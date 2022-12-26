@@ -3,7 +3,7 @@ const { purchaseCarsController } = require("../../controllers");
 const { purchaseCarValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
-//////////////////// User Routes ////////////////////
+//////////////////// Common Routes ////////////////////
 router.get(
   "/details/:carId",
   purchaseCarValidator.getPurchaseCarDetailsValidator,

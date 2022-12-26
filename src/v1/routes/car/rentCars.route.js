@@ -3,7 +3,7 @@ const { rentCarsController } = require("../../controllers");
 const { rentCarValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
-//////////////////// User Routes ////////////////////
+//////////////////// Common Routes ////////////////////
 router.get(
   "/get",
   rentCarValidator.getAllRentCarsValidator,
