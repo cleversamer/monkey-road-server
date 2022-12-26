@@ -80,7 +80,7 @@ module.exports.searchPurchaseCars = async (searchTerm, skip) => {
     let purchaseCars = await PurchaseCar.aggregate([
       { $match: { $text: { $search: searchTerm } } },
       { $sort: { score: { $meta: "textScore" } } },
-      { $skip: skip },
+      { $skip: parseInt(skip) },
       { $limit: 10 },
     ]);
 
