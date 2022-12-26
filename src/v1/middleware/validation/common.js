@@ -36,6 +36,7 @@ const next = (req, res, next) => {
 };
 
 const checkDeviceToken = check("deviceToken")
+  .trim()
   .isLength({
     min: userValidation.deviceToken.minLength,
     max: userValidation.deviceToken.maxLength,
@@ -43,6 +44,7 @@ const checkDeviceToken = check("deviceToken")
   .withMessage(errors.auth.invalidDeviceToken);
 
 const checkEmailOrPhone = check("emailOrPhone")
+  .trim()
   .isLength({
     min: Math.min(userValidation.email.minLength, countries.minPhone),
     max: Math.max(userValidation.email.maxLength, countries.maxPhone),
@@ -51,6 +53,7 @@ const checkEmailOrPhone = check("emailOrPhone")
   .bail();
 
 const checkEmail = check("email")
+  .trim()
   .isEmail()
   .isLength({
     min: userValidation.email.minLength,
@@ -60,6 +63,7 @@ const checkEmail = check("email")
   .bail();
 
 const checkPassword = check("password")
+  .trim()
   .isLength({
     min: userValidation.password.minLength,
     max: userValidation.password.maxLength,
@@ -67,6 +71,7 @@ const checkPassword = check("password")
   .withMessage(errors.auth.invalidPassword);
 
 const checkOldPassword = check("oldPassword")
+  .trim()
   .isLength({
     min: userValidation.password.minLength,
     max: userValidation.password.maxLength,
@@ -74,6 +79,7 @@ const checkOldPassword = check("oldPassword")
   .withMessage(errors.auth.invalidPassword);
 
 const checkNewPassword = check("newPassword")
+  .trim()
   .isLength({
     min: userValidation.password.minLength,
     max: userValidation.password.maxLength,
@@ -81,6 +87,7 @@ const checkNewPassword = check("newPassword")
   .withMessage(errors.auth.invalidPassword);
 
 const checkCode = check("code")
+  .trim()
   .isLength({
     min: userValidation.verificationCode.exactLength,
     max: userValidation.verificationCode.exactLength,
@@ -89,12 +96,14 @@ const checkCode = check("code")
   .withMessage(errors.auth.invalidCode);
 
 const checkLanguage = check("lang")
+  .trim()
   .notEmpty()
   .withMessage(errors.user.noLanguage)
   .isIn(server.SUPPORTED_LANGUAGES)
   .withMessage(errors.user.unsupportedLanguage);
 
 const checkName = check("name")
+  .trim()
   .isLength({
     min: userValidation.name.minLength,
     max: userValidation.name.maxLength,
@@ -104,9 +113,11 @@ const checkName = check("name")
 const checkRole = (exceptAdmin = false) =>
   exceptAdmin
     ? check("role")
+        .trim()
         .isIn(userValidation.roles.filter((role) => role !== "admin"))
         .withMessage(errors.user.invalidRole)
     : check("role")
+        .trim()
         .isIn(userValidation.roles)
         .withMessage(errors.user.invalidRole);
 
@@ -233,10 +244,12 @@ const checkFile =
   };
 
 const checkSkip = check("skip")
+  .trim()
   .isNumeric()
   .withMessage(errors.system.invalidSkip);
 
 const checkRentCarName = check("carName")
+  .trim()
   .isLength({
     min: rentCarValidation.name.minLength,
     max: rentCarValidation.name.maxLength,
@@ -244,6 +257,7 @@ const checkRentCarName = check("carName")
   .withMessage(errors.rentCar.invalidName);
 
 const checkRentCarModel = check("model")
+  .trim()
   .isLength({
     min: rentCarValidation.model.minLength,
     max: rentCarValidation.model.maxLength,
@@ -251,6 +265,7 @@ const checkRentCarModel = check("model")
   .withMessage(errors.rentCar.invalidModel);
 
 const checkRentCarENColor = check("colorEN")
+  .trim()
   .isIn(carsData.COLORS.EN)
   .withMessage(errors.rentCar.invalidENColor);
 
@@ -259,6 +274,7 @@ const checkRentCarARColor = check("colorAR")
   .withMessage(errors.rentCar.invalidARColor);
 
 const checkRentCarENBrand = check("brandEN")
+  .trim()
   .isLength({
     min: brandValidation.name.minLength,
     max: brandValidation.name.maxLength,
@@ -266,6 +282,7 @@ const checkRentCarENBrand = check("brandEN")
   .withMessage(errors.rentCar.invalidENBrand);
 
 const checkRentCarARBrand = check("brandEN")
+  .trim()
   .isLength({
     min: brandValidation.name.minLength,
     max: brandValidation.name.maxLength,
@@ -273,10 +290,12 @@ const checkRentCarARBrand = check("brandEN")
   .withMessage(errors.rentCar.invalidARBrand);
 
 const checkRentCarYear = check("year")
+  .trim()
   .isIn(carsData.YEARS)
   .withMessage(errors.rentCar.invalidYear);
 
 const checkRentCarDescription = check("description")
+  .trim()
   .isLength({
     min: rentCarValidation.description.minLength,
     max: rentCarValidation.description.maxLength,
@@ -284,6 +303,7 @@ const checkRentCarDescription = check("description")
   .withMessage(errors.rentCar.invalidDescription);
 
 const checkSearchTerm = check("searchTerm")
+  .trim()
   .isLength({
     min: rentCarValidation.searchTerm.minLength,
     max: rentCarValidation.searchTerm.maxLength,
@@ -291,6 +311,7 @@ const checkSearchTerm = check("searchTerm")
   .withMessage(errors.rentCar.invalidSearchTerm);
 
 const checkPurchaseCarName = check("carName")
+  .trim()
   .isLength({
     min: purchaseCarValidation.name.minLength,
     max: purchaseCarValidation.name.maxLength,
@@ -298,6 +319,7 @@ const checkPurchaseCarName = check("carName")
   .withMessage(errors.purchaseCar.invalidName);
 
 const checkPurchaseCarVIN = check("vin")
+  .trim()
   .isLength({
     min: purchaseCarValidation.vin.exactLength,
     max: purchaseCarValidation.vin.exactLength,
@@ -305,6 +327,7 @@ const checkPurchaseCarVIN = check("vin")
   .withMessage(errors.purchaseCar.invalidVIN);
 
 const checkPurchaseCarModel = check("model")
+  .trim()
   .isLength({
     min: purchaseCarValidation.model.minLength,
     max: purchaseCarValidation.model.maxLength,
@@ -312,34 +335,42 @@ const checkPurchaseCarModel = check("model")
   .withMessage(errors.purchaseCar.invalidModel);
 
 const checkBrand = check("brandId")
+  .trim()
   .isMongoId()
   .withMessage(errors.brand.invalidId);
 
 const checkPurchaseCarYear = check("year")
+  .trim()
   .isIn(carsData.YEARS)
   .withMessage(errors.purchaseCar.invalidYear);
 
 const checkPurchaseCarENColor = check("colorEN")
+  .trim()
   .isIn(carsData.COLORS.EN)
   .withMessage(errors.purchaseCar.invalidENColor);
 
 const checkPurchaseCarARColor = check("colorAR")
+  .trim()
   .isIn(carsData.COLORS.EN)
   .withMessage(errors.purchaseCar.invalidENColor);
 
 const checkPurchaseCarTrimeLevel = check("trimLevel")
+  .trim()
   .isIn(carsData.TRIM_LEVELS)
   .withMessage(errors.purchaseCar.invalidTrimLevel);
 
 const checkPurchaseCarENVehicleType = check("vehicleTypeEN")
+  .trim()
   .isIn(carsData.VEHICLE_TYPES.EN)
   .withMessage(errors.purchaseCar.invalidENVehicleType);
 
 const checkPurchaseCarARVehicleType = check("vehicleTypeAR")
+  .trim()
   .isIn(carsData.VEHICLE_TYPES.AR)
   .withMessage(errors.purchaseCar.invalidARVehicleType);
 
 const checkPurchaseCarNoOfSeats = check("noOfSeats")
+  .trim()
   .isNumeric()
   .isIn(carsData.SEATS_NUMBER)
   .withMessage(errors.purchaseCar.invalidNoOfSeats);
@@ -359,6 +390,7 @@ const checkPurchaseCarPrice = check("price")
   .withMessage(errors.purchaseCar.invalidPrice);
 
 const checkPurchaseCarPhoneNumber = check("phoneNumber")
+  .trim()
   .isLength({
     min: purchaseCarValidation.phoneNumber.minLength,
     max: purchaseCarValidation.phoneNumber.maxLength,
@@ -366,6 +398,7 @@ const checkPurchaseCarPhoneNumber = check("phoneNumber")
   .withMessage(errors.purchaseCar.invalidPhoneNumber);
 
 const checkPurchaseCarDescription = check("description")
+  .trim()
   .isLength({
     min: purchaseCarValidation.description.minLength,
     max: purchaseCarValidation.description.maxLength,
