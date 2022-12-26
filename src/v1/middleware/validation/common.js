@@ -297,7 +297,7 @@ const checkPurchaseCarName = check("carName")
   })
   .withMessage(errors.purchaseCar.invalidName);
 
-const checkPurchaseCarVIN = check("carName")
+const checkPurchaseCarVIN = check("vin")
   .isLength({
     min: purchaseCarValidation.vin.exactLength,
     max: purchaseCarValidation.vin.exactLength,
