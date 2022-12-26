@@ -16,8 +16,14 @@ const cancelOrderValidator = [
   commonMiddleware.next,
 ];
 
+const deleteOrderValidator = [
+  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getMyOrdersValidator,
   getOrderDetailsValidator,
   cancelOrderValidator,
+  deleteOrderValidator,
 };

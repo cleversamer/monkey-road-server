@@ -27,6 +27,7 @@ router.delete(
 
 router.delete(
   "/:orderId/delete",
+  orderValidator.deleteOrderValidator,
   auth("deleteOwn", "order"),
   ordersController.deleteOrder
 );
