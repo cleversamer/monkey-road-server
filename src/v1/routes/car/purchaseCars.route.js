@@ -22,7 +22,11 @@ router.get(
   purchaseCarsController.getLatestModelsPurchaseCars
 );
 
-router.get("/best-seller", purchaseCarsController.getBestSellerPurchaseCars);
+router.get(
+  "/best-seller",
+  purchaseCarValidator.getBestSellerPurchaseCarsValidator,
+  purchaseCarsController.getBestSellerPurchaseCars
+);
 
 router.get("/search", purchaseCarsController.searchPurchaseCars);
 
