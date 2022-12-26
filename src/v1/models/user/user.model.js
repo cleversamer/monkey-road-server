@@ -12,10 +12,13 @@ const CLIENT_SCHEMA = [
   "email",
   "phone",
   "role",
-  "notifications",
   "verified",
-  "createdAt",
+  "notifications",
+  "paymentCards",
+  "favorites",
+  "deviceToken",
   "lastLogin",
+  "createdAt",
 ];
 
 const verification = {
@@ -95,7 +98,7 @@ const userSchema = new Schema(
       trim: true,
       default: "",
     },
-    // The rol of the user
+    // The role of the user
     role: {
       type: String,
       enum: validation.roles,
