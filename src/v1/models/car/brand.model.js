@@ -28,8 +28,14 @@ const brandSchema = new Schema(
     },
     // Number of purchase/rent cars added with this brand
     noOfCars: {
-      type: Number,
-      default: 0,
+      rental: {
+        type: Number,
+        default: 0,
+      },
+      purchase: {
+        type: Number,
+        default: 0,
+      },
     },
     // The photo URL of the brand
     photoURL: {

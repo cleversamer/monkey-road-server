@@ -225,6 +225,9 @@ module.exports.addRentCar = async (
 
     await rentCar.save();
 
+    brand.noOfCars.rental = brand.noOfCars.rental + 1;
+    await brand.save();
+
     return rentCar;
   } catch (err) {
     throw err;

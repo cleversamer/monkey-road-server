@@ -240,7 +240,12 @@ module.exports.addPurchaseCar = async (
       purchaseCar.photos.push(photo.path);
     }
 
+    // TODO: check for payment
+
     await purchaseCar.save();
+
+    brand.noOfCars.purchase = brand.noOfCars.purchase + 1;
+    await brand.save();
 
     return purchaseCar;
   } catch (err) {
