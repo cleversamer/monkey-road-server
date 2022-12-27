@@ -11,4 +11,5 @@ module.exports = Object.freeze({
   rentCar: allRights,
   rentOrder: allRights,
   order: allRights,
+  brand: allRights,
 });

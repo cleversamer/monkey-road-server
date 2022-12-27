@@ -18,3 +18,18 @@ module.exports.getPopularBrands = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.addBrand = async (req, res, next) => {
+  try {
+    const { nameEN, nameAR } = req.body;
+    const photo = req?.files?.photo;
+
+    const brand = await brandsService.addBrand(nameEN, nameAR, photo);
+
+    const response = _.pick(brand, brandSchema);
+
+    res.status(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

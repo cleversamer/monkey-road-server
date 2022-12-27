@@ -6,6 +6,14 @@ const getPopularBrandsValidator = [
   commonMiddleware.next,
 ];
 
+const addBrandValidator = [
+  commonMiddleware.checkBrandENName,
+  commonMiddleware.checkBrandARName,
+  commonMiddleware.checkFile("photo", ["png", "jpg", "jpeg"], true),
+  commonMiddleware.next,
+];
+
 module.exports = {
   getPopularBrandsValidator,
+  addBrandValidator,
 };

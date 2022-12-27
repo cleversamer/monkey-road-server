@@ -436,6 +436,22 @@ const checkPurchaseCarDescription = check("description")
   })
   .withMessage(errors.purchaseCar.invalidDescription);
 
+const checkBrandENName = check("nameEN")
+  .trim()
+  .isLength({
+    min: brandValidation.name.minLength,
+    max: brandValidation.name.maxLength,
+  })
+  .withMessage(errors.brand.invalidName);
+
+const checkBrandARName = check("nameAR")
+  .trim()
+  .isLength({
+    min: brandValidation.name.minLength,
+    max: brandValidation.name.maxLength,
+  })
+  .withMessage(errors.brand.invalidName);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -484,4 +500,6 @@ module.exports = {
   checkRentCarWeeklyPrice,
   checkRentCarMonthlyPrice,
   checkRentCarDeposit,
+  checkBrandENName,
+  checkBrandARName,
 };

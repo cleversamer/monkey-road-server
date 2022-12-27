@@ -1,5 +1,6 @@
 const { Brand } = require("../../models/car/brand.model");
 const { ApiError } = require("../../middleware/apiError");
+const localStorage = require("../storage/localStorage.service");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
@@ -34,6 +35,32 @@ module.exports.getPopularBrands = async (skip) => {
 
     return brands;
   } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.addBrand = async (nameEN, nameAR, photo) => {
+  try {
+    const _photo = await localStorage.storeFile(photo);
+
+    const brand = new Brand({
+      photoURL: _photo.path,
+      name: {
+        en: nameEN,
+        ar: nameAR,
+      },
+    });
+
+    await brand.save();
+
+    return brand;
+  } catch (err) {
+    if (err.code === errors.codes.duplicateIndexKey) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.brand.alreadyExists;
+      err = new ApiError(statusCode, message);
+    }
+
     throw err;
   }
 };
