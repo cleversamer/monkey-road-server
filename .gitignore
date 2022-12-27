@@ -11,6 +11,9 @@
 /.firebase
 .firebaserc
 firebase.json
+*.jpg
+*.jpeg
+*.png
 
 # development
 **.log
