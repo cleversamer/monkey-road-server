@@ -9,6 +9,10 @@ const {
 } = require("../../models/purchaseCar");
 
 module.exports = Object.freeze({
+  invalidId: {
+    en: "Invalid car id",
+    ar: "معرّف السيّارة غير صالح",
+  },
   notFound: {
     en: "Car was not found",
     ar: "السيّارة غير موجودة",

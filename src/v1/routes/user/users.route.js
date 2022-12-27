@@ -98,6 +98,7 @@ router.delete(
 //////////////////// User: Favorites ////////////////////
 router.post(
   "/favorites/add",
+  userValidator.addToFavoritesValidator,
   auth("createOwn", "favorites"),
   usersController.addToFavorites
 );

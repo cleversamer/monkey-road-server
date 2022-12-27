@@ -42,10 +42,16 @@ const validateFindUserByEmailOrPhone = [
   commonMiddleware.next,
 ];
 
+const addToFavoritesValidator = [
+  commonMiddleware.checkPurchaseCarId,
+  commonMiddleware.next,
+];
+
 module.exports = {
   validateUpdateProfile,
   validateUpdateUserProfile,
   validateUpdateUserRole,
   validateVerifyUser,
   validateFindUserByEmailOrPhone,
+  addToFavoritesValidator,
 };

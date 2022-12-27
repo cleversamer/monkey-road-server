@@ -338,6 +338,10 @@ const checkSearchTerm = check("searchTerm")
   })
   .withMessage(errors.rentCar.invalidSearchTerm);
 
+const checkPurchaseCarId = check("purchaseCarId")
+  .isMongoId()
+  .withMessage(errors.purchaseCar.invalidId);
+
 const checkPurchaseCarName = check("carName")
   .trim()
   .isLength({
@@ -460,6 +464,7 @@ module.exports = {
   checkRentCarYear,
   checkRentCarDescription,
   checkSearchTerm,
+  checkPurchaseCarId,
   checkPurchaseCarName,
   checkPurchaseCarVIN,
   checkPurchaseCarModel,
