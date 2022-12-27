@@ -52,6 +52,12 @@ const addPurchaseCarValidator = [
   commonMiddleware.checkPurchaseCarPrice,
   commonMiddleware.checkPurchaseCarPhoneNumber,
   commonMiddleware.checkPurchaseCarDescription,
+  commonMiddleware.checkFile("photo1", ["png", "jpg", "jpeg"], true),
+  commonMiddleware.checkFile("photo2", ["png", "jpg", "jpeg"], false),
+  commonMiddleware.checkFile("photo3", ["png", "jpg", "jpeg"], false),
+  commonMiddleware.checkFile("photo4", ["png", "jpg", "jpeg"], false),
+  commonMiddleware.checkFile("photo5", ["png", "jpg", "jpeg"], false),
+  commonMiddleware.checkFile("photo6", ["png", "jpg", "jpeg"], false),
   commonMiddleware.next,
 ];
 
