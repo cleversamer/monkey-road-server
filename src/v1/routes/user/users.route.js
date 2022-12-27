@@ -111,6 +111,7 @@ router.get(
 
 router.delete(
   "/favorites/delete",
+  userValidator.deleteFromFavoritesValidator,
   auth("deleteOwn", "favorites"),
   usersController.deleteFromFavorites
 );

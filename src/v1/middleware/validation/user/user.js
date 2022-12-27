@@ -47,6 +47,11 @@ const addToFavoritesValidator = [
   commonMiddleware.next,
 ];
 
+const deleteFromFavoritesValidator = [
+  commonMiddleware.checkPurchaseCarId,
+  commonMiddleware.next,
+];
+
 module.exports = {
   validateUpdateProfile,
   validateUpdateUserProfile,
@@ -54,4 +59,5 @@ module.exports = {
   validateVerifyUser,
   validateFindUserByEmailOrPhone,
   addToFavoritesValidator,
+  deleteFromFavoritesValidator,
 };
