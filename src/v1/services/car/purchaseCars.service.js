@@ -1,5 +1,5 @@
 const { PurchaseCar } = require("../../models/car/purchaseCar.model");
-const { brandsService } = require("../../services");
+const brandsService = require("./brands.service");
 const localStorage = require("../../services/storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
