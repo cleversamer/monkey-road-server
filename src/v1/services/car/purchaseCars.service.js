@@ -5,6 +5,29 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
+//////////////////// Internal Services ////////////////////
+module.exports.findPurchaseCars = async (purchaseCarIds = []) => {
+  try {
+    const purchaseCars = await PurchaseCar.aggregate([
+      { $match: { "brand.ref": { $in: purchaseCarIds } } },
+      {
+        $lookup: {
+          from: "Brand",
+          localField: "brand.ref",
+          foreignField: "_id",
+          as: "brand",
+        },
+      },
+      { $limit: purchaseCarIds.length },
+    ]);
+
+    return purchaseCars;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//////////////////// Routes Services ////////////////////
 module.exports.getPurchaseCarDetails = async (carId) => {
   try {
     const purchaseCar = await PurchaseCar.findById(carId);

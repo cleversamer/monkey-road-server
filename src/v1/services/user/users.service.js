@@ -350,7 +350,7 @@ module.exports.addToFavorites = async (user, purchaseCarId) => {
   }
 };
 
-module.exports.addToFavorites = async (user) => {
+module.exports.getMyFavorites = async (user) => {
   try {
     if (!user.favorites || !user.favorites.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -358,7 +358,17 @@ module.exports.addToFavorites = async (user) => {
       throw new ApiError(statusCode, message);
     }
 
-    return user.favorites;
+    const favorites = await purchaseCarsService.findPurchaseCars(
+      user.favorites
+    );
+
+    if (!favorites || !favorites.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.noFavorites;
+      throw new ApiError(statusCode, message);
+    }
+
+    return favorites;
   } catch (err) {
     throw err;
   }

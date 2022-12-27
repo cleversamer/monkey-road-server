@@ -202,12 +202,12 @@ const purchaseCarSchema = new Schema(
 // Because the seller needs to read their own cars
 // and this process will happen a lot in the application
 // and we can not let mongodb to do a COLLSACAN
-purchaseCarSchema.index({ owner: 1 });
+purchaseCarSchema.index({ "owner.ref": 1 });
 
 // We create three indexes here because we use these fields
 // in search filters.
 // To speed up the search operation.
-purchaseCarSchema.index({ brand: 1 });
+purchaseCarSchema.index({ "brand.ref": 1 });
 purchaseCarSchema.index({ color: 1 });
 purchaseCarSchema.index({ year: 1 });
 
