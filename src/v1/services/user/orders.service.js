@@ -58,6 +58,12 @@ module.exports.getOrderDetails = async (user, orderId) => {
       },
     ]);
 
+    if (!orders || !orders.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
     return orders[0];
   } catch (err) {
     throw err;
