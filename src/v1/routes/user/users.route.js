@@ -8,7 +8,7 @@ router.get("/isauth", auth("readOwn", "user", true), usersController.isAuth);
 
 //////////////////// User: Varification ////////////////////
 router
-  .route("/verify-email")
+  .route("/verify/email")
   .get(
     authValidator.resendCodeValidator,
     auth("readOwn", "emailVerificationCode", true),
@@ -21,7 +21,7 @@ router
   );
 
 router
-  .route("/verify-phone")
+  .route("/verify/phone")
   .get(
     authValidator.resendCodeValidator,
     auth("readOwn", "phoneVerificationCode", true),
@@ -35,7 +35,7 @@ router
 
 //////////////////// User: Password ////////////////////
 router
-  .route("/forgot-password")
+  .route("/password/forgot")
   .get(
     authValidator.getForgotPasswordCode,
     usersController.sendForgotPasswordCode
@@ -46,7 +46,7 @@ router
   );
 
 router.patch(
-  "/change-password",
+  "/password/change",
   authValidator.changePasswordValidator,
   auth("updateOwn", "password"),
   usersController.changePassword
