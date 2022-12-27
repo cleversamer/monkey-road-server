@@ -14,11 +14,7 @@ const CLIENT_SCHEMA = [
   "role",
   "verified",
   "notifications",
-  "paymentCards",
-  "favorites",
-  "deviceToken",
   "lastLogin",
-  "createdAt",
 ];
 
 const verification = {
