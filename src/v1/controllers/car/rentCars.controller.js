@@ -152,7 +152,7 @@ module.exports.addRentCar = async (req, res, next) => {
     const photo5 = req?.files?.photo5;
     const photo6 = req?.files?.photo6;
 
-    const myCars = await rentCarsService.addRentCar(
+    const rentCar = await rentCarsService.addRentCar(
       user,
       carName,
       model,
@@ -173,9 +173,7 @@ module.exports.addRentCar = async (req, res, next) => {
       photo6
     );
 
-    const response = {
-      cars: myCars.map((car) => _.pick(car, rentCarSchema)),
-    };
+    const response = _.pick(rentCar, rentCarSchema);
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
