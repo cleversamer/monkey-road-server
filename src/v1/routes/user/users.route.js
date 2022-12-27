@@ -108,7 +108,6 @@ router.get(
   usersController.getMyFavorites
 );
 
-// TODO:
 router.delete(
   "/favorites/delete",
   auth("deleteOwn", "favorites"),
