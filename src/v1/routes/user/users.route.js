@@ -54,7 +54,7 @@ router.patch(
 
 //////////////////// User: Profile ////////////////////
 router.patch(
-  "/update",
+  "/profile/update",
   userValidator.validateUpdateProfile,
   auth("updateOwn", "user"),
   usersController.updateProfile
@@ -62,13 +62,13 @@ router.patch(
 
 //////////////////// User: Notifications ////////////////////
 router.get(
-  "/see-notifications",
+  "/notifications/see",
   auth("readOwn", "notification"),
   usersController.seeNotifications
 );
 
 router.delete(
-  "/clear-notifications",
+  "/notifications/clear",
   auth("deleteOwn", "notification"),
   usersController.clearNotifications
 );
@@ -118,7 +118,7 @@ router.delete(
 
 //////////////////// Admin: Profile ////////////////////
 router.patch(
-  "/admin/update-profile",
+  "/admin/profile/update",
   userValidator.validateUpdateUserProfile,
   auth("updateAny", "user"),
   usersController.updateUserProfile
@@ -126,14 +126,14 @@ router.patch(
 
 //////////////////// Admin: Role ////////////////////
 router.patch(
-  "/admin/change-user-role",
+  "/admin/profile/update-role",
   userValidator.validateUpdateUserRole,
   auth("updateAny", "user"),
   usersController.changeUserRole
 );
 
 router.get(
-  "/:role/:id",
+  "/admin/profile/find",
   userValidator.validateFindUserByEmailOrPhone,
   auth("readAny", "user"),
   usersController.findUserByEmailOrPhone
@@ -141,7 +141,7 @@ router.get(
 
 //////////////////// Admin: Verification ////////////////////
 router.patch(
-  "/admin/verify-user",
+  "/admin/profile/verify",
   userValidator.validateVerifyUser,
   auth("updateAny", "user"),
   usersController.verifyUser
@@ -149,7 +149,7 @@ router.patch(
 
 //////////////////// Admin: Notifications ////////////////////
 router.post(
-  "/send-notification",
+  "/admin/notification/send",
   auth("createAny", "notification"),
   usersController.sendNotification
 );

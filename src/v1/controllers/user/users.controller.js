@@ -308,7 +308,7 @@ module.exports.changeUserRole = async (req, res, next) => {
 
 module.exports.findUserByEmailOrPhone = async (req, res, next) => {
   try {
-    const { role, id: emailOrPhone } = req.params;
+    const { role, emailOrPhone } = req.query;
 
     const user = await usersService.findUserByEmailOrPhone(
       emailOrPhone,

@@ -28,17 +28,9 @@ const validateVerifyUser = [
 ];
 
 const validateFindUserByEmailOrPhone = [
-  (req, res, next) => {
-    req.body.emailOrPhone = req?.params?.id?.toLowerCase();
-    req.body.role = req?.params?.role?.toLowerCase();
-
-    next();
-  },
-
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkEmailOrPhone,
-
   commonMiddleware.checkRole(true),
-
   commonMiddleware.next,
 ];
 
