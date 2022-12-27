@@ -109,11 +109,11 @@ router.get(
 );
 
 // TODO:
-// router.delete(
-//   "/favorites/delete",
-//   auth("deleteOwn", "favorites"),
-//   usersController.deleteFromFavorites
-// );
+router.delete(
+  "/favorites/delete",
+  auth("deleteOwn", "favorites"),
+  usersController.deleteFromFavorites
+);
 
 //////////////////// Admin: Profile ////////////////////
 router.patch(

@@ -344,7 +344,7 @@ module.exports.addToFavorites = async (user, purchaseCarId) => {
     user.addToFavorites(purchaseCar._id);
     await user.save();
 
-    return user.favorites;
+    return true;
   } catch (err) {
     throw err;
   }
@@ -369,6 +369,23 @@ module.exports.getMyFavorites = async (user) => {
     }
 
     return favorites;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.deleteFromFavorites = async (user, purchaseCarId) => {
+  try {
+    if (!user.favorites || !user.favorites.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.noFavorites;
+      throw new ApiError(statusCode, message);
+    }
+
+    user.removeFromFavorites(purchaseCarId);
+    await user.save();
+
+    return true;
   } catch (err) {
     throw err;
   }

@@ -208,10 +208,11 @@ module.exports.addToFavorites = async (req, res, next) => {
     const user = req.user;
     const { purchaseCarId } = req.body;
 
-    const favorites = await usersService.addToFavorites(user, purchaseCarId);
+    await usersService.addToFavorites(user, purchaseCarId);
 
     const response = {
-      favorites,
+      ok: true,
+      message: success.user.carAddedToFav,
     };
 
     res.startsWith(httpStatus.CREATED).json(response);
@@ -228,6 +229,24 @@ module.exports.getMyFavorites = async (req, res, next) => {
 
     const response = {
       favorites,
+    };
+
+    res.startsWith(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteFromFavorites = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { purchaseCarId } = req.body;
+
+    await usersService.deleteFromFavorites(user, purchaseCarId);
+
+    const response = {
+      ok: true,
+      message: success.user.carRemovedFromFav,
     };
 
     res.startsWith(httpStatus.CREATED).json(response);
