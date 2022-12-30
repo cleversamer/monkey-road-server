@@ -17,7 +17,7 @@ const limiter = rateLimit({
   max: server.MAX_REQUESTS.NUMBER,
   message: {
     status: "error",
-    statusCode: httpStatus.FORBIDDEN,
+    statusCode: httpStatus.TOO_MANY_REQUESTS,
     message: errors.system.tempBlocked,
   },
 });
