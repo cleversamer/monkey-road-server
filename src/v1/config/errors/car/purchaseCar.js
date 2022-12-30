@@ -63,11 +63,19 @@ module.exports = Object.freeze({
   },
   invalidENVehicleType: {
     en: "English car's vehicle type is invalid",
-    ar: "نوع المركبة الإنجليزي غير صالح",
+    ar: "نوع وقود المركبة الإنجليزي غير صالح",
   },
   invalidARVehicleType: {
     en: "Arabic car's vehicle type is invalid",
     ar: "نوع المركبة العربي غير صالح",
+  },
+  invalidENFuelType: {
+    en: "English car's fuel type is invalid",
+    ar: "نوع وقود المركبة الإنجليزي غير صالح",
+  },
+  invalidARFuelType: {
+    en: "Arabic car's fuel type is invalid",
+    ar: "نوع وقود المركبة العربي غير صالح",
   },
   invalidNoOfSeats: {
     en: "Invalid car's number of seats",

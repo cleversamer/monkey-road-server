@@ -7,7 +7,7 @@ const _ = require("lodash");
 
 module.exports.getPurchaseCarDetails = async (req, res, next) => {
   try {
-    const { carId } = req.query;
+    const { carId } = req.params;
 
     const car = await purchaseCarsService.getPurchaseCarDetails(carId);
 

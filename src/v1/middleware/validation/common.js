@@ -401,6 +401,16 @@ const checkPurchaseCarARVehicleType = check("vehicleTypeAR")
   .isIn(carsData.VEHICLE_TYPES.AR)
   .withMessage(errors.purchaseCar.invalidARVehicleType);
 
+const checkPurchaseCarENFuelType = check("fuelTypeEN")
+  .trim()
+  .isIn(carsData.FUEL_TYPES.EN)
+  .withMessage(errors.purchaseCar.invalidENFuelType);
+
+const checkPurchaseCarARFuelType = check("fuelTypeAR")
+  .trim()
+  .isIn(carsData.FUEL_TYPES.AR)
+  .withMessage(errors.purchaseCar.invalidARFuelType);
+
 const checkPurchaseCarNoOfSeats = check("noOfSeats")
   .trim()
   .isIn(carsData.SEATS_NUMBER)
@@ -491,6 +501,8 @@ module.exports = {
   checkPurchaseCarTrimeLevel,
   checkPurchaseCarENVehicleType,
   checkPurchaseCarARVehicleType,
+  checkPurchaseCarENFuelType,
+  checkPurchaseCarARFuelType,
   checkPurchaseCarNoOfSeats,
   checkPurchaseCarKiloPerHour,
   checkPurchaseCarPrice,

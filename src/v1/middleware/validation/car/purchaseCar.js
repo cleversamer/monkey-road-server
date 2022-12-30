@@ -47,6 +47,8 @@ const addPurchaseCarValidator = [
   commonMiddleware.checkPurchaseCarTrimeLevel,
   commonMiddleware.checkPurchaseCarENVehicleType,
   commonMiddleware.checkPurchaseCarARVehicleType,
+  commonMiddleware.checkPurchaseCarENFuelType,
+  commonMiddleware.checkPurchaseCarARFuelType,
   commonMiddleware.checkPurchaseCarNoOfSeats,
   commonMiddleware.checkPurchaseCarKiloPerHour,
   commonMiddleware.checkPurchaseCarPrice,

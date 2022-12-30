@@ -44,7 +44,7 @@ module.exports = {
     AR: ["اوتوماتيك", "نصف اوتوماتيك"],
   },
   FUEL_TYPES: {
-    EN: ["Solar", "Benzin"],
+    EN: ["solar", "benzin"],
     AR: ["سولار", "بنزين"],
   },
   SEATS_NUMBER: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
