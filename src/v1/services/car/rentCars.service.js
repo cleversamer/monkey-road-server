@@ -4,6 +4,7 @@ const localStorage = require("../../services/storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
+const mongoose = require("mongoose");
 
 //////////////////// User Services ////////////////////
 module.exports.getAllRentCars = async (skip) => {
@@ -27,6 +28,7 @@ module.exports.getAllRentCars = async (skip) => {
 module.exports.getRentCarDetails = async (carId) => {
   try {
     const rentCar = await RentCar.findById(carId);
+
     if (!rentCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.notFound;

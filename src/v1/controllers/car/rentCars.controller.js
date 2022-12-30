@@ -25,7 +25,7 @@ module.exports.getAllRentCars = async (req, res, next) => {
 
 module.exports.getRentCarDetails = async (req, res, next) => {
   try {
-    const { carId } = req.query;
+    const { carId } = req.params;
 
     const car = await rentCarsService.getRentCarDetails(carId);
 
