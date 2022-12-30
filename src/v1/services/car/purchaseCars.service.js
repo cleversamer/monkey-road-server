@@ -108,7 +108,7 @@ module.exports.searchPurchaseCars = async (searchTerm, skip) => {
     ]);
 
     if (!purchaseCars || !purchaseCars.length) {
-      rentCars = await PurchaseCar.find({})
+      purchaseCars = await PurchaseCar.find({})
         .sort({ _id: -1 })
         .skip(skip)
         .limit(10);
