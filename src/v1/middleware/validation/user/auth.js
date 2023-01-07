@@ -62,14 +62,8 @@ const emailValidator = [commonMiddleware.checkEmail, commonMiddleware.next];
 const codeValidator = [commonMiddleware.checkCode, commonMiddleware.next];
 
 const resendCodeValidator = [
-  (req, res, next) => {
-    req.body.lang = req.query.lang;
-
-    next();
-  },
-
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkLanguage,
-
   commonMiddleware.next,
 ];
 
