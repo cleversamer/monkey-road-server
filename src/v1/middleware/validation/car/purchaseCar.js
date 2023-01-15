@@ -1,7 +1,8 @@
 const commonMiddleware = require("../common");
 
 const getPurchaseCarDetailsValidator = [
-  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
   commonMiddleware.next,
 ];
 

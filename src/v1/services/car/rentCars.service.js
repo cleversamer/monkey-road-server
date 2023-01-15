@@ -42,6 +42,7 @@ module.exports.getRentCarDetails = async (carId) => {
 };
 
 module.exports.getSimilarRentCars = async (
+  carId,
   name,
   model,
   brandEN,
@@ -63,6 +64,10 @@ module.exports.getSimilarRentCars = async (
     if (!rentCars || !rentCars.length) {
       rentCars = await RentCar.find({}).sort({ _id: -1 }).limit(10);
     }
+
+    rentCars = rentCars.filter(
+      (car) => car._id.toString() !== carId.toString()
+    );
 
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;

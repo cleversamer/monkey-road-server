@@ -121,6 +121,11 @@ const checkRole = (exceptAdmin = false) =>
         .isIn(userValidation.roles)
         .withMessage(errors.user.invalidRole);
 
+const checkRegisterRole = check("role")
+  .trim()
+  .isIn(userValidation.registerRoles)
+  .withMessage(errors.user.invalidRole);
+
 const checkPhone = (req, res, next) => {
   if (typeof req.body.phone !== "object") {
     const statusCode = httpStatus.BAD_REQUEST;
@@ -173,48 +178,6 @@ const checkPhone = (req, res, next) => {
   next();
 };
 
-const checkMongoIdQueryParam = (req, res, next) => {
-  const emptyQueryParams = !Object.keys(req.query).length;
-  if (emptyQueryParams) {
-    const statusCode = httpStatus.BAD_REQUEST;
-    const message = errors.system.noMongoId;
-    const err = new ApiError(statusCode, message);
-    return next(err);
-  }
-
-  for (let item in req.query) {
-    if (!mongoose.isValidObjectId(req.query[item])) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.system.invalidMongoId;
-      const err = new ApiError(statusCode, message);
-      return next(err);
-    }
-  }
-
-  next();
-};
-
-const checkMongoIdParam = (req, res, next) => {
-  const emptyParams = !Object.keys(req.params).length;
-  if (emptyParams) {
-    const statusCode = httpStatus.BAD_REQUEST;
-    const message = errors.system.noMongoId;
-    const err = new ApiError(statusCode, message);
-    return next(err);
-  }
-
-  for (let item in req.params) {
-    if (!mongoose.isValidObjectId(req.params[item])) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.system.invalidMongoId;
-      const err = new ApiError(statusCode, message);
-      return next(err);
-    }
-  }
-
-  next();
-};
-
 const conditionalCheck = (key, checker) => (req, res, next) =>
   req.body[key] ? checker(req, res, next) : next();
 
@@ -247,6 +210,14 @@ const checkSkip = check("skip")
   .trim()
   .isNumeric()
   .withMessage(errors.system.invalidSkip);
+
+const checkCarId = check("carId")
+  .isMongoId()
+  .withMessage(errors.system.invalidCarId);
+
+const checkOrderId = check("orderId")
+  .isMongoId()
+  .withMessage(errors.system.invalidOrderId);
 
 const checkRentCarName = check("carName")
   .trim()
@@ -466,10 +437,8 @@ module.exports = {
   next,
   putQueryParamsInBody,
   checkPhone,
-  checkMongoIdQueryParam,
   conditionalCheck,
   checkFile,
-  checkMongoIdParam,
   checkEmailOrPhone,
   checkEmail,
   checkPassword,
@@ -479,8 +448,11 @@ module.exports = {
   checkLanguage,
   checkName,
   checkRole,
+  checkRegisterRole,
   checkDeviceToken,
   checkSkip,
+  checkCarId,
+  checkOrderId,
   checkRentCarName,
   checkRentCarModel,
   checkRentCarENColor,

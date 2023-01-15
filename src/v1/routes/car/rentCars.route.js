@@ -17,7 +17,7 @@ router.get(
 );
 
 router.get(
-  "/similar",
+  "/:carId/similar",
   rentCarValidator.getSimilarRentCarsValidator,
   rentCarsController.getSimilarRentCars
 );

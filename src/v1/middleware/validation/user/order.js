@@ -7,17 +7,20 @@ const getMyOrdersValidator = [
 ];
 
 const getOrderDetailsValidator = [
-  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkOrderId,
   commonMiddleware.next,
 ];
 
 const cancelOrderValidator = [
-  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkOrderId,
   commonMiddleware.next,
 ];
 
 const deleteOrderValidator = [
-  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkOrderId,
   commonMiddleware.next,
 ];
 

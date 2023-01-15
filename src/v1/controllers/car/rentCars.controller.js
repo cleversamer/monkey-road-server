@@ -39,6 +39,7 @@ module.exports.getRentCarDetails = async (req, res, next) => {
 
 module.exports.getSimilarRentCars = async (req, res, next) => {
   try {
+    const { carId } = req.params;
     const {
       name,
       model,
@@ -51,6 +52,7 @@ module.exports.getSimilarRentCars = async (req, res, next) => {
     } = req.query;
 
     const cars = await rentCarsService.getSimilarRentCars(
+      carId,
       name,
       model,
       brandEN,

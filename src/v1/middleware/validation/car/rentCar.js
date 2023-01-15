@@ -7,12 +7,14 @@ const getAllRentCarsValidator = [
 ];
 
 const getRentCarDetailsValidator = [
-  commonMiddleware.checkMongoIdParam,
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
   commonMiddleware.next,
 ];
 
 const getSimilarRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
   commonMiddleware.checkRentCarName,
   commonMiddleware.checkRentCarModel,
   commonMiddleware.checkRentCarENBrand,

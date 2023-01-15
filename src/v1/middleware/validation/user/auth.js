@@ -15,7 +15,7 @@ const registerValidator = [
   commonMiddleware.checkEmail,
   commonMiddleware.checkPhone,
   commonMiddleware.checkPassword,
-  commonMiddleware.checkRole(true),
+  commonMiddleware.checkRegisterRole,
   commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
 ];

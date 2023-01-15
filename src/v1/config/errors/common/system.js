@@ -17,6 +17,14 @@ module.exports = Object.freeze({
     en: "Invalid file",
     ar: "الملف غير صالح",
   },
+  invalidCarId: {
+    en: "Invalid car id",
+    ar: "معرّف السيّارة غير صالح",
+  },
+  invalidOrderId: {
+    en: "Invalid order id",
+    ar: "معرّف الطلب غير صالح",
+  },
   fileUploadError: {
     en: "Error uploading file",
     ar: "حصل خطأ عند رفع الملف",
