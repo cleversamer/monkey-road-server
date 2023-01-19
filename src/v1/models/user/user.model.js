@@ -11,6 +11,7 @@ const CLIENT_SCHEMA = [
   "name",
   "email",
   "phone",
+  "favorites",
   "role",
   "verified",
   "notifications",

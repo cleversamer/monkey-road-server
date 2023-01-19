@@ -29,11 +29,11 @@ router.get(
 );
 
 // TODO: waiting for order apis
-// router.post(
-//   "/rent",
-//   auth("createOwn", "rentOrder"),
-//   rentCarsController.requestCarRental
-// );
+router.post(
+  "/rent",
+  auth("createOwn", "rentOrder"),
+  rentCarsController.requestCarRental
+);
 
 //////////////////// Office Routes ////////////////////
 router.get(
