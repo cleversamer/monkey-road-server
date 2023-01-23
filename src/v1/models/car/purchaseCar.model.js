@@ -217,18 +217,10 @@ purchaseCarSchema.index({
   name: "text",
   "owner.name": "text",
   model: "text",
-  "brand.name.en": "text",
   "brand.name.ar": "text",
-  "color.en": "text",
   "color.ar": "text",
   year: "text",
   description: "text",
-  vin: "text",
-  trimLevel: "text",
-  "vehicleType.en": "text",
-  "vehicleType.ar": "text",
-  "fuelType.en": "text",
-  "fuelType.ar": "text",
 });
 
 // Creating the model
