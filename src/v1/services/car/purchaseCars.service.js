@@ -9,7 +9,7 @@ const errors = require("../../config/errors");
 module.exports.findPurchaseCars = async (purchaseCarIds = []) => {
   try {
     const purchaseCars = await PurchaseCar.aggregate([
-      { $match: { "brand.ref": { $in: purchaseCarIds } } },
+      { $match: { _id: { $in: purchaseCarIds } } },
       {
         $lookup: {
           from: "Brand",
