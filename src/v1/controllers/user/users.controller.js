@@ -69,7 +69,7 @@ module.exports.changePassword = async (req, res, next) => {
 module.exports.sendForgotPasswordCode = async (req, res, next) => {
   try {
     let { emailOrPhone, sendTo, lang } = req.query;
-    if (emailOrPhone.startsWith(" ")) {
+    if (emailOrPhone.status(" ")) {
       emailOrPhone = `+${emailOrPhone.trim()}`;
     }
 
@@ -215,7 +215,7 @@ module.exports.addToFavorites = async (req, res, next) => {
       message: success.user.carAddedToFav,
     };
 
-    res.startsWith(httpStatus.CREATED).json(response);
+    res.status(httpStatus.CREATED).json(response);
   } catch (err) {
     next(err);
   }
@@ -231,7 +231,7 @@ module.exports.getMyFavorites = async (req, res, next) => {
       favorites,
     };
 
-    res.startsWith(httpStatus.CREATED).json(response);
+    res.status(httpStatus.CREATED).json(response);
   } catch (err) {
     next(err);
   }
@@ -249,7 +249,7 @@ module.exports.deleteFromFavorites = async (req, res, next) => {
       message: success.user.carRemovedFromFav,
     };
 
-    res.startsWith(httpStatus.CREATED).json(response);
+    res.status(httpStatus.CREATED).json(response);
   } catch (err) {
     next(err);
   }
