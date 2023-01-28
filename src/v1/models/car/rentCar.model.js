@@ -159,13 +159,6 @@ const rentCarSchema = new Schema(
 // and we can not let mongodb to do a COLLSACAN
 rentCarSchema.index({ "office.ref": 1 });
 
-// We create three indexes here because we use these fields
-// in search filters.
-// To speed up the search operation.
-rentCarSchema.index({ "brand.ref": 1 });
-// rentCarSchema.index({ color: 1 });
-// rentCarSchema.index({ year: 1 });
-
 // Creating a text index based on multiple fields to enhance
 // search alogrithms and reach more relevant search results.
 rentCarSchema.index({
