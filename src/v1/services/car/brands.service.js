@@ -24,9 +24,10 @@ module.exports.getBrand = async (brandId) => {
 module.exports.getPopularBrands = async (skip) => {
   try {
     const brands = await Brand.find({})
-      .sort({ noOfCars: -1 })
+      .sort({ "noOfCars.rental": -1 })
       .skip(skip)
       .limit(10);
+
     if (!brands || !brands.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.brand.noBrands;
