@@ -32,14 +32,10 @@ router.delete(
   ordersController.deleteOrder
 );
 
-//////////////////// Rent Car Routes ////////////////////
-// TODO:
 // router.post(
 //   "/complete",
 //   auth("updateOwn", "order"),
 //   ordersController.completeOrder
 // );
-
-//////////////////// Purchase Car Routes ////////////////////
 
 module.exports = router;

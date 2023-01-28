@@ -119,7 +119,7 @@ module.exports.getMyRentCars = async (req, res, next) => {
     const user = req.user;
     const { skip } = req.query;
 
-    const myCars = await rentCarsService.getMyCars(user, skip);
+    const myCars = await rentCarsService.getMyRentCars(user, skip);
 
     const response = {
       cars: myCars.map((car) => _.pick(car, rentCarSchema)),
@@ -176,6 +176,51 @@ module.exports.addRentCar = async (req, res, next) => {
     );
 
     const response = _.pick(rentCar, rentCarSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+//////////////////// Admin Controllers ////////////////////
+module.exports.getNotAcceptedRentCars = async (req, res, next) => {
+  try {
+    const { skip } = req.query;
+
+    const cars = await rentCarsService.getNotAcceptedRentCars(skip);
+
+    const response = {
+      cars: cars.map((car) => _.pick(car, rentCarSchema)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.acceptRentCar = async (req, res, next) => {
+  try {
+    const { carId } = req.body;
+
+    const car = await rentCarsService.acceptRentCar(carId);
+
+    const response = _.pick(car, rentCarSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.rejectRentCar = async (req, res, next) => {
+  try {
+    const { carId } = req.body;
+
+    const car = await rentCarsService.rejectRentCar(carId);
+
+    const response = _.pick(car, rentCarSchema);
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {

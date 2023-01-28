@@ -126,3 +126,38 @@ module.exports.deleteOrder = async (user, orderId) => {
     throw err;
   }
 };
+
+module.exports.createOrder = async (
+  purpose,
+  author,
+  rentCarId,
+  totalPrice,
+  locationTitle,
+  longitude,
+  latitude
+) => {
+  try {
+    // Create the order
+    const order = new Order({
+      rentCar: rentCarId,
+      totalPrice,
+      location: {
+        title: locationTitle,
+        longitude,
+        latitude,
+      },
+      author: {
+        name: author.name,
+        ref: author._id,
+      },
+      purpose,
+    });
+
+    // Save order to the DB
+    await order.save();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};

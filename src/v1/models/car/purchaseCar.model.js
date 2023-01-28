@@ -208,8 +208,8 @@ purchaseCarSchema.index({ "owner.ref": 1 });
 // in search filters.
 // To speed up the search operation.
 purchaseCarSchema.index({ "brand.ref": 1 });
-purchaseCarSchema.index({ color: 1 });
-purchaseCarSchema.index({ year: 1 });
+// purchaseCarSchema.index({ color: 1 });
+// purchaseCarSchema.index({ year: 1 });
 
 // Creating a text index based on multiple fields to enhance
 // search alogrithms and reach more relevant search results.

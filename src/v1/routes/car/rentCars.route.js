@@ -30,7 +30,7 @@ router.get(
 
 // TODO: waiting for order apis
 router.post(
-  "/rent",
+  "/request",
   auth("createOwn", "rentOrder"),
   rentCarsController.requestCarRental
 );
@@ -48,6 +48,28 @@ router.post(
   rentCarValidator.addRentCarValidator,
   auth("createOwn", "rentCar"),
   rentCarsController.addRentCar
+);
+
+//////////////////// Admin Routes ////////////////////
+router.get(
+  "/not-accepted",
+  rentCarValidator.getNotAcceptedRentCarsValidator,
+  auth("updateAny", "rentCar"),
+  rentCarsController.getNotAcceptedRentCars
+);
+
+router.patch(
+  "/:carId/accept",
+  rentCarValidator.acceptRentCarValidator,
+  auth("updateAny", "rentCar"),
+  rentCarsController.acceptRentCar
+);
+
+router.patch(
+  "/:carId/reject",
+  rentCarValidator.rejectRentCarValidator,
+  auth("updateAny", "rentCar"),
+  rentCarsController.rejectRentCar
 );
 
 module.exports = router;

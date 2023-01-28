@@ -4,12 +4,11 @@ const localStorage = require("../../services/storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
-const mongoose = require("mongoose");
 
 //////////////////// User Services ////////////////////
 module.exports.getAllRentCars = async (skip) => {
   try {
-    const rentCars = await RentCar.find({})
+    const rentCars = await RentCar.find({ accepted: true })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(10);
@@ -29,7 +28,7 @@ module.exports.getRentCarDetails = async (carId) => {
   try {
     const rentCar = await RentCar.findById(carId);
 
-    if (!rentCar) {
+    if (!rentCar || !rentCar.accepted) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.notFound;
       throw new ApiError(statusCode, message);
@@ -56,13 +55,15 @@ module.exports.getSimilarRentCars = async (
     const searchTerm = `${name} ${model} ${brandEN} ${brandAR} ${colorEN} ${colorAR} ${year} ${description}`;
 
     let rentCars = await RentCar.aggregate([
-      { $match: { $text: { $search: searchTerm } } },
+      { $match: { $text: { $search: searchTerm }, accepted: true } },
       { $sort: { score: { $meta: "textScore" } } },
       { $limit: 10 },
     ]);
 
     if (!rentCars || !rentCars.length) {
-      rentCars = await RentCar.find({}).sort({ _id: -1 }).limit(10);
+      rentCars = await RentCar.find({ accepted: true })
+        .sort({ _id: -1 })
+        .limit(10);
     }
 
     rentCars = rentCars.filter(
@@ -84,7 +85,7 @@ module.exports.getSimilarRentCars = async (
 module.exports.searchRentCars = async (searchTerm, skip) => {
   try {
     let rentCars = await RentCar.aggregate([
-      { $match: { $text: { $search: searchTerm } } },
+      { $match: { $text: { $search: searchTerm }, accepted: true } },
       { $sort: { score: { $meta: "textScore" } } },
       { $skip: parseInt(skip) },
       { $limit: 10 },
@@ -128,10 +129,10 @@ module.exports.requestCarRental = async (
   }
 };
 
-//////////////////// User Services ////////////////////
-module.exports.getMyCars = async (user, skip) => {
+//////////////////// Office Services ////////////////////
+module.exports.getMyRentCars = async (office, skip) => {
   try {
-    const myCars = await RentCar.find({ "office.ref": user._id })
+    const myCars = await RentCar.find({ "office.ref": office._id })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(10);
@@ -234,6 +235,73 @@ module.exports.addRentCar = async (
 
     brand.noOfCars.rental = brand.noOfCars.rental + 1;
     await brand.save();
+
+    return rentCar;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//////////////////// Admin Services ////////////////////
+module.exports.getNotAcceptedRentCars = async (skip) => {
+  try {
+    const rentCars = await RentCar.find({ accepted: false })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(10);
+
+    if (!rentCars || !rentCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.noNotAcceptedCars;
+      throw new ApiError(statusCode, message);
+    }
+
+    return rentCars;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.acceptRentCar = async (carId) => {
+  try {
+    const rentCar = await RentCar.findById(carId);
+
+    // Check if rent car exists
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if rent car is already accepted
+    if (rentCar.accepted) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.alreadyAccepted;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Accept rent car
+    rentCar.accept();
+
+    // Save rent car to the DB
+    await rentCar.save();
+
+    return rentCar;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.rejectRentCar = async (carId) => {
+  try {
+    const rentCar = await RentCar.findByIdAndDelete(carId);
+
+    // Check if rent car exists
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
 
     return rentCar;
   } catch (err) {

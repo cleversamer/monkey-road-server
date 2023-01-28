@@ -16,6 +16,10 @@ module.exports = Object.freeze({
     en: "There're no rent cars registered yet",
     ar: "لا يوجد هناك سيّارات إيجار مسجّلة بعد",
   },
+  noNotAcceptedCars: {
+    en: "There're no not accepted rent cars",
+    ar: "لا يوجد هناك سيّارات إيجار غير مقبولة",
+  },
   noSearchCars: {
     en: "No cars match your search term",
     ar: "لا توجد سيّارات مشابهة لنتيجة بحثك",
@@ -79,5 +83,9 @@ module.exports = Object.freeze({
   invalidDeposit: {
     en: `Car's depost should be ${price.deposit.min.toLocaleString()}-${price.deposit.max.toLocaleString()} AED`,
     ar: `تأمين السيّارة يجب أن يكون بين  ${price.deposit.min.toLocaleString()}-${price.deposit.max.toLocaleString()} درهم إماراتي`,
+  },
+  alreadyAccepted: {
+    en: "Car is already accepted",
+    ar: "تم قبول السيّارة مسبقًا",
   },
 });

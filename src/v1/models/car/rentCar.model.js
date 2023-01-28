@@ -14,6 +14,7 @@ const CLIENT_SCHEMA = [
   "price",
   "description",
   "photos",
+  "accepted",
   "creationDate",
 ];
 
@@ -132,6 +133,11 @@ const rentCarSchema = new Schema(
       min: validation.photos.min,
       max: validation.photos.max,
     },
+    // Means that rent car is accepted by admin or not
+    accepted: {
+      type: Boolean,
+      default: false,
+    },
     // The date of adding this car
     creationDate: {
       type: String,
@@ -151,14 +157,14 @@ const rentCarSchema = new Schema(
 // Because the office needs to read its rental cars
 // and this process will happen a lot in the application
 // and we can not let mongodb to do a COLLSACAN
-rentCarSchema.index({ office: 1 });
+rentCarSchema.index({ "office.ref": 1 });
 
 // We create three indexes here because we use these fields
 // in search filters.
 // To speed up the search operation.
-rentCarSchema.index({ brand: 1 });
-rentCarSchema.index({ color: 1 });
-rentCarSchema.index({ year: 1 });
+rentCarSchema.index({ "brand.ref": 1 });
+// rentCarSchema.index({ color: 1 });
+// rentCarSchema.index({ year: 1 });
 
 // Creating a text index based on multiple fields to enhance
 // search alogrithms and reach more relevant search results.
@@ -171,6 +177,15 @@ rentCarSchema.index({
   year: "text",
   description: "text",
 });
+
+// Rent car methods
+rentCarSchema.methods.accept = function () {
+  try {
+    this.accepted = true;
+  } catch (err) {
+    // Write error to the DB
+  }
+};
 
 // Creating the model
 const RentCar = model("RentCar", rentCarSchema);

@@ -6,7 +6,7 @@ const CLIENT_SCHEMA = [
   "_id",
   "author",
   "seller",
-  "shippingAddress",
+  "location",
   "totalPrice",
   "rentCar",
   "purpose",
@@ -29,23 +29,13 @@ const orderSchema = new Schema(
         ref: "User",
       },
     },
-    // The seller/owner of the ordered car
-    // Compulsory: when requesting a car rental
-    // Optional: when request posting a rent car
-    seller: {
-      name: {
-        type: String,
-      },
-      ref: {
-        type: Types.ObjectId,
-        ref: "User",
-      },
-    },
     // The shipping address data
     // Compulsory: when requesting a car rental
     // Optional: when request posting a rent car
-    shippingAddress: {
-      type: Object,
+    location: {
+      title: String,
+      longitude: String,
+      latitude: String,
     },
     // The total price of the order
     totalPrice: {
@@ -63,14 +53,12 @@ const orderSchema = new Schema(
       en: {
         type: String,
         required: true,
-        default: validation.purposes.en[0],
         trim: true,
         enum: validation.purposes.en,
       },
       ar: {
         type: String,
         required: true,
-        default: validation.purposes.ar[0],
         trim: true,
         enum: validation.purposes.ar,
       },
@@ -109,23 +97,28 @@ const orderSchema = new Schema(
   }
 );
 
-// To ensure storing the exact creation date
-orderSchema.pre("save", function (next) {
-  // Assign the date to the curret date
-  this.date = new Date();
-
-  // Passing the execution to the next phase
-  next();
-});
-
 // Creating an index on the author field to easily
 // fetch user's orders.
 orderSchema.index({ author: 1 });
+
+// Creating an index on the author field to easily
+// fetch orders in a specific status
+orderSchema.index({ status: 1 });
 
 // Order object methods
 orderSchema.methods.cancel = function () {
   this.status.en = "closed";
   this.status.ar = "مغلق";
+};
+
+orderSchema.methods.reject = function () {
+  this.status.en = "rejected";
+  this.status.ar = "مرفوض";
+};
+
+orderSchema.methods.approve = function () {
+  this.status.en = "approved";
+  this.status.ar = "مقبول";
 };
 
 // Creating the model
