@@ -1,4 +1,4 @@
-const { ordersService } = require("../../services");
+const { rentOrdersService: ordersService } = require("../../services");
 const { CLIENT_SCHEMA: orderSchema } = require("../../models/user/user.model");
 const httpStatus = require("http-status");
 const _ = require("lodash");

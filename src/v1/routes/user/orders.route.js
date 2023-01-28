@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { ordersController } = require("../../controllers");
+const { rentOrdersController: ordersController } = require("../../controllers");
 const { orderValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
