@@ -3,6 +3,7 @@ const { CLIENT_SCHEMA: orderSchema } = require("../../models/user/user.model");
 const httpStatus = require("http-status");
 const _ = require("lodash");
 
+//////////////////// Common Routes ////////////////////
 module.exports.getMyOrders = async (req, res, next) => {
   try {
     const user = req.user;
@@ -27,20 +28,24 @@ module.exports.getOrderDetails = async (req, res, next) => {
 
     const order = await ordersService.getOrderDetails(user, orderId);
 
-    res.status(httpStatus.OK).json(order);
+    const response = _.pick(order, orderSchema);
+
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }
 };
 
-module.exports.cancelOrder = async (req, res, next) => {
+module.exports.closeOrder = async (req, res, next) => {
   try {
     const user = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.cancelOrder(user, orderId);
+    const order = await ordersService.closeOrder(user, orderId);
 
-    res.status(httpStatus.OK).json(order);
+    const response = _.pick(order, orderSchema);
+
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }
@@ -53,7 +58,40 @@ module.exports.deleteOrder = async (req, res, next) => {
 
     const order = await ordersService.deleteOrder(user, orderId);
 
-    res.status(httpStatus.OK).json(order);
+    const response = _.pick(order, orderSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+//////////////////// Office Controllers ////////////////////
+module.exports.approveOrder = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { orderId } = req.params;
+
+    const order = await ordersService.approveOrder(user, orderId);
+
+    const response = _.pick(order, orderSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.rejectOrder = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { orderId } = req.params;
+
+    const order = await ordersService.rejectOrder(user, orderId);
+
+    const response = _.pick(order, orderSchema);
+
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }

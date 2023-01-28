@@ -28,9 +28,8 @@ router.get(
   rentCarsController.searchRentCars
 );
 
-// TODO: waiting for order apis
 router.post(
-  "/request",
+  "/:carId/request",
   auth("createOwn", "rentOrder"),
   rentCarsController.requestCarRental
 );

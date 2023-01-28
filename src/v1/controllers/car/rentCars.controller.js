@@ -1,7 +1,9 @@
 const {
   CLIENT_SCHEMA: rentCarSchema,
 } = require("../../models/car/rentCar.model");
-const { CLIENT_SCHEMA: orderSchema } = require("../../models/user/order.model");
+const {
+  CLIENT_SCHEMA: orderSchema,
+} = require("../../models/car/rentOrder.model");
 const { rentCarsService } = require("../../services");
 const httpStatus = require("http-status");
 const _ = require("lodash");
@@ -92,17 +94,27 @@ module.exports.searchRentCars = async (req, res, next) => {
 module.exports.requestCarRental = async (req, res, next) => {
   try {
     const user = req.user;
-    const { rentCarId, startDate, noOfDays, location, fullName, phoneNumber } =
-      req.body;
+    const { carId: rentCarId } = req.params;
+    const {
+      startDate,
+      noOfDays,
+      locationTitle,
+      longitude,
+      latitude,
+      fullName,
+      phone,
+    } = req.body;
 
     const order = await rentCarsService.requestCarRental(
       user,
       rentCarId,
       startDate,
       noOfDays,
-      location,
+      locationTitle,
+      longitude,
+      latitude,
       fullName,
-      phoneNumber
+      phone
     );
 
     const response = _.pick(order, orderSchema);
@@ -202,7 +214,7 @@ module.exports.getNotAcceptedRentCars = async (req, res, next) => {
 
 module.exports.acceptRentCar = async (req, res, next) => {
   try {
-    const { carId } = req.body;
+    const { carId } = req.params;
 
     const car = await rentCarsService.acceptRentCar(carId);
 
@@ -216,7 +228,7 @@ module.exports.acceptRentCar = async (req, res, next) => {
 
 module.exports.rejectRentCar = async (req, res, next) => {
   try {
-    const { carId } = req.body;
+    const { carId } = req.params;
 
     const car = await rentCarsService.rejectRentCar(carId);
 

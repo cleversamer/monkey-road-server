@@ -1,4 +1,5 @@
 const { RentCar } = require("../../models/car/rentCar.model");
+const { Order, RentOrder } = require("../../models/car/rentOrder.model");
 const brandsService = require("./brands.service");
 const localStorage = require("../../services/storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
@@ -107,23 +108,50 @@ module.exports.searchRentCars = async (searchTerm, skip) => {
   }
 };
 
-// TODO: complete this after completing order apis
 module.exports.requestCarRental = async (
   user,
   rentCarId,
   startDate,
   noOfDays,
-  location,
+  locationTitle,
+  longitude,
+  latitude,
   fullName,
-  phoneNumber
+  phone
 ) => {
   try {
     const rentCar = await RentCar.findById(rentCarId);
-    if (!rentCar) {
+
+    if (!rentCar || !rentCar.accepted) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.notFound;
       throw new ApiError(statusCode, message);
     }
+
+    const order = new RentOrder({
+      author: user._id,
+      office: rentCar.office.ref,
+      rentCar: rentCar._id,
+      totalPrice: rentCar.price,
+      fullName,
+      startDate,
+      phoneNumber: {
+        full: `${phone.icc}${phone.nsn}`,
+        icc: phone.icc,
+        nsn: phone.nsn,
+      },
+      receptionLocation: {
+        title: locationTitle,
+        longitude,
+        latitude,
+      },
+    });
+
+    order.setEndDate(noOfDays);
+
+    await order.save();
+
+    return order;
   } catch (err) {
     throw err;
   }

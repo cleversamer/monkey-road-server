@@ -1,11 +1,48 @@
-const { Order } = require("../../models/user/order.model");
+const { RentOrder } = require("../../models/car/rentOrder.model");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
+//////////////////// Outer Services ////////////////////
+module.exports.createOrder = async (
+  purpose,
+  author,
+  rentCarId,
+  totalPrice,
+  locationTitle,
+  longitude,
+  latitude
+) => {
+  try {
+    // Create the order
+    const order = new RentOrder({
+      rentCar: rentCarId,
+      totalPrice,
+      location: {
+        title: locationTitle,
+        longitude,
+        latitude,
+      },
+      author: {
+        name: author.name,
+        ref: author._id,
+      },
+      purpose,
+    });
+
+    // Save order to the DB
+    await order.save();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//////////////////// Common Services ////////////////////
 module.exports.getMyOrders = async (user, skip) => {
   try {
-    const orders = await Order.find({ author: user._id })
+    const orders = await RentOrder.find({ author: user._id })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(10);
@@ -24,7 +61,7 @@ module.exports.getMyOrders = async (user, skip) => {
 
 module.exports.getOrderDetails = async (user, orderId) => {
   try {
-    const orders = await Order.aggregate([
+    const orders = await RentOrder.aggregate([
       { $match: { "author.ref": user._id, _id: orderId } },
       {
         $lookup: {
@@ -70,10 +107,10 @@ module.exports.getOrderDetails = async (user, orderId) => {
   }
 };
 
-module.exports.cancelOrder = async (user, orderId) => {
+module.exports.closeOrder = async (user, orderId) => {
   try {
     // Check if orders exists
-    const order = await Order.findById(orderId);
+    const order = await RentOrder.findById(orderId);
     if (!order) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.order.notFound;
@@ -88,8 +125,15 @@ module.exports.cancelOrder = async (user, orderId) => {
       throw new ApiError(statusCode, message);
     }
 
+    // Check if order is already closed
+    if (order.isClosed()) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.alreadyClosed;
+      throw new ApiError(statusCode, message);
+    }
+
     // Update order's status
-    order.cancel();
+    order.close();
 
     // Save the order
     await order.save();
@@ -103,7 +147,7 @@ module.exports.cancelOrder = async (user, orderId) => {
 module.exports.deleteOrder = async (user, orderId) => {
   try {
     // Check if orders exists
-    const order = await Order.findById(orderId);
+    const order = await RentOrder.findById(orderId);
     if (!order) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.order.notFound;
@@ -118,7 +162,7 @@ module.exports.deleteOrder = async (user, orderId) => {
       throw new ApiError(statusCode, message);
     }
 
-    // Delete the order
+    // Delete order
     await order.delete();
 
     return order;
@@ -127,31 +171,71 @@ module.exports.deleteOrder = async (user, orderId) => {
   }
 };
 
-module.exports.createOrder = async (
-  purpose,
-  author,
-  rentCarId,
-  totalPrice,
-  locationTitle,
-  longitude,
-  latitude
-) => {
+//////////////////// Office Services ////////////////////
+module.exports.approveOrder = async (user, orderId) => {
   try {
-    // Create the order
-    const order = new Order({
-      rentCar: rentCarId,
-      totalPrice,
-      location: {
-        title: locationTitle,
-        longitude,
-        latitude,
-      },
-      author: {
-        name: author.name,
-        ref: author._id,
-      },
-      purpose,
-    });
+    // Check if orders exists
+    const order = await RentOrder.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if the user is the receiver office
+    const isOfficeReceiver = order.office.toString() === user._id.toString();
+    if (!isOfficeReceiver) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notReceiverOffice;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is already approved
+    if (order.isApproved()) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.alreadyApproved;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Approve order
+    order.approve();
+
+    // Save order to the DB
+    await order.save();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.rejectOrder = async (user, orderId) => {
+  try {
+    // Check if orders exists
+    const order = await RentOrder.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if the user is the receiver office
+    const isOfficeReceiver = order.office.toString() === user._id.toString();
+    if (!isOfficeReceiver) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.notReceiverOffice;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is already approved
+    if (order.isRejected()) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.alreadyRejected;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Approve order
+    order.reject();
 
     // Save order to the DB
     await order.save();
