@@ -40,6 +40,13 @@ router.delete(
 // );
 
 //////////////////// Office Routes ////////////////////
+router.get(
+  "/my-received",
+  orderValidator.getMyReceivedOrdersValidator,
+  auth("readOwn", "order"),
+  ordersController.getMyReceivedOrders
+);
+
 router.patch(
   "/:orderId/approve",
   orderValidator.approveOrderValidator,

@@ -172,7 +172,24 @@ module.exports.deleteOrder = async (user, orderId) => {
 };
 
 //////////////////// Office Services ////////////////////
-module.exports.approveOrder = async (user, orderId) => {
+module.exports.getMyReceivedOrders = async (office) => {
+  try {
+    const orders = await RentOrder.find({ office: office._id });
+
+    // Check if orders exists
+    if (!orders || !orders.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.order.noReceivedOrders;
+      throw new ApiError(statusCode, message);
+    }
+
+    return orders;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.approveOrder = async (office, orderId) => {
   try {
     // Check if orders exists
     const order = await RentOrder.findById(orderId);
@@ -183,7 +200,7 @@ module.exports.approveOrder = async (user, orderId) => {
     }
 
     // Check if the user is the receiver office
-    const isOfficeReceiver = order.office.toString() === user._id.toString();
+    const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.order.notReceiverOffice;
@@ -209,7 +226,7 @@ module.exports.approveOrder = async (user, orderId) => {
   }
 };
 
-module.exports.rejectOrder = async (user, orderId) => {
+module.exports.rejectOrder = async (office, orderId) => {
   try {
     // Check if orders exists
     const order = await RentOrder.findById(orderId);
@@ -220,7 +237,7 @@ module.exports.rejectOrder = async (user, orderId) => {
     }
 
     // Check if the user is the receiver office
-    const isOfficeReceiver = order.office.toString() === user._id.toString();
+    const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.order.notReceiverOffice;

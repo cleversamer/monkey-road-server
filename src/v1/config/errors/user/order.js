@@ -27,4 +27,8 @@ module.exports = Object.freeze({
     en: "Order is already rejected",
     ar: "تم رفض الطلب مسبقًا",
   },
+  noReceivedOrders: {
+    en: "There're no received orders yet",
+    ar: "لا يوجد طلبات تأجير مستلمة بعد",
+  },
 });

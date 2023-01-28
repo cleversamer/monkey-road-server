@@ -67,12 +67,28 @@ module.exports.deleteOrder = async (req, res, next) => {
 };
 
 //////////////////// Office Controllers ////////////////////
+module.exports.getMyReceivedOrders = async (req, res, next) => {
+  try {
+    const office = req.user;
+
+    const orders = await ordersService.getMyReceivedOrders(office);
+
+    const response = {
+      orders: orders.map((order) => _.pick(order, orderSchema)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.approveOrder = async (req, res, next) => {
   try {
-    const user = req.user;
+    const office = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.approveOrder(user, orderId);
+    const order = await ordersService.approveOrder(office, orderId);
 
     const response = _.pick(order, orderSchema);
 
@@ -84,10 +100,10 @@ module.exports.approveOrder = async (req, res, next) => {
 
 module.exports.rejectOrder = async (req, res, next) => {
   try {
-    const user = req.user;
+    const office = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.rejectOrder(user, orderId);
+    const order = await ordersService.rejectOrder(office, orderId);
 
     const response = _.pick(order, orderSchema);
 
