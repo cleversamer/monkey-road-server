@@ -73,28 +73,6 @@ router.delete(
   usersController.clearNotifications
 );
 
-//////////////////// User: Payment Cards ////////////////////
-// TODO:
-// router.post(
-//   "/add-payment-card",
-//   auth("createOwn", "paymentCard"),
-//   usersController.addPaymentCard
-// );
-
-// TODO:
-// router.post(
-//   "/update-payment-card",
-//   auth("updateOwn", "paymentCard"),
-//   usersController.updatePaymentCard
-// );
-
-// TODO:
-// router.post(
-//   "/delete-payment-card",
-//   auth("deleteOwn", "paymentCard"),
-//   usersController.deletePaymentCard
-// );
-
 //////////////////// User: Favorites ////////////////////
 router.post(
   "/favorites/add",
