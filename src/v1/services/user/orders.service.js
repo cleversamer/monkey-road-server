@@ -172,9 +172,12 @@ module.exports.deleteOrder = async (user, orderId) => {
 };
 
 //////////////////// Office Services ////////////////////
-module.exports.getMyReceivedOrders = async (office) => {
+module.exports.getMyReceivedOrders = async (office, skip) => {
   try {
-    const orders = await RentOrder.find({ office: office._id });
+    const orders = await RentOrder.find({ office: office._id })
+      .sort({ _id: 01 })
+      .skip(skip)
+      .limit(10);
 
     // Check if orders exists
     if (!orders || !orders.length) {

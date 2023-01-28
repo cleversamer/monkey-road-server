@@ -70,8 +70,9 @@ module.exports.deleteOrder = async (req, res, next) => {
 module.exports.getMyReceivedOrders = async (req, res, next) => {
   try {
     const office = req.user;
+    const { skip } = req.query;
 
-    const orders = await ordersService.getMyReceivedOrders(office);
+    const orders = await ordersService.getMyReceivedOrders(office, skip);
 
     const response = {
       orders: orders.map((order) => _.pick(order, orderSchema)),
