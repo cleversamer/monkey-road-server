@@ -43,6 +43,8 @@ const rentOrderSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      minLength: validation.fullName.minLength,
+      maxLength: validation.fullName.maxLength,
     },
     // The phone number of the recipient
     phoneNumber: {
@@ -74,9 +76,25 @@ const rentOrderSchema = new Schema(
     },
     // The shipping address info
     receptionLocation: {
-      title: String,
-      longitude: String,
-      latitude: String,
+      title: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: validation.locationTitle.minLength,
+        maxLength: validation.locationTitle.maxLength,
+      },
+      longitude: {
+        type: Number,
+        required: true,
+        min: validation.longitude.min,
+        max: validation.longitude.max,
+      },
+      latitude: {
+        type: Number,
+        required: true,
+        min: validation.latitude.min,
+        max: validation.latitude.max,
+      },
     },
     // The total price of the order
     totalPrice: {
