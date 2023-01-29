@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const { check, validationResult } = require("express-validator");
 const httpStatus = require("http-status");
 const { ApiError } = require("../apiError");
@@ -11,6 +10,7 @@ const {
   rentCar: rentCarValidation,
   purchaseCar: purchaseCarValidation,
   brand: brandValidation,
+  rentOrder: rentOrderValidation,
 } = require("../../config/models");
 
 const putQueryParamsInBody = (req, res, next) => {
@@ -433,6 +433,41 @@ const checkBrandARName = check("nameAR")
   })
   .withMessage(errors.brand.invalidName);
 
+const checkNoOfDays = check("noOfDays")
+  .isInt({
+    min: rentOrderValidation.noOfDays.min,
+    max: rentOrderValidation.noOfDays.max,
+  })
+  .withMessage(errors.rentOrder.invalidNoOfDays);
+
+const checkLocationTitle = check("locationTitle")
+  .isLength({
+    min: rentOrderValidation.locationTitle.minLength,
+    max: rentOrderValidation.locationTitle.maxLength,
+  })
+  .withMessage(errors.rentOrder.invalidLocationTitle);
+
+const checkLongitude = check("longitude")
+  .isInt({
+    min: rentOrderValidation.longitude.min,
+    max: rentOrderValidation.longitude.max,
+  })
+  .withMessage(errors.rentOrder.invalidLongitude);
+
+const checkLatitude = check("latitude")
+  .isInt({
+    min: rentOrderValidation.latitude.min,
+    max: rentOrderValidation.latitude.max,
+  })
+  .withMessage(errors.rentOrder.invalidLatitude);
+
+const checkFullName = check("fullName")
+  .isLength({
+    min: rentOrderValidation.fullName.minLength,
+    max: rentOrderValidation.fullName.maxLength,
+  })
+  .withMessage(errors.rentOrder.invalidFullName);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -486,4 +521,9 @@ module.exports = {
   checkRentCarDeposit,
   checkBrandENName,
   checkBrandARName,
+  checkNoOfDays,
+  checkLocationTitle,
+  checkLongitude,
+  checkLatitude,
+  checkFullName,
 };

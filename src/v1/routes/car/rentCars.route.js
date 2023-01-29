@@ -30,6 +30,7 @@ router.get(
 
 router.post(
   "/:carId/request",
+  rentCarValidator.requestCarRentalValidator,
   auth("createOwn", "rentOrder"),
   rentCarsController.requestCarRental
 );

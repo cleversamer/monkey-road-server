@@ -1,3 +1,3 @@
 module.exports = {
-  name: { minLength: 3, maxLength: 64 },
+  name: { minLength: 2, maxLength: 64 },
 };

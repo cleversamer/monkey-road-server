@@ -171,7 +171,6 @@ const purchaseCarSchema = new Schema(
     // The description of the car
     description: {
       type: String,
-      required: false,
       trim: true,
       minLength: validation.description.minLength,
       maxLength: validation.description.maxLength,

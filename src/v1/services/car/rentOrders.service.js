@@ -49,7 +49,7 @@ module.exports.getMyOrders = async (user, skip) => {
 
     if (!orders || !orders.length) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.noOrders;
+      const message = errors.rentOrder.noOrders;
       throw new ApiError(statusCode, message);
     }
 
@@ -97,7 +97,7 @@ module.exports.getOrderDetails = async (user, orderId) => {
 
     if (!orders || !orders.length) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notFound;
+      const message = errors.rentOrder.notFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -113,7 +113,7 @@ module.exports.closeOrder = async (user, orderId) => {
     const order = await RentOrder.findById(orderId);
     if (!order) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notFound;
+      const message = errors.rentOrder.notFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -121,14 +121,14 @@ module.exports.closeOrder = async (user, orderId) => {
     const isOrderOwner = order.author.ref.toString() === user._id.toString();
     if (!isOrderOwner) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notOwner;
+      const message = errors.rentOrder.notOwner;
       throw new ApiError(statusCode, message);
     }
 
     // Check if order is already closed
     if (order.isClosed()) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.alreadyClosed;
+      const message = errors.rentOrder.alreadyClosed;
       throw new ApiError(statusCode, message);
     }
 
@@ -150,7 +150,7 @@ module.exports.deleteOrder = async (user, orderId) => {
     const order = await RentOrder.findById(orderId);
     if (!order) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notFound;
+      const message = errors.rentOrder.notFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -158,7 +158,7 @@ module.exports.deleteOrder = async (user, orderId) => {
     const isOrderOwner = order.author.ref.toString() === user._id.toString();
     if (!isOrderOwner) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notOwner;
+      const message = errors.rentOrder.notOwner;
       throw new ApiError(statusCode, message);
     }
 
@@ -182,7 +182,7 @@ module.exports.getMyReceivedOrders = async (office, skip) => {
     // Check if orders exists
     if (!orders || !orders.length) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.noReceivedOrders;
+      const message = errors.rentOrder.noReceivedOrders;
       throw new ApiError(statusCode, message);
     }
 
@@ -198,7 +198,7 @@ module.exports.approveOrder = async (office, orderId) => {
     const order = await RentOrder.findById(orderId);
     if (!order) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notFound;
+      const message = errors.rentOrder.notFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -206,14 +206,14 @@ module.exports.approveOrder = async (office, orderId) => {
     const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notReceiverOffice;
+      const message = errors.rentOrder.notReceiverOffice;
       throw new ApiError(statusCode, message);
     }
 
     // Check if order is already approved
     if (order.isApproved()) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.alreadyApproved;
+      const message = errors.rentOrder.alreadyApproved;
       throw new ApiError(statusCode, message);
     }
 
@@ -235,7 +235,7 @@ module.exports.rejectOrder = async (office, orderId) => {
     const order = await RentOrder.findById(orderId);
     if (!order) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notFound;
+      const message = errors.rentOrder.notFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -243,14 +243,14 @@ module.exports.rejectOrder = async (office, orderId) => {
     const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.notReceiverOffice;
+      const message = errors.rentOrder.notReceiverOffice;
       throw new ApiError(statusCode, message);
     }
 
     // Check if order is already approved
     if (order.isRejected()) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.order.alreadyRejected;
+      const message = errors.rentOrder.alreadyRejected;
       throw new ApiError(statusCode, message);
     }
 

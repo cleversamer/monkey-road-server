@@ -33,6 +33,16 @@ const searchRentCarsValidator = [
   commonMiddleware.next,
 ];
 
+const requestCarRentalValidator = [
+  commonMiddleware.checkNoOfDays,
+  commonMiddleware.checkLocationTitle,
+  commonMiddleware.checkPhone,
+  commonMiddleware.checkLongitude,
+  commonMiddleware.checkLatitude,
+  commonMiddleware.checkFullName,
+  commonMiddleware.next,
+];
+
 const getMyRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
@@ -81,6 +91,7 @@ module.exports = {
   getRentCarDetailsValidator,
   getSimilarRentCarsValidator,
   searchRentCarsValidator,
+  requestCarRentalValidator,
   getMyRentCarsValidator,
   addRentCarValidator,
   getNotAcceptedRentCarsValidator,

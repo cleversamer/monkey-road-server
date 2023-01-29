@@ -1,18 +1,20 @@
 const { Schema, model, Types } = require("mongoose");
-const { order: validation } = require("../../config/models");
+const { rentOrder: validation } = require("../../config/models");
 const countriesData = require("../../data/countries");
 
 // The data that will be received by the client side
 const CLIENT_SCHEMA = [
   "_id",
   "author",
-  "seller",
-  "location",
-  "totalPrice",
+  "office",
   "rentCar",
-  "purpose",
+  "fullName",
+  "phoneNumber",
+  "receptionLocation",
+  "totalPrice",
   "status",
-  "date",
+  "startDate",
+  "endDate",
 ];
 
 // The default schema of the model
@@ -114,6 +116,10 @@ const rentOrderSchema = new Schema(
 // Creating an index on the author field to easily
 // fetch user's orders.
 rentOrderSchema.index({ author: 1 });
+
+// Creating an index on the office field to easily
+// fetch office's pending orders.
+rentOrderSchema.index({ office: 1 });
 
 // Creating an index on the author field to easily
 // fetch orders in a specific status
