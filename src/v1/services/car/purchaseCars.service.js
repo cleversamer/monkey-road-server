@@ -135,7 +135,7 @@ module.exports.getMyPurchaseCars = async (user, skip) => {
 
     if (!myCars || !myCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.rentCar.noPostedCars;
+      const message = errors.purchaseCar.noPostedCars;
       throw new ApiError(statusCode, message);
     }
 

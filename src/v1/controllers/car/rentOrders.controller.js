@@ -1,5 +1,11 @@
 const { rentOrdersService: ordersService } = require("../../services");
-const { CLIENT_SCHEMA: orderSchema } = require("../../models/user/user.model");
+const {
+  CLIENT_SCHEMA: orderSchema,
+} = require("../../models/car/rentOrder.model");
+const {
+  CLIENT_SCHEMA: rentCarSchema,
+} = require("../../models/car/rentCar.model");
+const { CLIENT_SCHEMA: userSchema } = require("../../models/user/user.model");
 const httpStatus = require("http-status");
 const _ = require("lodash");
 
@@ -12,7 +18,15 @@ module.exports.getMyOrders = async (req, res, next) => {
     const orders = await ordersService.getMyOrders(user, skip);
 
     const response = {
-      orders: orders.map((order) => _.pick(order, orderSchema)),
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office, userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
     };
 
     res.status(httpStatus.OK).json(response);
@@ -28,7 +42,13 @@ module.exports.getOrderDetails = async (req, res, next) => {
 
     const order = await ordersService.getOrderDetails(user, orderId);
 
-    const response = _.pick(order, orderSchema);
+    const mappedOrder = {
+      ...order,
+      office: _.pick(order.office, userSchema),
+      rentCar: _.pick(order.rentCar, rentCarSchema),
+    };
+
+    const response = _.pick(mappedOrder, orderSchema);
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -75,7 +95,15 @@ module.exports.getMyReceivedOrders = async (req, res, next) => {
     const orders = await ordersService.getMyReceivedOrders(office, skip);
 
     const response = {
-      orders: orders.map((order) => _.pick(order, orderSchema)),
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office, userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
     };
 
     res.status(httpStatus.OK).json(response);

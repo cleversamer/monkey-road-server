@@ -2,6 +2,7 @@ const { RentOrder } = require("../../models/car/rentOrder.model");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
+const mongoose = require("mongoose");
 
 //////////////////// Outer Services ////////////////////
 module.exports.createOrder = async (
@@ -42,10 +43,53 @@ module.exports.createOrder = async (
 //////////////////// Common Services ////////////////////
 module.exports.getMyOrders = async (user, skip) => {
   try {
-    const orders = await RentOrder.find({ author: user._id })
-      .sort({ _id: -1 })
-      .skip(skip)
-      .limit(10);
+    const orders = await RentOrder.aggregate([
+      { $match: { author: user._id } },
+      { $sort: { _id: -1 } },
+      { $skip: parseInt(skip) },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "office",
+          foreignField: "_id",
+          as: "office",
+        },
+      },
+      {
+        $lookup: {
+          from: "rentcars",
+          localField: "rentCar",
+          foreignField: "_id",
+          as: "rentCar",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          author: 1,
+          office: 1,
+          rentCar: 1,
+          fullName: 1,
+          phoneNumber: 1,
+          receptionLocation: 1,
+          totalPrice: 1,
+          status: 1,
+          startDate: 1,
+          endDate: 1,
+          office: { $arrayElemAt: ["$office", 0] },
+          rentCar: { $arrayElemAt: ["$rentCar", 0] },
+          office: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+            role: 1,
+          },
+        },
+      },
+    ]);
 
     if (!orders || !orders.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -62,18 +106,18 @@ module.exports.getMyOrders = async (user, skip) => {
 module.exports.getOrderDetails = async (user, orderId) => {
   try {
     const orders = await RentOrder.aggregate([
-      { $match: { "author.ref": user._id, _id: orderId } },
+      { $match: { _id: mongoose.Types.ObjectId(orderId) } },
       {
         $lookup: {
-          from: "User",
-          localField: "seller",
+          from: "users",
+          localField: "office",
           foreignField: "_id",
-          as: "seller",
+          as: "office",
         },
       },
       {
         $lookup: {
-          from: "RentCar",
+          from: "rentcars",
           localField: "rentCar",
           foreignField: "_id",
           as: "rentCar",
@@ -83,14 +127,25 @@ module.exports.getOrderDetails = async (user, orderId) => {
         $project: {
           _id: 1,
           author: 1,
-          seller: 1,
-          shippingAddress: 1,
-          totalPrice: 1,
+          office: 1,
           rentCar: 1,
-          purpose: 1,
+          fullName: 1,
+          phoneNumber: 1,
+          receptionLocation: 1,
+          totalPrice: 1,
           status: 1,
-          date: 1,
-          seller: { $arrayElemAt: ["$seller", 0] },
+          startDate: 1,
+          endDate: 1,
+          office: { $arrayElemAt: ["$office", 0] },
+          rentCar: { $arrayElemAt: ["$rentCar", 0] },
+          office: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+            role: 1,
+          },
         },
       },
     ]);
@@ -98,6 +153,13 @@ module.exports.getOrderDetails = async (user, orderId) => {
     if (!orders || !orders.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentOrder.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    const isOrderOwner = orders[0].author.toString() === user._id.toString();
+    if (!isOrderOwner) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentOrder.notOwner;
       throw new ApiError(statusCode, message);
     }
 
@@ -174,10 +236,53 @@ module.exports.deleteOrder = async (user, orderId) => {
 //////////////////// Office Services ////////////////////
 module.exports.getMyReceivedOrders = async (office, skip) => {
   try {
-    const orders = await RentOrder.find({ office: office._id })
-      .sort({ _id: 01 })
-      .skip(skip)
-      .limit(10);
+    const orders = await RentOrder.aggregate([
+      { $match: { office: office._id } },
+      { $sort: { _id: -1 } },
+      { $skip: parseInt(skip) },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      {
+        $lookup: {
+          from: "rentcars",
+          localField: "rentCar",
+          foreignField: "_id",
+          as: "rentCar",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          author: 1,
+          office: 1,
+          rentCar: 1,
+          fullName: 1,
+          phoneNumber: 1,
+          receptionLocation: 1,
+          totalPrice: 1,
+          status: 1,
+          startDate: 1,
+          endDate: 1,
+          author: { $arrayElemAt: ["$author", 0] },
+          rentCar: { $arrayElemAt: ["$rentCar", 0] },
+          author: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+            role: 1,
+          },
+        },
+      },
+    ]);
 
     // Check if orders exists
     if (!orders || !orders.length) {

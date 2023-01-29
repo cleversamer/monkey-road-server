@@ -93,7 +93,9 @@ module.exports.searchRentCars = async (searchTerm, skip) => {
     ]);
 
     if (!rentCars || !rentCars.length) {
-      rentCars = await RentCar.find({}).sort({ _id: -1 }).limit(10);
+      rentCars = await RentCar.find({ accepted: true })
+        .sort({ _id: -1 })
+        .limit(10);
     }
 
     if (!rentCars || !rentCars.length) {
@@ -132,7 +134,6 @@ module.exports.requestCarRental = async (
       author: user._id,
       office: rentCar.office.ref,
       rentCar: rentCar._id,
-      totalPrice: rentCar.price,
       fullName,
       startDate,
       phoneNumber: {
@@ -147,6 +148,7 @@ module.exports.requestCarRental = async (
       },
     });
 
+    order.calcTotalPrice(noOfDays, rentCar.price);
     order.setEndDate(noOfDays);
 
     await order.save();

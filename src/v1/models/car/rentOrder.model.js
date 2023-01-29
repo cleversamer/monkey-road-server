@@ -134,6 +134,21 @@ rentOrderSchema.methods.setEndDate = function (noOfDays) {
   this.endDate = endDate;
 };
 
+rentOrderSchema.methods.calcTotalPrice = function (noOfDays, price) {
+  try {
+    const { daily, weekly, monthly, deposit } = price;
+
+    let pricePerDay =
+      noOfDays < 7 ? daily : noOfDays < 30 ? weekly / 7 : monthly / 30;
+
+    const totalPrice = Math.ceil(noOfDays * pricePerDay + deposit) - 0.01;
+
+    this.totalPrice = totalPrice;
+  } catch (err) {
+    // Write error to the DB
+  }
+};
+
 rentOrderSchema.methods.close = function () {
   this.status = "closed";
 };
@@ -154,7 +169,7 @@ rentOrderSchema.methods.approve = function () {
   this.status = "approved";
 };
 
-rentOrderSchema.methods.isApproveed = function () {
+rentOrderSchema.methods.isApproved = function () {
   return this.status == "approved";
 };
 
