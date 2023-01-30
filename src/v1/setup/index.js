@@ -9,6 +9,7 @@ const {
 } = require("../middleware/apiError");
 const passport = require("passport");
 const { jwtStrategy } = require("../middleware/passport");
+const socket = require("./socket");
 
 module.exports = (app) => {
   setupMongoDB();
@@ -20,7 +21,9 @@ module.exports = (app) => {
   app.use(errorConverter);
   app.use(errorHandler);
 
-  app.listen(server.PORT, () => {
+  const expressServer = app.listen(server.PORT, () => {
     console.log(`App is listening on port ${server.PORT}`);
   });
+
+  socket(expressServer);
 };

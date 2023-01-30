@@ -121,6 +121,12 @@ const rentOrderSchema = new Schema(
       required: true,
       trim: true,
     },
+    date: {
+      type: String,
+      required: true,
+      trim: true,
+      default: new Date(),
+    },
   },
   {
     // To not avoid empty object when creating the document
