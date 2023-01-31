@@ -47,14 +47,6 @@ module.exports = Object.freeze({
     en: `Location title should be ${locationTitle.minLength}-${locationTitle.maxLength} characters`,
     ar: `إسم العنوان يجب أن يكون بين ${locationTitle.minLength}-${locationTitle.maxLength} حرفًا`,
   },
-  invalidLongitude: {
-    en: `Longitude should be ${longitude.min}-${longitude.max}`,
-    ar: `الإحداثي الطولي يجب أن يكون بين ${longitude.min}-${longitude.max}`,
-  },
-  invalidLatitude: {
-    en: `Latitude should be ${latitude.min}-${latitude.max}`,
-    ar: `الإحداثي العرضي يجب أن يكون بين ${latitude.min}-${latitude.max}`,
-  },
   invalidFullName: {
     en: `Full name should be ${fullName.minLength}-${fullName.maxLength} characters`,
     ar: `الإسم الكامل يجب أن يكون بين ${fullName.minLength}-${fullName.maxLength} حرفًا`,

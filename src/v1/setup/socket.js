@@ -17,11 +17,11 @@ module.exports = (server) => {
       socket.join(userId + secret);
     });
 
-    socket.on("send notification", (userIds = [], roomId) => {
+    socket.on("send notification", (userIds = [], notification) => {
       userIds.forEach((userId) => {
         socket.broadcast
           .to(userId + secret)
-          .emit("notification received", roomId);
+          .emit("notification received", notification);
       });
     });
   });

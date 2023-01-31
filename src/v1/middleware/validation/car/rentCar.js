@@ -37,8 +37,6 @@ const requestCarRentalValidator = [
   commonMiddleware.checkNoOfDays,
   commonMiddleware.checkLocationTitle,
   commonMiddleware.checkPhone,
-  commonMiddleware.checkLongitude,
-  commonMiddleware.checkLatitude,
   commonMiddleware.checkFullName,
   commonMiddleware.next,
 ];

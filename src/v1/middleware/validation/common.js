@@ -447,20 +447,6 @@ const checkLocationTitle = check("locationTitle")
   })
   .withMessage(errors.rentOrder.invalidLocationTitle);
 
-const checkLongitude = check("longitude")
-  .isInt({
-    min: rentOrderValidation.longitude.min,
-    max: rentOrderValidation.longitude.max,
-  })
-  .withMessage(errors.rentOrder.invalidLongitude);
-
-const checkLatitude = check("latitude")
-  .isInt({
-    min: rentOrderValidation.latitude.min,
-    max: rentOrderValidation.latitude.max,
-  })
-  .withMessage(errors.rentOrder.invalidLatitude);
-
 const checkFullName = check("fullName")
   .isLength({
     min: rentOrderValidation.fullName.minLength,
@@ -523,7 +509,5 @@ module.exports = {
   checkBrandARName,
   checkNoOfDays,
   checkLocationTitle,
-  checkLongitude,
-  checkLatitude,
   checkFullName,
 };

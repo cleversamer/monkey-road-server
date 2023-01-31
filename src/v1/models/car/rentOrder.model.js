@@ -84,16 +84,12 @@ const rentOrderSchema = new Schema(
         maxLength: validation.locationTitle.maxLength,
       },
       longitude: {
-        type: Number,
+        type: String,
         required: true,
-        min: validation.longitude.min,
-        max: validation.longitude.max,
       },
       latitude: {
-        type: Number,
+        type: String,
         required: true,
-        min: validation.latitude.min,
-        max: validation.latitude.max,
       },
     },
     // The total price of the order

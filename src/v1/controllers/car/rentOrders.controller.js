@@ -21,7 +21,7 @@ module.exports.getMyOrders = async (req, res, next) => {
       orders: orders.map((order) => {
         const mappedOrder = {
           ...order,
-          office: _.pick(order.office, userSchema),
+          office: _.pick(order.office[0], userSchema),
           rentCar: _.pick(order.rentCar, rentCarSchema),
         };
 
@@ -44,7 +44,7 @@ module.exports.getOrderDetails = async (req, res, next) => {
 
     const mappedOrder = {
       ...order,
-      office: _.pick(order.office, userSchema),
+      office: _.pick(order.office[0], userSchema),
       rentCar: _.pick(order.rentCar, rentCarSchema),
     };
 
@@ -98,7 +98,7 @@ module.exports.getMyReceivedOrders = async (req, res, next) => {
       orders: orders.map((order) => {
         const mappedOrder = {
           ...order,
-          office: _.pick(order.office, userSchema),
+          office: _.pick(order.office[0], userSchema),
           rentCar: _.pick(order.rentCar, rentCarSchema),
         };
 
