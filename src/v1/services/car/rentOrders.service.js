@@ -17,16 +17,13 @@ module.exports.createOrder = async (
   try {
     // Create the order
     const order = new RentOrder({
+      author: author._id,
       rentCar: rentCarId,
       totalPrice,
       location: {
         title: locationTitle,
         longitude,
         latitude,
-      },
-      author: {
-        name: author.name,
-        ref: author._id,
       },
       purpose,
     });
@@ -180,7 +177,7 @@ module.exports.closeOrder = async (user, orderId) => {
     }
 
     // Check if the user is the order owner
-    const isOrderOwner = order.author.ref.toString() === user._id.toString();
+    const isOrderOwner = order.author.toString() === user._id.toString();
     if (!isOrderOwner) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentOrder.notOwner;
@@ -217,7 +214,7 @@ module.exports.deleteOrder = async (user, orderId) => {
     }
 
     // Check if the user is the order owner
-    const isOrderOwner = order.author.ref.toString() === user._id.toString();
+    const isOrderOwner = order.author.toString() === user._id.toString();
     if (!isOrderOwner) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentOrder.notOwner;
