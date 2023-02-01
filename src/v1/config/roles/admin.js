@@ -7,6 +7,7 @@ module.exports = Object.freeze({
   password: allRights,
   notification: allRights,
   favorites: allRights,
+  car: allRights,
   purchaseCar: allRights,
   rentCar: allRights,
   rentOrder: allRights,

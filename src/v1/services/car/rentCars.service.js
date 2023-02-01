@@ -6,6 +6,26 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
+//////////////////// Internal Services ////////////////////
+module.exports.getRentCarsStatus = async () => {
+  try {
+    const rentCars = await RentCar.find({});
+
+    const totalCount = rentCars.length;
+
+    const inactiveCarsCount = rentCars.filter(
+      (rentCar) => !rentCar.accepted
+    ).length;
+
+    return {
+      total: totalCount,
+      inactive: inactiveCarsCount,
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// User Services ////////////////////
 module.exports.getAllRentCars = async (skip) => {
   try {

@@ -27,6 +27,20 @@ module.exports.findPurchaseCars = async (purchaseCarIds = []) => {
   }
 };
 
+module.exports.getPurchaseCarsStatus = async () => {
+  try {
+    const purchaseCars = await PurchaseCar.find({});
+
+    const totalCount = purchaseCars.length;
+
+    return {
+      total: totalCount,
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Routes Services ////////////////////
 module.exports.getPurchaseCarDetails = async (carId) => {
   try {

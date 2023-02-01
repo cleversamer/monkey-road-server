@@ -321,3 +321,13 @@ module.exports.findUserByEmailOrPhone = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getCarsStatus = async (req, res, next) => {
+  try {
+    const status = await usersService.getCarsStatus();
+
+    res.status(httpStatus.OK).json(status);
+  } catch (err) {
+    next(err);
+  }
+};

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status");
 const emailService = require("./email.service");
 const notificationsService = require("./notifications.service");
+const rentCarsService = require("../car/rentCars.service");
 const purchaseCarsService = require("../car/purchaseCars.service");
 const localStorage = require("../storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
@@ -551,6 +552,20 @@ const updateUserProfile = async (user, body) => {
     user = await user.save();
 
     return { newUser: user, changes };
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.getCarsStatus = async () => {
+  try {
+    const rentStatus = await rentCarsService.getRentCarsStatus();
+    const purchaseStatus = await purchaseCarsService.getPurchaseCarsStatus();
+
+    return {
+      rent: rentStatus,
+      purchase: purchaseStatus,
+    };
   } catch (err) {
     throw err;
   }

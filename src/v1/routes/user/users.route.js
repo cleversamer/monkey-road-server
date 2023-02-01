@@ -132,4 +132,11 @@ router.post(
   usersController.sendNotification
 );
 
+//////////////////// Admin: Cars ////////////////////
+router.get(
+  "/admin/cars/status",
+  auth("readAny", "car"),
+  usersController.getCarsStatus
+);
+
 module.exports = router;
