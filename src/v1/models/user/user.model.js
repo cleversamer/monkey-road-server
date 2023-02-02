@@ -125,7 +125,6 @@ const userSchema = new Schema(
     // The device token of the user (Used for sending notifications to it)
     deviceToken: {
       type: String,
-      required: true,
       minLength: validation.deviceToken.minLength,
       maxLength: validation.deviceToken.maxLength,
     },
@@ -439,6 +438,15 @@ userSchema.methods.clearNotifications = function () {
   } catch (err) {
     // TODO: write the error to the database
     return false;
+  }
+};
+
+userSchema.methods.updateDeviceToken = function (deviceToken) {
+  try {
+    if (!deviceToken) return;
+    this.deviceToken = deviceToken;
+  } catch (err) {
+    // TODO: write error to the DB
   }
 };
 

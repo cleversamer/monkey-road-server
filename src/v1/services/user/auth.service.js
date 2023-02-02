@@ -29,12 +29,13 @@ module.exports.register = async (
         nsn: phone.nsn,
       },
       role,
-      deviceToken,
     });
 
     // Updating verification codes to be sent to the user
     user.updateCode("email");
     user.updateCode("phone");
+
+    user.updateDeviceToken(deviceToken);
 
     return await user.save();
   } catch (err) {
@@ -67,7 +68,7 @@ module.exports.login = async (email, password, deviceToken) => {
     }
 
     user.updateLastLogin();
-    user.deviceToken = deviceToken;
+    user.updateDeviceToken(deviceToken);
 
     return await user.save();
   } catch (err) {
