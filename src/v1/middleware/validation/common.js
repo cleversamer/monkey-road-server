@@ -126,57 +126,16 @@ const checkRegisterRole = check("role")
   .isIn(userValidation.registerRoles)
   .withMessage(errors.user.invalidRole);
 
-const checkPhone = (req, res, next) => {
-  if (typeof req.body.phone !== "object") {
-    const statusCode = httpStatus.BAD_REQUEST;
-    const message = errors.auth.invalidPhone;
-    const err = new ApiError(statusCode, message);
-    return next(err);
-  }
+const checkPhoneICC = check("phoneICC")
+  .isIn(countries.list.map((c) => c.icc))
+  .withMessage(errors.auth.invalidICC);
 
-  let { icc, nsn } = req.body.phone;
-
-  // Convert phone to string if it's not a string.
-  icc = String(icc);
-  nsn = String(nsn);
-
-  // Check if icc starts with a plus `+`
-  if (!icc.startsWith("+")) {
-    req.body.phone.icc = `+${icc}`;
-    icc = `+${icc}`;
-  }
-
-  // Check if phone's ICC is correct
-  const iccExist = countries.list.find((c) => c.icc === icc);
-  if (!iccExist) {
-    const statusCode = httpStatus.BAD_REQUEST;
-    const message = errors.auth.invalidICC;
-    const err = new ApiError(statusCode, message);
-    return next(err);
-  }
-
-  // Check if phone's NSN is in range
-  if (nsn.length < countries.minNSN || nsn.length > countries.maxNSN) {
-    const statusCode = httpStatus.BAD_REQUEST;
-    const message = errors.auth.invalidPhone;
-    const err = new ApiError(statusCode, message);
-    return next(err);
-  }
-
-  // Check if phone's NSN contains only numbers
-  for (let i = 0; i < nsn.length; i++) {
-    const char = nsn.charCodeAt(i);
-
-    if (char < 48 || char > 57) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.auth.phoneNotOnlyNumbers;
-      const err = new ApiError(statusCode, message);
-      return next(err);
-    }
-  }
-
-  next();
-};
+const checkPhoneNSN = check("phoneNSN")
+  .isLength({
+    min: countries.minNSN,
+    max: countries.maxNSN,
+  })
+  .withMessage(errors.auth.invalidPhone);
 
 const conditionalCheck = (key, checker) => (req, res, next) =>
   req.body[key] ? checker(req, res, next) : next();
@@ -457,7 +416,6 @@ const checkFullName = check("fullName")
 module.exports = {
   next,
   putQueryParamsInBody,
-  checkPhone,
   conditionalCheck,
   checkFile,
   checkEmailOrPhone,
@@ -470,6 +428,8 @@ module.exports = {
   checkName,
   checkRole,
   checkRegisterRole,
+  checkPhoneICC,
+  checkPhoneNSN,
   checkDeviceToken,
   checkSkip,
   checkCarId,

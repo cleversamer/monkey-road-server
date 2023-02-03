@@ -16,7 +16,8 @@ const registerValidator = [
   commonMiddleware.checkLanguage,
   commonMiddleware.checkName,
   commonMiddleware.checkEmail,
-  commonMiddleware.checkPhone,
+  commonMiddleware.checkPhoneICC,
+  commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkPassword,
   commonMiddleware.checkRegisterRole,
   commonMiddleware.conditionalCheck(

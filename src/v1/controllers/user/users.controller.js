@@ -108,7 +108,7 @@ module.exports.handleForgotPassword = async (req, res, next) => {
 module.exports.updateProfile = async (req, res, next) => {
   try {
     const user = req.user;
-    const { name, email, phone, lang } = req.body;
+    const { name, email, phoneICC, phoneNSN, lang } = req.body;
     const avatar = req?.files?.avatar || null;
 
     const info = await usersService.updateProfile(
@@ -116,7 +116,8 @@ module.exports.updateProfile = async (req, res, next) => {
       user,
       name,
       email,
-      phone,
+      phoneICC,
+      phoneNSN,
       avatar
     );
 
@@ -258,7 +259,14 @@ module.exports.deleteFromFavorites = async (req, res, next) => {
 ///////////////////////////// ADMIN /////////////////////////////
 module.exports.updateUserProfile = async (req, res, next) => {
   try {
-    const { lang = "ar", emailOrPhone, name, email, phone } = req.body;
+    const {
+      lang = "ar",
+      emailOrPhone,
+      name,
+      email,
+      phoneICC,
+      phoneNSN,
+    } = req.body;
     const avatar = req?.files?.avatar || null;
 
     const info = await usersService.updateUserProfile(
@@ -266,7 +274,8 @@ module.exports.updateUserProfile = async (req, res, next) => {
       emailOrPhone,
       name,
       email,
-      phone,
+      phoneICC,
+      phoneNSN,
       avatar
     );
 

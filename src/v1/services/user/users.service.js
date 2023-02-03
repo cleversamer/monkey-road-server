@@ -235,15 +235,18 @@ module.exports.updateProfile = async (
   user,
   name,
   email,
-  phone,
+  phoneICC,
+  phoneNSN,
   avatar
 ) => {
   try {
     const body = {
       lang,
+      user,
       name,
       email,
-      phone,
+      phoneICC,
+      phoneNSN,
       avatar,
     };
 
@@ -444,7 +447,8 @@ module.exports.updateUserProfile = async (
   emailOrPhone,
   name,
   email,
-  phone,
+  phoneICC,
+  phoneNSN,
   avatar
 ) => {
   try {
@@ -458,9 +462,11 @@ module.exports.updateUserProfile = async (
 
     const body = {
       lang,
+      emailOrPhone,
       name,
       email,
-      phone,
+      phoneICC,
+      phoneNSN,
       avatar,
     };
 
@@ -472,7 +478,7 @@ module.exports.updateUserProfile = async (
 
 const updateUserProfile = async (user, body) => {
   try {
-    const { name, avatar, email, phone, lang } = body;
+    const { lang, name, email, phoneICC, phoneNSN, avatar } = body;
 
     // To store data changes
     const changes = [];
@@ -517,10 +523,10 @@ const updateUserProfile = async (user, body) => {
     // update phone verification code, and sending
     // phone verification code to user's phone
     const isPhoneEqual =
-      user.phone.icc === phone?.icc && user.phone.nsn === phone?.nsn;
-    if (phone && !isPhoneEqual) {
+      user.phone.icc === phoneICC && user.phone.nsn === phoneNSN;
+    if ((phoneICC || phoneNSN) && !isPhoneEqual) {
       // Checking if phone used
-      const fullPhone = `${phone.icc}${phone.nsn}`;
+      const fullPhone = `${phoneICC}${phoneNSN}`;
       const phoneUsed = await this.findUserByEmailOrPhone(fullPhone);
       if (phoneUsed) {
         const statusCode = httpStatus.NOT_FOUND;
@@ -532,9 +538,9 @@ const updateUserProfile = async (user, body) => {
       // update email verification code, and sending
       // email verification code to user's email
       user.phone = {
-        full: `${phone.icc}${phone.nsn}`,
-        icc: phone.icc,
-        nsn: phone.nsn,
+        full: `${phoneICC}${phoneNSN}`,
+        icc: phoneICC,
+        nsn: phoneNSN,
       };
       user.verified.phone = false;
       changes.push("phone");

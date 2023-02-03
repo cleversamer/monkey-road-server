@@ -102,7 +102,8 @@ module.exports.requestCarRental = async (req, res, next) => {
       longitude,
       latitude,
       fullName,
-      phone,
+      phoneICC,
+      phoneNSN,
     } = req.body;
 
     const order = await rentCarsService.requestCarRental(
@@ -114,7 +115,8 @@ module.exports.requestCarRental = async (req, res, next) => {
       longitude,
       latitude,
       fullName,
-      phone
+      phoneICC,
+      phoneNSN
     );
 
     const response = _.pick(order, orderSchema);

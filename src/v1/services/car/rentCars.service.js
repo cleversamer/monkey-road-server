@@ -139,7 +139,8 @@ module.exports.requestCarRental = async (
   longitude,
   latitude,
   fullName,
-  phone
+  phoneICC,
+  phoneNSN
 ) => {
   try {
     const rentCar = await RentCar.findById(rentCarId);
@@ -157,9 +158,9 @@ module.exports.requestCarRental = async (
       fullName,
       startDate,
       phoneNumber: {
-        full: `${phone.icc}${phone.nsn}`,
-        icc: phone.icc,
-        nsn: phone.nsn,
+        full: `${phoneICC}${phoneNSN}`,
+        icc: phoneICC,
+        nsn: phoneNSN,
       },
       receptionLocation: {
         title: locationTitle,

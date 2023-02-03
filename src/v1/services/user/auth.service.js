@@ -9,7 +9,8 @@ module.exports.register = async (
   email,
   password,
   name,
-  phone,
+  phoneICC,
+  phoneNSN,
   role,
   deviceToken
 ) => {
@@ -24,9 +25,9 @@ module.exports.register = async (
       email,
       password: hashed,
       phone: {
-        full: `${phone.icc}${phone.nsn}`,
-        icc: phone.icc,
-        nsn: phone.nsn,
+        full: `${phoneICC}${phoneNSN}`,
+        icc: phoneICC,
+        nsn: phoneNSN,
       },
       role,
     });
