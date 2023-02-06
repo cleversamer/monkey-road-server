@@ -99,7 +99,12 @@ module.exports.handleForgotPassword = async (req, res, next) => {
       newPassword
     );
 
-    res.status(httpStatus.OK).json(_.pick(user, CLIENT_SCHEMA));
+    const response = {
+      user: _.pick(user, CLIENT_SCHEMA),
+      token: user.genAuthToken(),
+    };
+
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }
