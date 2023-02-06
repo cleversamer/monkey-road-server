@@ -19,7 +19,7 @@ const registerValidator = [
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkPassword,
-  commonMiddleware.checkRegisterRole,
+  // commonMiddleware.checkRegisterRole,
   commonMiddleware.conditionalCheck(
     "deviceToken",
     commonMiddleware.checkDeviceToken

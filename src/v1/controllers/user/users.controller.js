@@ -69,7 +69,7 @@ module.exports.changePassword = async (req, res, next) => {
 module.exports.sendForgotPasswordCode = async (req, res, next) => {
   try {
     let { emailOrPhone, sendTo, lang } = req.query;
-    if (emailOrPhone.status(" ")) {
+    if (emailOrPhone.startsWith(" ")) {
       emailOrPhone = `+${emailOrPhone.trim()}`;
     }
 

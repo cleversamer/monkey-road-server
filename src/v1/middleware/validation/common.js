@@ -87,12 +87,10 @@ const checkNewPassword = check("newPassword")
   .withMessage(errors.auth.invalidPassword);
 
 const checkCode = check("code")
-  .trim()
   .isLength({
     min: userValidation.verificationCode.exactLength,
     max: userValidation.verificationCode.exactLength,
   })
-  .isNumeric()
   .withMessage(errors.auth.invalidCode);
 
 const checkLanguage = check("lang")

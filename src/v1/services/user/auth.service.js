@@ -11,7 +11,6 @@ module.exports.register = async (
   name,
   phoneICC,
   phoneNSN,
-  role,
   deviceToken
 ) => {
   try {
@@ -29,7 +28,6 @@ module.exports.register = async (
         icc: phoneICC,
         nsn: phoneNSN,
       },
-      role,
     });
 
     // Updating verification codes to be sent to the user

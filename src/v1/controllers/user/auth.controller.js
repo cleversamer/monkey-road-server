@@ -5,16 +5,8 @@ const _ = require("lodash");
 
 module.exports.register = async (req, res, next) => {
   try {
-    const {
-      lang,
-      name,
-      email,
-      phoneICC,
-      phoneNSN,
-      password,
-      role,
-      deviceToken,
-    } = req.body;
+    const { lang, name, email, phoneICC, phoneNSN, password, deviceToken } =
+      req.body;
 
     const user = await authService.register(
       email,
@@ -22,7 +14,6 @@ module.exports.register = async (req, res, next) => {
       name,
       phoneICC,
       phoneNSN,
-      role,
       deviceToken
     );
 
