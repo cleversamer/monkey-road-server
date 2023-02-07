@@ -14,6 +14,7 @@ firebase.json
 *.jpg
 *.jpeg
 *.png
+*.xlsx
 
 # development
 **.log

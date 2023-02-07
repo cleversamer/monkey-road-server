@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const _ = require("lodash");
-const { CLIENT_SCHEMA } = require("../../models/user/user.model");
-const { usersService } = require("../../services");
+const { User, CLIENT_SCHEMA } = require("../../models/user/user.model");
+const { usersService, excelService } = require("../../services");
 const success = require("../../config/success");
 const errors = require("../../config/errors");
 
@@ -341,6 +341,26 @@ module.exports.getCarsStatus = async (req, res, next) => {
     const status = await usersService.getCarsStatus();
 
     res.status(httpStatus.OK).json(status);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.exportUsersToExcel = async (req, res, next) => {
+  try {
+    const users = await User.find({}).sort({ _id: -1 });
+
+    // Get the path to the excel file
+    const filePath = await excelService.exportUsersToExcelFile(users);
+
+    // Create the response object
+    const response = {
+      type: "file/xlsx",
+      path: filePath,
+    };
+
+    // Send response back to the client
+    res.status(httpStatus.CREATED).json(response);
   } catch (err) {
     next(err);
   }

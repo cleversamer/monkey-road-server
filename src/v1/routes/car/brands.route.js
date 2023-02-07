@@ -10,6 +10,7 @@ router.get(
   brandsController.getPopularBrands
 );
 
+//////////////////// Admin Routes ////////////////////
 router.post(
   "/add",
   brandValidator.addBrandValidator,

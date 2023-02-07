@@ -139,4 +139,11 @@ router.get(
   usersController.getCarsStatus
 );
 
+//////////////////// Admin: Cars ////////////////////
+router.get(
+  "/export",
+  auth("readAny", "user"),
+  usersController.exportUsersToExcel
+);
+
 module.exports = router;

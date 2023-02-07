@@ -65,4 +65,8 @@ module.exports = Object.freeze({
     en: "Error sending email",
     ar: "حصل خطأ في إرسال البريد",
   },
+  errorExportingExcel: {
+    en: "Error exporting excel file",
+    ar: "حصل خطأ عند تصدير ملف الاكسل",
+  },
 });
