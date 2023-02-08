@@ -119,7 +119,8 @@ module.exports.addPurchaseCar = async (req, res, next) => {
       noOfSeats,
       kiloPerHour,
       price,
-      phoneNumber,
+      phoneICC,
+      phoneNSN,
       description,
     } = req.body;
     const photo1 = req?.files?.photo1;
@@ -146,7 +147,8 @@ module.exports.addPurchaseCar = async (req, res, next) => {
       noOfSeats,
       kiloPerHour,
       price,
-      phoneNumber,
+      phoneICC,
+      phoneNSN,
       description,
       photo1,
       photo2,

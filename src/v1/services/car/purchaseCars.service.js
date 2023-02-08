@@ -176,7 +176,8 @@ module.exports.addPurchaseCar = async (
   noOfSeats,
   kiloPerHour,
   price,
-  phoneNumber,
+  phoneICC,
+  phoneNSN,
   description,
   photo1,
   photo2,
@@ -220,7 +221,7 @@ module.exports.addPurchaseCar = async (
       noOfSeats,
       kiloPerHour,
       price,
-      phoneNumber,
+      phoneNumber: `${phoneICC}${phoneNSN}`,
       description,
     });
 
