@@ -23,6 +23,10 @@ module.exports = Object.freeze({
     en: "You have to verify your phone number to continue using the app",
     ar: "يجب عليك تفعيل رقم هاتفك لتتمكن من إستخدام التطبيق",
   },
+  emailNotVerified: {
+    en: "You have to verify your email to continue using the app",
+    ar: "يجب عليك تفعيل بريدك الإلكتروني لتتمكن من إستخدام التطبيق",
+  },
   emailNotUsed: {
     en: "Email is not used",
     ar: "البريد الإلكتروني غير مستخدم",
