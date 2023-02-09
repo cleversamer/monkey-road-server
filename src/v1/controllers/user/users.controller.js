@@ -142,18 +142,17 @@ module.exports.sendNotification = async (req, res, next) => {
   try {
     const { userIds = [], title = "", body = "", data = {} } = req.body;
 
-    const callback = (err, response) => {
-      if (err) {
-        const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-        const message = errors.system.notification;
-        const err = new ApiError(statusCode, message);
-        return next(err);
-      }
+    await usersService.sendNotification(userIds, title, body, data, () => {});
 
-      res.status(httpStatus.OK).json(success.auth.notificationSent);
+    const response = {
+      title,
+      body,
+      data,
+      date: new Date(),
+      seen: false,
     };
 
-    await usersService.sendNotification(userIds, title, body, data, callback);
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }

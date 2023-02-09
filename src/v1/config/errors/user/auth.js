@@ -91,4 +91,12 @@ module.exports = Object.freeze({
     en: "Invalid device token",
     ar: "معرّف الجهاز غير صالح",
   },
+  googleAccNotRegistered: {
+    en: "Google account is not registered",
+    ar: "حساب جوجل غير مسجل",
+  },
+  invalidGoogleToken: {
+    en: "Google user's token either not valid or expired",
+    ar: "مُعرف مستخدم جوجل غير صالح أو منتهي الصلاحية",
+  },
 });

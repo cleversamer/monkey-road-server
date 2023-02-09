@@ -55,4 +55,8 @@ module.exports = Object.freeze({
     en: "You don't have favorite cars",
     ar: "ليس لديك سيّارات في المفضّلة",
   },
+  invalidAuthType: {
+    en: "Invalid authentication method",
+    ar: "طريقة المصادقة غير صالحة",
+  },
 });

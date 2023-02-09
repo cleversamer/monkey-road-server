@@ -3,6 +3,7 @@ const errors = require("../../../config/errors");
 const commonMiddleware = require("../common");
 
 const loginValidator = [
+  commonMiddleware.checkAuthType,
   commonMiddleware.checkEmailOrPhone,
   commonMiddleware.checkPassword,
   commonMiddleware.conditionalCheck(
@@ -14,6 +15,7 @@ const loginValidator = [
 
 const registerValidator = [
   commonMiddleware.checkLanguage,
+  commonMiddleware.checkAuthType,
   commonMiddleware.checkName,
   commonMiddleware.checkEmail,
   commonMiddleware.checkPhoneICC,

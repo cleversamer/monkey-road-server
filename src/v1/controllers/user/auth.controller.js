@@ -5,10 +5,21 @@ const _ = require("lodash");
 
 module.exports.register = async (req, res, next) => {
   try {
-    const { lang, name, email, phoneICC, phoneNSN, password, deviceToken } =
-      req.body;
+    const {
+      authType,
+      googleToken,
+      lang,
+      name,
+      email,
+      phoneICC,
+      phoneNSN,
+      password,
+      deviceToken,
+    } = req.body;
 
     const user = await authService.register(
+      authType,
+      googleToken,
       email,
       password,
       name,
@@ -17,7 +28,9 @@ module.exports.register = async (req, res, next) => {
       deviceToken
     );
 
-    await emailService.registerEmail(lang, email, user);
+    if (authType === "email") {
+      await emailService.registerEmail(lang, email, user);
+    }
 
     // TODO: send phone activation code to user's phone.
 
@@ -34,9 +47,16 @@ module.exports.register = async (req, res, next) => {
 
 module.exports.login = async (req, res, next) => {
   try {
-    const { emailOrPhone, password, deviceToken } = req.body;
+    const { authType, googleToken, emailOrPhone, password, deviceToken } =
+      req.body;
 
-    const user = await authService.login(emailOrPhone, password, deviceToken);
+    const user = await authService.login(
+      authType,
+      googleToken,
+      emailOrPhone,
+      password,
+      deviceToken
+    );
 
     const response = {
       user: _.pick(user, CLIENT_SCHEMA),

@@ -6,6 +6,8 @@ const errors = require("../../config/errors");
 const usersService = require("./users.service");
 
 module.exports.register = async (
+  authType,
+  googleToken,
   email,
   password,
   name,
@@ -14,12 +16,60 @@ module.exports.register = async (
   deviceToken
 ) => {
   try {
-    // Hashing password
+    switch (authType) {
+      case "email":
+        return await registerWithEmail(
+          email,
+          password,
+          name,
+          phoneICC,
+          phoneNSN,
+          deviceToken
+        );
+
+      case "google":
+        return await registerWithGoogle(
+          googleToken,
+          phoneICC,
+          phoneNSN,
+          deviceToken
+        );
+
+      default:
+        return await registerWithEmail(
+          email,
+          password,
+          name,
+          phoneICC,
+          phoneNSN,
+          deviceToken
+        );
+    }
+  } catch (err) {
+    if (err.code === errors.codes.duplicateIndexKey) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.auth.emailOrPhoneUsed;
+      err = new ApiError(statusCode, message);
+    }
+
+    throw err;
+  }
+};
+
+const registerWithEmail = async (
+  email,
+  password,
+  name,
+  phoneICC,
+  phoneNSN,
+  deviceToken
+) => {
+  try {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
-    // Creating user instance
     const user = new User({
+      authType: "email",
       name,
       email,
       password: hashed,
@@ -38,19 +88,79 @@ module.exports.register = async (
 
     return await user.save();
   } catch (err) {
-    if (err.code === errors.codes.duplicateIndexKey) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.auth.emailOrPhoneUsed;
-      err = new ApiError(statusCode, message);
-    }
-
     throw err;
   }
 };
 
-module.exports.login = async (email, password, deviceToken) => {
+const registerWithGoogle = async (
+  googleToken,
+  phoneICC,
+  phoneNSN,
+  deviceToken
+) => {
   try {
-    const user = await usersService.findUserByEmailOrPhone(email);
+    const googleUser = await googleService.decodeToken(googleToken);
+    const registeredUser = await usersService.findUserByEmailOrPhone(
+      googleUser.email
+    );
+
+    if (registeredUser) {
+      return registeredUser;
+    }
+
+    const newUser = new User({
+      authType: "google",
+      email: googleUser.email,
+      name: googleUser.name,
+      phone: {
+        full: `${phoneICC}${phoneNSN}`,
+        icc: phoneICC,
+        nsn: phoneNSN,
+      },
+      verified: {
+        email: true,
+        phone: false,
+      },
+    });
+
+    // Updating verification codes to be sent to the user
+    newUser.updateCode("email");
+    newUser.updateCode("phone");
+
+    newUser.updateDeviceToken(deviceToken);
+
+    return await newUser.save();
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.login = async (
+  authType,
+  googleToken,
+  emailOrPhone,
+  password,
+  deviceToken
+) => {
+  try {
+    switch (authType) {
+      case "email":
+        return await loginWithEmailOrPhone(emailOrPhone, password, deviceToken);
+
+      case "google":
+        return await loginWithGoogle(googleToken, deviceToken);
+
+      default:
+        return await loginWithEmailOrPhone(emailOrPhone, password, deviceToken);
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+const loginWithEmailOrPhone = async (emailOrPhone, password, deviceToken) => {
+  try {
+    const user = await usersService.findUserByEmailOrPhone(emailOrPhone);
 
     // Check if user exist
     if (!user) {
@@ -70,6 +180,28 @@ module.exports.login = async (email, password, deviceToken) => {
     user.updateDeviceToken(deviceToken);
 
     return await user.save();
+  } catch (err) {
+    throw err;
+  }
+};
+
+const loginWithGoogle = async (googleToken, deviceToken) => {
+  try {
+    const googleUser = await googleService.decodeToken(googleToken);
+    const user = await usersService.findUserByEmailOrPhone(googleUser.email);
+
+    if (!user) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.auth.googleAccNotRegistered;
+      throw new ApiError(statusCode, message);
+    }
+
+    user.updateLastLogin();
+    user.updateDeviceToken(deviceToken);
+
+    await user.save();
+
+    return user;
   } catch (err) {
     throw err;
   }

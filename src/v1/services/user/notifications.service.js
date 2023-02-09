@@ -1,6 +1,6 @@
 const admin = require("firebase-admin");
 const FCM = require("fcm-notification");
-const serviceAccount = require("../../config/system/push-notification-key.json");
+const serviceAccount = require("../../config/system/service-account.json");
 const certPath = admin.credential.cert(serviceAccount);
 
 const fcm = new FCM(certPath);

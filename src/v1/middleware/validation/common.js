@@ -62,6 +62,11 @@ const checkEmail = check("email")
   .withMessage(errors.auth.invalidEmail)
   .bail();
 
+const checkAuthType = check("authType")
+  .trim()
+  .isIn(userValidation.authTypes)
+  .withMessage(errors.user.invalidAuthType);
+
 const checkPassword = check("password")
   .trim()
   .isLength({
@@ -418,6 +423,7 @@ module.exports = {
   checkFile,
   checkEmailOrPhone,
   checkEmail,
+  checkAuthType,
   checkPassword,
   checkOldPassword,
   checkNewPassword,

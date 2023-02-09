@@ -37,6 +37,13 @@ const MAX_NOTIFICATIONS_COUNT = 10;
 
 const userSchema = new Schema(
   {
+    authType: {
+      type: String,
+      required: true,
+      trim: true,
+      enum: validation.authTypes,
+      default: validation.authTypes[0],
+    },
     // The URL of user's avatar
     avatarURL: {
       type: String,
