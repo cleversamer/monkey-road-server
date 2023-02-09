@@ -35,26 +35,6 @@ const next = (req, res, next) => {
   next();
 };
 
-const authTypeNext = (req, res, next) => {
-  const errors = validationResult(req);
-  let errorsArray = errors.array();
-  const { authType } = req.body;
-  if (authType === "google") {
-    errorsArray = errorsArray.filter((err) =>
-      ["authType", "phoneICC", "phoneNSN"].includes(err.param)
-    );
-  }
-
-  if (errorsArray.length) {
-    const statusCode = httpStatus.BAD_REQUEST;
-    const message = errors.array()[0].msg;
-    const error = new ApiError(statusCode, message);
-    return next(error);
-  }
-
-  next();
-};
-
 const checkDeviceToken = check("deviceToken")
   .trim()
   .isLength({
@@ -438,7 +418,6 @@ const checkFullName = check("fullName")
 
 module.exports = {
   next,
-  authTypeNext,
   putQueryParamsInBody,
   conditionalCheck,
   checkFile,

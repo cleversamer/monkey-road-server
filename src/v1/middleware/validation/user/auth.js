@@ -2,20 +2,26 @@ const { check } = require("express-validator");
 const errors = require("../../../config/errors");
 const commonMiddleware = require("../common");
 
-const loginValidator = [
-  commonMiddleware.checkAuthType,
+const loginWithEmailValidator = [
   commonMiddleware.checkEmailOrPhone,
   commonMiddleware.checkPassword,
   commonMiddleware.conditionalCheck(
     "deviceToken",
     commonMiddleware.checkDeviceToken
   ),
-  commonMiddleware.authTypeNext,
+  commonMiddleware.next,
 ];
 
-const registerValidator = [
+const loginWithGoogleValidator = [
+  commonMiddleware.conditionalCheck(
+    "deviceToken",
+    commonMiddleware.checkDeviceToken
+  ),
+  commonMiddleware.next,
+];
+
+const registerWithEmailValidator = [
   commonMiddleware.checkLanguage,
-  commonMiddleware.checkAuthType,
   commonMiddleware.checkName,
   commonMiddleware.checkEmail,
   commonMiddleware.checkPhoneICC,
@@ -25,7 +31,17 @@ const registerValidator = [
     "deviceToken",
     commonMiddleware.checkDeviceToken
   ),
-  commonMiddleware.authTypeNext,
+  commonMiddleware.next,
+];
+
+const registerWithGoogleValidator = [
+  commonMiddleware.checkPhoneICC,
+  commonMiddleware.checkPhoneNSN,
+  commonMiddleware.conditionalCheck(
+    "deviceToken",
+    commonMiddleware.checkDeviceToken
+  ),
+  commonMiddleware.next,
 ];
 
 const changePasswordValidator = [
@@ -76,8 +92,10 @@ const resendCodeValidator = [
 ];
 
 module.exports = {
-  loginValidator,
-  registerValidator,
+  loginWithEmailValidator,
+  loginWithGoogleValidator,
+  registerWithEmailValidator,
+  registerWithGoogleValidator,
   changePasswordValidator,
   forgotPasswordValidator,
   emailValidator,

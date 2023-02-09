@@ -6,58 +6,7 @@ const errors = require("../../config/errors");
 const usersService = require("./users.service");
 const googleService = require("./google.service");
 
-module.exports.register = async (
-  authType,
-  googleToken,
-  email,
-  password,
-  name,
-  phoneICC,
-  phoneNSN,
-  deviceToken
-) => {
-  try {
-    switch (authType) {
-      case "email":
-        return await registerWithEmail(
-          email,
-          password,
-          name,
-          phoneICC,
-          phoneNSN,
-          deviceToken
-        );
-
-      case "google":
-        return await registerWithGoogle(
-          googleToken,
-          phoneICC,
-          phoneNSN,
-          deviceToken
-        );
-
-      default:
-        return await registerWithEmail(
-          email,
-          password,
-          name,
-          phoneICC,
-          phoneNSN,
-          deviceToken
-        );
-    }
-  } catch (err) {
-    if (err.code === errors.codes.duplicateIndexKey) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.auth.emailOrPhoneUsed;
-      err = new ApiError(statusCode, message);
-    }
-
-    throw err;
-  }
-};
-
-const registerWithEmail = async (
+module.exports.registerWithEmail = async (
   email,
   password,
   name,
@@ -93,7 +42,7 @@ const registerWithEmail = async (
   }
 };
 
-const registerWithGoogle = async (
+module.exports.registerWithGoogle = async (
   googleToken,
   phoneICC,
   phoneNSN,
@@ -136,30 +85,7 @@ const registerWithGoogle = async (
   }
 };
 
-module.exports.login = async (
-  authType,
-  googleToken,
-  emailOrPhone,
-  password,
-  deviceToken
-) => {
-  try {
-    switch (authType) {
-      case "email":
-        return await loginWithEmailOrPhone(emailOrPhone, password, deviceToken);
-
-      case "google":
-        return await loginWithGoogle(googleToken, deviceToken);
-
-      default:
-        return await loginWithEmailOrPhone(emailOrPhone, password, deviceToken);
-    }
-  } catch (err) {
-    throw err;
-  }
-};
-
-const loginWithEmailOrPhone = async (emailOrPhone, password, deviceToken) => {
+module.exports.loginWithEmail = async (emailOrPhone, password, deviceToken) => {
   try {
     const user = await usersService.findUserByEmailOrPhone(emailOrPhone);
 
@@ -186,7 +112,7 @@ const loginWithEmailOrPhone = async (emailOrPhone, password, deviceToken) => {
   }
 };
 
-const loginWithGoogle = async (googleToken, deviceToken) => {
+module.exports.loginWithGoogle = async (googleToken, deviceToken) => {
   try {
     const googleUser = await googleService.decodeToken(googleToken);
     const user = await usersService.findUserByEmailOrPhone(googleUser.email);

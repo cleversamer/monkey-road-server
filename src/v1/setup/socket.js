@@ -13,14 +13,6 @@ module.exports = (server) => {
   io.on("connection", (socket) => {
     const secret = process.env.SOCKET_SECRET;
 
-    socket.on("setup", (userId) => {
-      try {
-        socket.join(userId + secret);
-      } catch (err) {
-        console.log(err);
-      }
-    });
-
     socket.on("send notification", (notification) => {
       try {
         io.emit("notification received", notification);
