@@ -10,7 +10,7 @@ const loginValidator = [
     "deviceToken",
     commonMiddleware.checkDeviceToken
   ),
-  commonMiddleware.next,
+  commonMiddleware.authTypeNext,
 ];
 
 const registerValidator = [
@@ -21,12 +21,11 @@ const registerValidator = [
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkPassword,
-  // commonMiddleware.checkRegisterRole,
   commonMiddleware.conditionalCheck(
     "deviceToken",
     commonMiddleware.checkDeviceToken
   ),
-  commonMiddleware.next,
+  commonMiddleware.authTypeNext,
 ];
 
 const changePasswordValidator = [
