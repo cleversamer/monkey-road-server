@@ -14,15 +14,19 @@ module.exports = (server) => {
     const secret = process.env.SOCKET_SECRET;
 
     socket.on("setup", (userId) => {
-      socket.join(userId + secret);
+      try {
+        socket.join(userId + secret);
+      } catch (err) {
+        console.log(err);
+      }
     });
 
-    socket.on("send notification", (userIds = [], notification) => {
-      userIds.forEach((userId) => {
-        socket.broadcast
-          .to(userId + secret)
-          .emit("notification received", notification);
-      });
+    socket.on("send notification", (notification) => {
+      try {
+        io.emit("notification received", notification);
+      } catch (err) {
+        console.log(err);
+      }
     });
   });
 };

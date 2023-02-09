@@ -409,6 +409,8 @@ userSchema.methods.seeNotifications = function () {
       return true;
     }
 
+    const list = [...this.notifications];
+
     // Declare a variable to track unseen notifications
     let isAllSeen = true;
 
@@ -423,7 +425,7 @@ userSchema.methods.seeNotifications = function () {
     });
 
     // Return the result
-    return isAllSeen;
+    return { isAllSeen, list };
   } catch (err) {
     // TODO: write the error to the database
     return false;

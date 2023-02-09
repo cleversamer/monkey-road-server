@@ -292,7 +292,7 @@ module.exports.sendNotification = async (
 module.exports.seeNotifications = async (user) => {
   try {
     // Check all user's notifications
-    const isAllSeen = user.seeNotifications();
+    const { isAllSeen, list } = user.seeNotifications();
 
     // Throw an error in case of all user's notifications
     // are already seen
@@ -306,7 +306,7 @@ module.exports.seeNotifications = async (user) => {
     await user.save();
 
     // Return user's notifications
-    return user.notifications;
+    return list;
   } catch (err) {
     throw err;
   }
