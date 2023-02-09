@@ -1,6 +1,7 @@
 module.exports.authService = require("./user/auth.service");
 module.exports.usersService = require("./user/users.service");
 module.exports.emailService = require("./user/email.service");
+module.exports.googleService = require("./user/google.service");
 
 module.exports.cloudStorage = require("./storage/cloudStorage.service");
 module.exports.excelService = require("./storage/excel.service");

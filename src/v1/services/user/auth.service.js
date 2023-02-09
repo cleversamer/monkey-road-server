@@ -4,6 +4,7 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 const usersService = require("./users.service");
+const { googleService } = require("./google.service");
 
 module.exports.register = async (
   authType,
