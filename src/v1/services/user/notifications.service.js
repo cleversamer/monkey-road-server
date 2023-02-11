@@ -7,6 +7,8 @@ const fcm = new FCM(certPath);
 
 module.exports.sendPushNotification = (title, body, data, tokens, callback) => {
   try {
+    tokens = filterTokens(tokens);
+
     let payload = {
       data,
       notification: {
@@ -20,3 +22,6 @@ module.exports.sendPushNotification = (title, body, data, tokens, callback) => {
     throw err;
   }
 };
+
+const filterTokens = (tokens = []) =>
+  tokens.filter((token) => token && token !== "token");
