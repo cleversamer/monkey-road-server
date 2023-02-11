@@ -4,8 +4,11 @@ const path = require("path");
 const uploadFile = async (file = { name: "", path: "" }) => {
   try {
     const storage = new Storage({
-      keyFilename: path.join(__dirname, "../../bayan-platform-storage.json"),
-      projectId: "bayan-platform",
+      keyFilename: path.join(
+        __dirname,
+        "../../config/system/service-account.json"
+      ),
+      projectId: "monkey-road",
     });
 
     const bucketName = "bayan-bucket-1";
