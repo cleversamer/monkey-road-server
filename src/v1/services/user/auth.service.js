@@ -38,6 +38,12 @@ module.exports.registerWithEmail = async (
 
     return await user.save();
   } catch (err) {
+    if (err.code === errors.codes.duplicateIndexKey) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.auth.emailOrPhoneUsed;
+      throw new ApiError(statusCode, message);
+    }
+
     throw err;
   }
 };
