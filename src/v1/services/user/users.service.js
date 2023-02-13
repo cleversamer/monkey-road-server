@@ -349,7 +349,7 @@ module.exports.addToFavorites = async (user, purchaseCarId) => {
     user.addToFavorites(purchaseCar._id);
     await user.save();
 
-    return true;
+    return user.favorites;
   } catch (err) {
     throw err;
   }
@@ -390,7 +390,7 @@ module.exports.deleteFromFavorites = async (user, purchaseCarId) => {
     user.removeFromFavorites(purchaseCarId);
     await user.save();
 
-    return true;
+    return user.favorites;
   } catch (err) {
     throw err;
   }

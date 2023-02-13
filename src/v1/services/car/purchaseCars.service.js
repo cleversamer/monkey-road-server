@@ -8,18 +8,9 @@ const errors = require("../../config/errors");
 //////////////////// Internal Services ////////////////////
 module.exports.findPurchaseCars = async (purchaseCarIds = []) => {
   try {
-    const purchaseCars = await PurchaseCar.aggregate([
-      { $match: { _id: { $in: purchaseCarIds } } },
-      {
-        $lookup: {
-          from: "Brand",
-          localField: "brand.ref",
-          foreignField: "_id",
-          as: "brand",
-        },
-      },
-      { $limit: purchaseCarIds.length },
-    ]);
+    const purchaseCars = await PurchaseCar.find({
+      _id: { $in: purchaseCarIds },
+    });
 
     return purchaseCars;
   } catch (err) {

@@ -69,7 +69,7 @@ module.exports.changePassword = async (req, res, next) => {
 module.exports.sendForgotPasswordCode = async (req, res, next) => {
   try {
     let { emailOrPhone, sendTo, lang } = req.query;
-    if (emailOrPhone.startsWith(" ")) {
+    if (!emailOrPhone.includes("@")) {
       emailOrPhone = `+${emailOrPhone.trim()}`;
     }
 
@@ -213,11 +213,10 @@ module.exports.addToFavorites = async (req, res, next) => {
     const user = req.user;
     const { purchaseCarId } = req.body;
 
-    await usersService.addToFavorites(user, purchaseCarId);
+    const favorites = await usersService.addToFavorites(user, purchaseCarId);
 
     const response = {
-      ok: true,
-      message: success.user.carAddedToFav,
+      favorites,
     };
 
     res.status(httpStatus.CREATED).json(response);
@@ -245,13 +244,15 @@ module.exports.getMyFavorites = async (req, res, next) => {
 module.exports.deleteFromFavorites = async (req, res, next) => {
   try {
     const user = req.user;
-    const { purchaseCarId } = req.body;
+    const { purchaseCarId } = req.query;
 
-    await usersService.deleteFromFavorites(user, purchaseCarId);
+    const favorites = await usersService.deleteFromFavorites(
+      user,
+      purchaseCarId
+    );
 
     const response = {
-      ok: true,
-      message: success.user.carRemovedFromFav,
+      favorites,
     };
 
     res.status(httpStatus.CREATED).json(response);

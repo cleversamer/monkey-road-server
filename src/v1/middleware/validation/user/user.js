@@ -40,6 +40,7 @@ const addToFavoritesValidator = [
 ];
 
 const deleteFromFavoritesValidator = [
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkPurchaseCarId,
   commonMiddleware.next,
 ];
