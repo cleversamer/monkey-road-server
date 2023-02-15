@@ -61,9 +61,21 @@ module.exports.closeOrder = async (req, res, next) => {
     const user = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.closeOrder(user, orderId);
+    await ordersService.closeOrder(user, orderId);
 
-    const response = _.pick(order, orderSchema);
+    const orders = await ordersService.getMyOrders(user, skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -76,9 +88,21 @@ module.exports.deleteOrder = async (req, res, next) => {
     const user = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.deleteOrder(user, orderId);
+    await ordersService.deleteOrder(user, orderId);
 
-    const response = _.pick(order, orderSchema);
+    const orders = await ordersService.getMyOrders(user, skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -117,9 +141,21 @@ module.exports.approveOrder = async (req, res, next) => {
     const office = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.approveOrder(office, orderId);
+    await ordersService.approveOrder(office, orderId);
 
-    const response = _.pick(order, orderSchema);
+    const orders = await ordersService.getMyReceivedOrders(office, skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -132,9 +168,21 @@ module.exports.rejectOrder = async (req, res, next) => {
     const office = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.rejectOrder(office, orderId);
+    await ordersService.rejectOrder(office, orderId);
 
-    const response = _.pick(order, orderSchema);
+    const orders = await ordersService.getMyReceivedOrders(office, skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
