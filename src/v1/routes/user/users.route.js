@@ -63,7 +63,7 @@ router.patch(
 //////////////////// User: Notifications ////////////////////
 router.get(
   "/notifications/see",
-  auth("readOwn", "notification"),
+  auth("readOwn", "notification", true),
   usersController.seeNotifications
 );
 
