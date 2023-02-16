@@ -69,9 +69,18 @@ module.exports.getBestSellerPurchaseCars = async (req, res, next) => {
 
 module.exports.searchPurchaseCars = async (req, res, next) => {
   try {
-    const { searchTerm, skip } = req.query;
+    const { searchTerm, skip, minPrice, maxPrice, brands, colors, years } =
+      req.body;
 
-    const cars = await purchaseCarsService.searchPurchaseCars(searchTerm, skip);
+    const cars = await purchaseCarsService.searchPurchaseCars(
+      searchTerm,
+      skip,
+      minPrice,
+      maxPrice,
+      brands,
+      colors,
+      years
+    );
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),

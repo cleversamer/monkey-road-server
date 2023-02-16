@@ -103,10 +103,43 @@ module.exports.getSimilarRentCars = async (
   }
 };
 
-module.exports.searchRentCars = async (searchTerm, skip) => {
+module.exports.searchRentCars = async (
+  searchTerm,
+  skip,
+  minPrice,
+  maxPrice,
+  brands,
+  colors,
+  years
+) => {
   try {
+    const match = {
+      $text: { $search: searchTerm },
+      accepted: true,
+    };
+
+    // if (minPrice) {
+    //   match["price.daily"] = { $min: minPrice };
+    // }
+
+    // if (maxPrice) {
+    //   match["price.daily"] = { $max: maxPrice };
+    // }
+
+    if (Array.isArray(brands) && brands.length) {
+      match["brand.ref"] = { $in: brands };
+    }
+
+    if (Array.isArray(colors) && colors.length) {
+      match["color.en"] = { $in: colors };
+    }
+
+    if (Array.isArray(years) && years.length) {
+      match["year"] = { $in: years };
+    }
+
     let rentCars = await RentCar.aggregate([
-      { $match: { $text: { $search: searchTerm }, accepted: true } },
+      { $match: match },
       { $sort: { score: { $meta: "textScore" } } },
       { $skip: parseInt(skip) },
       { $limit: 10 },

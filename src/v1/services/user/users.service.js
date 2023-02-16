@@ -53,6 +53,14 @@ module.exports.findUserById = async (userId) => {
   }
 };
 
+module.exports.findAdmins = async () => {
+  try {
+    return await User.find({ role: "admin", "verified.email": true });
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.validateToken = (token) => {
   try {
     return jwt.verify(token, process.env["JWT_PRIVATE_KEY"]);
@@ -274,6 +282,38 @@ module.exports.sendNotification = async (
       user.save();
 
       return user.deviceToken;
+    });
+
+    notificationsService.sendPushNotification(
+      title,
+      body,
+      data,
+      tokens,
+      callback
+    );
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.sendNotificationToAdmins = async (
+  title,
+  body,
+  data,
+  callback = () => {}
+) => {
+  try {
+    // Find users and map them to an array of device tokens.
+    const admins = await this.findAdmins();
+    const tokens = admins.map((admin) => {
+      // Add the notification to user's notifications array
+      // Save the user to the database
+      admin.addNotification(title, body, data);
+      admin.save();
+
+      return admin.deviceToken;
     });
 
     notificationsService.sendPushNotification(

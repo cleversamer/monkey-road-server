@@ -6,6 +6,10 @@ const { server } = require("../../config/system");
 const countries = require("../../data/countries.json");
 const carsData = require("../../data/cars");
 const {
+  isValidObjectId,
+  Types: { ObjectId },
+} = require("mongoose");
+const {
   user: userValidation,
   rentCar: rentCarValidation,
   purchaseCar: purchaseCarValidation,
@@ -271,6 +275,69 @@ const checkSearchTerm = check("searchTerm")
   })
   .withMessage(errors.rentCar.invalidSearchTerm);
 
+const checkRentCarSearchMinPrice = check("minPrice")
+  .isNumeric()
+  .withMessage(errors.rentCar.invalidPrice);
+
+const checkRentCarSearchMaxPrice = check("maxPrice")
+  .isNumeric()
+  .withMessage(errors.rentCar.invalidPrice);
+
+const checkSearchBrandsList = (req, res, next) => {
+  let { brands } = req.body;
+
+  if (!brands) {
+    return next();
+  }
+
+  const searchBrands = brands
+    .split(",")
+    .map((b) => {
+      try {
+        b = new ObjectId(b.trim());
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })
+    .filter((b) => isValidObjectId(b));
+
+  req.body.brands = searchBrands;
+  next();
+};
+
+const checkSearchColors = (req, res, next) => {
+  let { colors } = req.body;
+
+  if (!colors) {
+    return next();
+  }
+
+  const searchColors = colors
+    .split(",")
+    .map((c) => c.trim())
+    .filter((c) => carsData.COLORS.EN.includes(c));
+
+  req.body.colors = searchColors;
+  next();
+};
+
+const checkSearchYears = (req, res, next) => {
+  let { years } = req.body;
+
+  if (!years) {
+    return next();
+  }
+
+  const searchYears = years
+    .split(",")
+    .map((y) => y.trim())
+    .filter((y) => carsData.YEARS.includes(y));
+
+  req.body.years = searchYears;
+  next();
+};
+
 const checkPurchaseCarId = check("purchaseCarId")
   .isMongoId()
   .withMessage(errors.purchaseCar.invalidId);
@@ -447,6 +514,11 @@ module.exports = {
   checkRentCarYear,
   checkRentCarDescription,
   checkSearchTerm,
+  checkRentCarSearchMinPrice,
+  checkRentCarSearchMaxPrice,
+  checkSearchBrandsList,
+  checkSearchColors,
+  checkSearchYears,
   checkPurchaseCarId,
   checkPurchaseCarName,
   checkPurchaseCarVIN,

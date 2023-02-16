@@ -88,4 +88,8 @@ module.exports = Object.freeze({
     en: "Car is already accepted",
     ar: "تم قبول السيّارة مسبقًا",
   },
+  invalidPrice: {
+    en: `Rent car price should be between ${price.daily.min}-${price.daily.max} AED`,
+    ar: `سعر سيّارة الإيجار يجب أن يكون بين ${price.daily.min}-${price.daily.max} درهم إماراتي`,
+  },
 });

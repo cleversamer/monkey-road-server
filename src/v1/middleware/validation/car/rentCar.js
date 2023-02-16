@@ -30,6 +30,17 @@ const searchRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
   commonMiddleware.checkSearchTerm,
+  commonMiddleware.conditionalCheck(
+    "minPrice",
+    commonMiddleware.checkRentCarSearchMinPrice
+  ),
+  commonMiddleware.conditionalCheck(
+    "maxPrice",
+    commonMiddleware.checkRentCarSearchMaxPrice
+  ),
+  commonMiddleware.checkSearchBrandsList,
+  commonMiddleware.checkSearchColors,
+  commonMiddleware.checkSearchYears,
   commonMiddleware.next,
 ];
 

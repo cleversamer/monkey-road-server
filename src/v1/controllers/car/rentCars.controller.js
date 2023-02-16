@@ -78,9 +78,18 @@ module.exports.getSimilarRentCars = async (req, res, next) => {
 
 module.exports.searchRentCars = async (req, res, next) => {
   try {
-    const { searchTerm, skip } = req.query;
+    const { searchTerm, skip, minPrice, maxPrice, brands, colors, years } =
+      req.body;
 
-    const cars = await rentCarsService.searchRentCars(searchTerm, skip);
+    const cars = await rentCarsService.searchRentCars(
+      searchTerm,
+      skip,
+      minPrice,
+      maxPrice,
+      brands,
+      colors,
+      years
+    );
 
     const response = {
       cars: cars.map((car) => _.pick(car, rentCarSchema)),
@@ -191,6 +200,10 @@ module.exports.addRentCar = async (req, res, next) => {
     );
 
     const response = _.pick(rentCar, rentCarSchema);
+
+    // Send notification to office
+    const { title, body, data } = notifications.rentCars.postAdded;
+    await usersService.sendNotificationToAdmins(title, body, data);
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
