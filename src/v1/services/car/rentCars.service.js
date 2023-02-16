@@ -112,11 +112,11 @@ module.exports.searchRentCars = async (searchTerm, skip) => {
       { $limit: 10 },
     ]);
 
-    if (!rentCars || !rentCars.length) {
-      rentCars = await RentCar.find({ accepted: true })
-        .sort({ _id: -1 })
-        .limit(10);
-    }
+    // if (!rentCars || !rentCars.length) {
+    //   rentCars = await RentCar.find({ accepted: true })
+    //     .sort({ _id: -1 })
+    //     .limit(10);
+    // }
 
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;

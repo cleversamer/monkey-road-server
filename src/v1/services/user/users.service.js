@@ -261,7 +261,7 @@ module.exports.sendNotification = async (
   title,
   body,
   data,
-  callback
+  callback = () => {}
 ) => {
   try {
     // Find users and map them to an array of device tokens.
@@ -404,6 +404,12 @@ module.exports.changeUserRole = async (emailOrPhone, role) => {
     if (!user) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.user.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    if (user.role === "admin") {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.updateAdminRole;
       throw new ApiError(statusCode, message);
     }
 

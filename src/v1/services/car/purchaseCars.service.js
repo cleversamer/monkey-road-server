@@ -112,12 +112,12 @@ module.exports.searchPurchaseCars = async (searchTerm, skip) => {
       { $limit: 10 },
     ]);
 
-    if (!purchaseCars || !purchaseCars.length) {
-      purchaseCars = await PurchaseCar.find({})
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10);
-    }
+    // if (!purchaseCars || !purchaseCars.length) {
+    //   purchaseCars = await PurchaseCar.find({})
+    //     .sort({ _id: -1 })
+    //     .skip(skip)
+    //     .limit(10);
+    // }
 
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;

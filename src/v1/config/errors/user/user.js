@@ -59,4 +59,8 @@ module.exports = Object.freeze({
     en: "Invalid authentication method",
     ar: "طريقة المصادقة غير صالحة",
   },
+  updateAdminRole: {
+    en: "You can't update admin's role",
+    ar: "لا يمكنك تعديل صلاحيّة الآدمن",
+  },
 });

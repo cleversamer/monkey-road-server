@@ -4,9 +4,10 @@ const {
 const {
   CLIENT_SCHEMA: orderSchema,
 } = require("../../models/car/rentOrder.model");
-const { rentCarsService } = require("../../services");
+const { rentCarsService, usersService } = require("../../services");
 const httpStatus = require("http-status");
 const _ = require("lodash");
+const { notifications } = require("../../config");
 
 //////////////////// User Controllers ////////////////////
 module.exports.getAllRentCars = async (req, res, next) => {
@@ -218,7 +219,12 @@ module.exports.acceptRentCar = async (req, res, next) => {
   try {
     const { carId } = req.params;
 
+    // Mark rent car as accepted
     const car = await rentCarsService.acceptRentCar(carId);
+
+    // Send notification to office
+    const { title, body, data } = notifications.rentCars.postAccepted;
+    await usersService.sendNotification([car.office.ref], title, body, data);
 
     const response = _.pick(car, rentCarSchema);
 
@@ -232,8 +238,14 @@ module.exports.rejectRentCar = async (req, res, next) => {
   try {
     const { carId } = req.params;
 
+    // Remove car
     const car = await rentCarsService.rejectRentCar(carId);
 
+    // Send notification to office
+    const { title, body, data } = notifications.rentCars.postRejected;
+    await usersService.sendNotification([car.office.ref], title, body, data);
+
+    // Create response
     const response = _.pick(car, rentCarSchema);
 
     res.status(httpStatus.OK).json(response);
