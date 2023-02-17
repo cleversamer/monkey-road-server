@@ -33,7 +33,7 @@ const verification = {
   },
 };
 
-const MAX_NOTIFICATIONS_COUNT = 10;
+const MAX_NOTIFICATIONS_COUNT = 30;
 
 const userSchema = new Schema(
   {
@@ -54,8 +54,8 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       required: true,
-      minLength: validation.name.minLength,
-      maxLength: validation.name.maxLength,
+      // minLength: validation.name.minLength,
+      // maxLength: validation.name.maxLength,
     },
     // The email of the user
     email: {

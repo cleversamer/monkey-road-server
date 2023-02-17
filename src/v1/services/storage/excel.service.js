@@ -12,25 +12,65 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
 
     // Specify excel sheet's columns
     worksheet.addRow([
-      "ID",
-      "الإسم الأول",
-      "الإسم الأخير",
-      "الكنية",
+      "الإسم الكامل",
       "البريد الإلكتروني",
+      "رقم الهاتف",
       "نوع المستخدم",
-      "الحساب مفعل",
+      "البريد مفعّل",
+      "رقم الهاتف مفعّل",
+      "عدد السيّارات المفضّلة",
+      "عدد الإشعارات",
+      "عدد الإشعارات المقروءة",
+      "عدد الإشعارات الغير مقروءة",
+      "سيّارات البيع",
+      "سيّارات الإيجار",
+      "سيّارات الإيجار النشطة",
+      "سيّارات الإيجار المعلّقة",
+      "عدد الطلبات المستلمة",
+      "عدد الطلبات المنشأة",
+      "عدد الطلبات المنشأة قيد الإنتظار",
+      "عدد الطلبات المنشأة المقبولة",
+      "عدد الطلبات المنشأة المرفوضة",
+      "عدد الطلبات المنشأة المغلقة",
+      "مسجّل بواسطة",
+      "يملك كلمة مرور",
+      "رابط الصورة الشخصيّة",
+      "آخر دخول",
     ]);
 
     // Add row for each user in the Database
     users.forEach(function (user) {
+      const seenNotifications = user.notifications.filter((n) => n.seen).length;
+      const unseenNotifications = user.notifications.filter(
+        (n) => !n.seen
+      ).length;
+      const role =
+        user.role === "user"
+          ? "مستخدم"
+          : user.role === "office"
+          ? "مكتب تأجير"
+          : "آدمن";
+
       worksheet.addRow([
-        user._id,
-        user.firstname,
-        user.lastname,
-        user.nickname,
+        user.name,
         user.email,
-        user.role,
-        user.verified,
+        user.phone.full,
+        role,
+        user.verified.email ? "نعم" : "لا",
+        user.verified.phone ? "نعم" : "لا",
+        user.favorites.length,
+        user.notifications.length,
+        seenNotifications,
+        unseenNotifications,
+        "",
+        "",
+        "",
+        "",
+        "",
+        user.authType,
+        user.password ? "نعم" : "لا",
+        user.avatarURL,
+        user.lastLogin,
       ]);
     }, "i");
 

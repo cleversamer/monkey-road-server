@@ -87,6 +87,12 @@ module.exports.registerWithGoogle = async (
 
     return await newUser.save();
   } catch (err) {
+    if (err.code === errors.codes.duplicateIndexKey) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.auth.phoneUsed;
+      throw new ApiError(statusCode, message);
+    }
+
     throw err;
   }
 };
