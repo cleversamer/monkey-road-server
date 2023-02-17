@@ -9,5 +9,5 @@ module.exports = {
     monthly: { min: 3, max: 100 * 1000 },
     deposit: { min: 3, max: 100 * 1000, default: 0 },
   },
-  searchTerm: { minLength: 1, maxLength: 128 },
+  searchTerm: { minLength: 0, maxLength: 128 },
 };
