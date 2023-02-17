@@ -36,7 +36,7 @@ module.exports.registerWithGoogle = async (req, res, next) => {
   try {
     const { googleToken, phoneICC, phoneNSN, deviceToken } = req.body;
 
-    const user = await authService.registerWithEmail(
+    const user = await authService.registerWithGoogle(
       googleToken,
       phoneICC,
       phoneNSN,
