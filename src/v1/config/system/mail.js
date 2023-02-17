@@ -12,8 +12,8 @@ const auth = {
 const types = {
   register: {
     subject: {
-      en: "Welcome to Taxilen",
-      ar: "أهلًا بك في Taxilen",
+      en: "Welcome to Monkey Road Car",
+      ar: "أهلًا بك في Monkey Road Car",
     },
     emailBody: {
       title: {
@@ -106,18 +106,18 @@ const getMailGenerator = (lang = "ar") => {
     const en = {
       theme: "default",
       product: {
-        name: "Taxilen",
+        name: "Monkey Road Car",
         link: "#",
-        copyright: "© 2022 Taxilen.",
+        copyright: "© 2023 Monkey Road Car.",
       },
     };
 
     const ar = {
       theme: "default",
       product: {
-        name: "Taxilen",
+        name: "Monkey Road Car",
         link: "#",
-        copyright: "© 2022 Taxilen.",
+        copyright: "© 2023 Monkey Road Car.",
       },
     };
 
@@ -151,7 +151,7 @@ const getEmailBody = (mailGenerator, title, greeting, user) => {
 };
 
 const getMessage = (email, html, subject) => ({
-  from: "Taxilen",
+  from: "Monkey Road Car",
   to: email,
   html,
   subject,
