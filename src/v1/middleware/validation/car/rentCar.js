@@ -87,12 +87,15 @@ const getNotAcceptedRentCarsValidator = [
 ];
 
 const acceptRentCarValidator = [
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkCarId,
   commonMiddleware.next,
 ];
 
 const rejectRentCarValidator = [
+  commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkCarId,
+  commonMiddleware.checkRejectionReason,
   commonMiddleware.next,
 ];
 
