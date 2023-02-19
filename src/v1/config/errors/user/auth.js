@@ -99,4 +99,8 @@ module.exports = Object.freeze({
     en: "Google user's token either not valid or expired",
     ar: "مُعرف مستخدم جوجل غير صالح أو منتهي الصلاحية",
   },
+  errorGoogleAuth: {
+    en: "Error authenticating with Google",
+    ar: "حصل خطأ في المصادقة مع جوجل",
+  },
 });

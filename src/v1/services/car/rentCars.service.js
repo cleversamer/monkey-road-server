@@ -1,5 +1,5 @@
 const { RentCar } = require("../../models/car/rentCar.model");
-const { Order, RentOrder } = require("../../models/car/rentOrder.model");
+const { RentOrder } = require("../../models/car/rentOrder.model");
 const brandsService = require("./brands.service");
 const localStorage = require("../../services/storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
@@ -176,11 +176,28 @@ module.exports.requestCarRental = async (
   phoneNSN
 ) => {
   try {
+    // Check if rent car exists
     const rentCar = await RentCar.findById(rentCarId);
-
-    if (!rentCar || !rentCar.accepted) {
+    if (!rentCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if car is accepted
+    if (!rentCar.accepted) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentCar.requestNotAcceptedCar;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if user has requested the same car and didn't receive it
+    const rentOrdersForThisCar = await RentOrder.find({ author: user._id });
+    const hasUndeliveredOrdersForThisCar =
+      rentOrdersForThisCar.findIndex((order) => !order.isDelivered()) >= 0;
+    if (hasUndeliveredOrdersForThisCar) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentCar.requestCarTwice;
       throw new ApiError(statusCode, message);
     }
 
@@ -233,7 +250,6 @@ module.exports.getMyRentCars = async (office, skip) => {
   }
 };
 
-// TODO: complete this after completing brand apis
 module.exports.addRentCar = async (
   user,
   carName,

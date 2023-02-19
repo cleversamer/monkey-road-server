@@ -265,14 +265,11 @@ module.exports.updateProfile = async (
   }
 };
 
-module.exports.sendNotification = async (
-  userIds,
-  title,
-  body,
-  data,
-  callback = () => {}
-) => {
+module.exports.sendNotification = async (userIds, notification, callback) => {
   try {
+    const { title, body, data } = notification;
+    callback = typeof callback === "function" ? callback : () => {};
+
     // Find users and map them to an array of device tokens.
     const queryCriteria = userIds.length ? { _id: { $in: userIds } } : {};
     const users = await User.find(queryCriteria);
@@ -299,13 +296,11 @@ module.exports.sendNotification = async (
   }
 };
 
-module.exports.sendNotificationToAdmins = async (
-  title,
-  body,
-  data,
-  callback = () => {}
-) => {
+module.exports.sendNotificationToAdmins = async (notification, callback) => {
   try {
+    const { title, body, data } = notification;
+    callback = typeof callback === "function" ? callback : () => {};
+
     // Find users and map them to an array of device tokens.
     const admins = await this.findAdmins();
     const tokens = admins.map((admin) => {

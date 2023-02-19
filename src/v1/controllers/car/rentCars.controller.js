@@ -129,6 +129,18 @@ module.exports.requestCarRental = async (req, res, next) => {
       phoneNSN
     );
 
+    // Send notification to admin
+    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin;
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to office
+    const notificationForOffice = notifications.rentCars.rentalRequestForOffice;
+    await usersService.sendNotification([order.office], notificationForOffice);
+
+    // Send notification to user
+    const notificationForUser = notifications.rentCars.rentalRequestForUser;
+    await usersService.sendNotification([order.author], notificationForUser);
+
     const response = _.pick(order, orderSchema);
 
     res.status(httpStatus.CREATED).json(response);
@@ -202,8 +214,8 @@ module.exports.addRentCar = async (req, res, next) => {
     const response = _.pick(rentCar, rentCarSchema);
 
     // Send notification to office
-    const { title, body, data } = notifications.rentCars.postAdded;
-    await usersService.sendNotificationToAdmins(title, body, data);
+    const notification = notifications.rentCars.postAdded;
+    await usersService.sendNotificationToAdmins(notification);
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -236,8 +248,8 @@ module.exports.acceptRentCar = async (req, res, next) => {
     const car = await rentCarsService.acceptRentCar(carId);
 
     // Send notification to office
-    const { title, body, data } = notifications.rentCars.postAccepted;
-    await usersService.sendNotification([car.office.ref], title, body, data);
+    const notification = notifications.rentCars.postAccepted;
+    await usersService.sendNotification([car.office.ref], notification);
 
     const response = _.pick(car, rentCarSchema);
 
@@ -255,8 +267,8 @@ module.exports.rejectRentCar = async (req, res, next) => {
     const car = await rentCarsService.rejectRentCar(carId);
 
     // Send notification to office
-    const { title, body, data } = notifications.rentCars.postRejected;
-    await usersService.sendNotification([car.office.ref], title, body, data);
+    const notification = notifications.rentCars.postRejected;
+    await usersService.sendNotification([car.office.ref], notification);
 
     // Create response
     const response = _.pick(car, rentCarSchema);

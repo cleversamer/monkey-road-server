@@ -32,12 +32,12 @@ router.delete(
   ordersController.deleteOrder
 );
 
-// TODO: implement payment methods
-// router.post(
-//   "/complete",
-//   auth("updateOwn", "order"),
-//   ordersController.completeOrder
-// );
+router.post(
+  "/:orderId/pay",
+  orderValidator.payOrderValidator,
+  auth("updateOwn", "order"),
+  ordersController.payOrder
+);
 
 //////////////////// Office Routes ////////////////////
 router.get(
@@ -59,6 +59,13 @@ router.patch(
   orderValidator.rejectOrderValidator,
   auth("updateOwn", "order"),
   ordersController.rejectOrder
+);
+
+router.patch(
+  "/:orderId/deliver",
+  orderValidator.deliverOrderValidator,
+  auth("updateOwn", "order"),
+  ordersController.deliverOrder
 );
 
 module.exports = router;

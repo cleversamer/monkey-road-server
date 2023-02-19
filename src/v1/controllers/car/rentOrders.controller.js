@@ -1,4 +1,7 @@
-const { rentOrdersService: ordersService } = require("../../services");
+const {
+  rentOrdersService: ordersService,
+  usersService,
+} = require("../../services");
 const {
   CLIENT_SCHEMA: orderSchema,
 } = require("../../models/car/rentOrder.model");
@@ -8,6 +11,7 @@ const {
 const { CLIENT_SCHEMA: userSchema } = require("../../models/user/user.model");
 const httpStatus = require("http-status");
 const _ = require("lodash");
+const { notifications } = require("../../config");
 
 //////////////////// Common Routes ////////////////////
 module.exports.getMyOrders = async (req, res, next) => {
@@ -110,13 +114,28 @@ module.exports.deleteOrder = async (req, res, next) => {
   }
 };
 
-//////////////////// Office Controllers ////////////////////
-module.exports.getMyReceivedOrders = async (req, res, next) => {
+module.exports.payOrder = async (req, res, next) => {
   try {
-    const office = req.user;
-    const { skip } = req.query;
+    const user = req.user;
+    const { orderId } = req.params;
 
-    const orders = await ordersService.getMyReceivedOrders(office, skip);
+    const order = await ordersService.payOrder(user, orderId);
+
+    // Send notification to admin
+    const notificationForAdmin =
+      notifications.rentCars.rentalRequestPaidForAdmin;
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to office
+    const notificationForOffice =
+      notifications.rentCars.rentalRequestPaidForOffice;
+    await usersService.sendNotification([order.office], notificationForOffice);
+
+    // Send notification to user
+    const notificationForUser = notifications.rentCars.rentalRequestPaidForUser;
+    await usersService.sendNotification([order.author], notificationForUser);
+
+    const orders = await ordersService.getMyOrders(user, skip);
 
     const response = {
       orders: orders.map((order) => {
@@ -136,12 +155,53 @@ module.exports.getMyReceivedOrders = async (req, res, next) => {
   }
 };
 
+//////////////////// Office Controllers ////////////////////
+module.exports.getMyReceivedOrders = async (req, res, next) => {
+  try {
+    const office = req.user;
+    const { skip } = req.query;
+
+    const orders = await ordersService.getMyReceivedOrders(office, skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          phoneNumber: "",
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.approveOrder = async (req, res, next) => {
   try {
     const office = req.user;
     const { orderId } = req.params;
 
-    await ordersService.approveOrder(office, orderId);
+    const order = await ordersService.approveOrder(office, orderId);
+
+    // Send notification to admin
+    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin;
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to office
+    const notificationForOffice =
+      notifications.rentCars.rentalRequestApprovedForOffice;
+    await usersService.sendNotification([office._id], notificationForOffice);
+
+    // Send notification to user
+    const notificationForUser =
+      notifications.rentCars.rentalRequestApprovedForUser;
+    await usersService.sendNotification([order.author], notificationForUser);
 
     const orders = await ordersService.getMyReceivedOrders(office, skip);
 
@@ -169,6 +229,33 @@ module.exports.rejectOrder = async (req, res, next) => {
     const { orderId } = req.params;
 
     await ordersService.rejectOrder(office, orderId);
+
+    const orders = await ordersService.getMyReceivedOrders(office, skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deliverOrder = async (req, res, next) => {
+  try {
+    const office = req.user;
+    const { orderId } = req.params;
+
+    await ordersService.deliverOrder(office, orderId);
 
     const orders = await ordersService.getMyReceivedOrders(office, skip);
 

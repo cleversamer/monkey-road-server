@@ -20,7 +20,9 @@ const decodeToken = async (token) => {
 
     return decodeValue;
   } catch (err) {
-    throw err;
+    const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+    const message = errors.auth.errorGoogleAuth;
+    throw new ApiError(statusCode, message);
   }
 };
 

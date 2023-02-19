@@ -45,7 +45,7 @@ module.exports.getRentOrdersStatus = async () => {
 
     return {
       total: totalCount,
-    }
+    };
   } catch (err) {
     throw err;
   }
@@ -193,22 +193,29 @@ module.exports.closeOrder = async (user, orderId) => {
     // Check if the user is the order owner
     const isOrderOwner = order.author.toString() === user._id.toString();
     if (!isOrderOwner) {
-      const statusCode = httpStatus.NOT_FOUND;
+      const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentOrder.notOwner;
       throw new ApiError(statusCode, message);
     }
 
     // Check if order is already closed
     if (order.isClosed()) {
-      const statusCode = httpStatus.NOT_FOUND;
+      const statusCode = httpStatus.BAD_REQUEST;
       const message = errors.rentOrder.alreadyClosed;
       throw new ApiError(statusCode, message);
     }
 
-    // Update order's status
+    // Check if order is paid and waiting for delivery
+    if (order.isWaitingForDelivery()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.closePaidOrder;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Mark order as closed
     order.close();
 
-    // Save the order
+    // Save order to the DB
     await order.save();
 
     return order;
@@ -230,13 +237,64 @@ module.exports.deleteOrder = async (user, orderId) => {
     // Check if the user is the order owner
     const isOrderOwner = order.author.toString() === user._id.toString();
     if (!isOrderOwner) {
-      const statusCode = httpStatus.NOT_FOUND;
+      const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentOrder.notOwner;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is paid and waiting for delivery
+    if (order.isWaitingForDelivery()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.deletePaidOrder;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is delivered
+    if (order.isDelivered()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.deleteDeliveredOrder;
       throw new ApiError(statusCode, message);
     }
 
     // Delete order
     await order.delete();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.payOrder = async (user, orderId) => {
+  try {
+    // Check if orders exists
+    const order = await RentOrder.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentOrder.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if the user is the order owner
+    const isOrderOwner = order.author.toString() === user._id.toString();
+    if (!isOrderOwner) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentOrder.notOwner;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is paid and waiting for delivery
+    if (!order.isWaitingForPayment()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.payUnapprovedOrder;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Mark order as paid and waiting for delivery
+    order.pay();
+
+    // Save order to the DB
+    await order.save();
 
     return order;
   } catch (err) {
@@ -287,8 +345,6 @@ module.exports.getMyReceivedOrders = async (office, skip) => {
             _id: 1,
             avatarURL: 1,
             name: 1,
-            email: 1,
-            phone: 1,
             role: 1,
           },
         },
@@ -321,15 +377,22 @@ module.exports.approveOrder = async (office, orderId) => {
     // Check if the user is the receiver office
     const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
-      const statusCode = httpStatus.NOT_FOUND;
+      const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentOrder.notReceiverOffice;
       throw new ApiError(statusCode, message);
     }
 
     // Check if order is already approved
     if (order.isApproved()) {
-      const statusCode = httpStatus.NOT_FOUND;
+      const statusCode = httpStatus.BAD_REQUEST;
       const message = errors.rentOrder.alreadyApproved;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is waiting waiting for approval
+    if (!order.isWaitingForApproval()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.isNotPending;
       throw new ApiError(statusCode, message);
     }
 
@@ -370,8 +433,52 @@ module.exports.rejectOrder = async (office, orderId) => {
       throw new ApiError(statusCode, message);
     }
 
+    // Check if order is waiting waiting for approval
+    if (!order.isWaitingForApproval()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.isNotPending;
+      throw new ApiError(statusCode, message);
+    }
+
     // Approve order
     order.reject();
+
+    // Save order to the DB
+    await order.save();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.deliverOrder = async (office, orderId) => {
+  try {
+    // Check if orders exists
+    const order = await RentOrder.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentOrder.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if the user is the receiver office
+    const isOfficeReceiver = order.office.toString() === office._id.toString();
+    if (!isOfficeReceiver) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentOrder.notReceiverOffice;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if order is waiting for delivery
+    if (!order.isWaitingForDelivery()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.deliverUnpaidOrder;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Approve order
+    order.deliver();
 
     // Save order to the DB
     await order.save();

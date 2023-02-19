@@ -3,7 +3,7 @@ const _ = require("lodash");
 const { User, CLIENT_SCHEMA } = require("../../models/user/user.model");
 const { usersService, excelService } = require("../../services");
 const success = require("../../config/success");
-const errors = require("../../config/errors");
+const { Notification } = require("../../config/notifications");
 
 module.exports.isAuth = async (req, res, next) => {
   try {
@@ -142,7 +142,8 @@ module.exports.sendNotification = async (req, res, next) => {
   try {
     const { userIds = [], title = "", body = "", data = {} } = req.body;
 
-    await usersService.sendNotification(userIds, title, body, data, () => {});
+    const notification = new Notification(title, body, data);
+    await usersService.sendNotification(userIds, notification);
 
     const response = {
       title,

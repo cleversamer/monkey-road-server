@@ -92,4 +92,12 @@ module.exports = Object.freeze({
     en: `Rent car price should be between ${price.daily.min}-${price.daily.max} AED`,
     ar: `سعر سيّارة الإيجار يجب أن يكون بين ${price.daily.min}-${price.daily.max} درهم إماراتي`,
   },
+  requestNotAcceptedCar: {
+    en: "You can't request inactive car",
+    ar: "لا يمكنك إستئجار سيّارة غير نشطة",
+  },
+  requestCarTwice: {
+    en: "You can't request a rental for the same car twice",
+    ar: "لا يمكنك طلب إستئجار نفس السيّارة مرتين",
+  },
 });

@@ -24,6 +24,12 @@ const deleteOrderValidator = [
   commonMiddleware.next,
 ];
 
+const payOrderValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkOrderId,
+  commonMiddleware.next,
+];
+
 const getMyReceivedOrdersValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
@@ -42,12 +48,20 @@ const rejectOrderValidator = [
   commonMiddleware.next,
 ];
 
+const deliverOrderValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkOrderId,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getMyOrdersValidator,
   getOrderDetailsValidator,
   closeOrderValidator,
   deleteOrderValidator,
+  payOrderValidator,
   getMyReceivedOrdersValidator,
   approveOrderValidator,
   rejectOrderValidator,
+  deliverOrderValidator,
 };

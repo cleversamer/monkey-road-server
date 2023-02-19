@@ -13,8 +13,10 @@ const CLIENT_SCHEMA = [
   "receptionLocation",
   "totalPrice",
   "status",
+  "reasonFor",
   "startDate",
   "endDate",
+  "date",
 ];
 
 // The default schema of the model
@@ -105,6 +107,15 @@ const rentOrderSchema = new Schema(
       default: validation.statuses[0],
       enum: validation.statuses,
     },
+    // Reason for rejection (in case of order is rejected)
+    reasonFor: {
+      rejection: {
+        type: String,
+        trim: true,
+        maxLength: validation.reasonForRejection.maxLength,
+        default: "",
+      },
+    },
     // The start date of car rental
     startDate: {
       type: String,
@@ -169,28 +180,50 @@ rentOrderSchema.methods.calcTotalPrice = function (noOfDays, price) {
   }
 };
 
-rentOrderSchema.methods.close = function () {
-  this.status = "closed";
+// Order's status getter methods
+rentOrderSchema.methods.isWaitingForApproval = function () {
+  return this.status === "pending";
+};
+
+rentOrderSchema.methods.isWaitingForPayment = function () {
+  return this.status === "approved";
+};
+
+rentOrderSchema.methods.isWaitingForDelivery = function () {
+  return this.status === "paid";
+};
+
+rentOrderSchema.methods.isDelivered = function () {
+  return this.status === "delivered";
+};
+
+rentOrderSchema.methods.isRejected = function () {
+  return this.status === "rejected";
 };
 
 rentOrderSchema.methods.isClosed = function () {
-  return this.status == "closed";
+  return this.status === "closed";
+};
+
+// Order's status setter methods
+rentOrderSchema.methods.approve = function () {
+  this.status = "approved";
+};
+
+rentOrderSchema.methods.pay = function () {
+  this.status = "paid";
+};
+
+rentOrderSchema.methods.deliver = function () {
+  this.status = "delivered";
 };
 
 rentOrderSchema.methods.reject = function () {
   this.status = "rejected";
 };
 
-rentOrderSchema.methods.isRejected = function () {
-  return this.status == "rejected";
-};
-
-rentOrderSchema.methods.approve = function () {
-  this.status = "approved";
-};
-
-rentOrderSchema.methods.isApproved = function () {
-  return this.status == "approved";
+rentOrderSchema.methods.close = function () {
+  this.status = "closed";
 };
 
 // Creating the model
