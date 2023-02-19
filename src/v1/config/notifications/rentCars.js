@@ -1,10 +1,13 @@
 const Notificatin = require("./Notification");
 
 module.exports = {
-  postAdded: new Notificatin(
-    "طلب نشر سيّارة للإيجار",
-    "يوجد هناك طلب نشر سيّارة للإيجار جديد تفحّصه"
-  ),
+  postAdded: (photoURL) =>
+    new Notificatin(
+      "طلب نشر سيّارة للإيجار",
+      "يوجد هناك طلب نشر سيّارة للإيجار جديد تفحّصه",
+      {},
+      photoURL
+    ),
   postRejected: new Notificatin("طلب نشر سيّارة للإيجار", "تم رفض طلبك"),
   postAccepted: new Notificatin("طلب نشر سيّارة للإيجار", "تم قبول طلبك"),
   rentalRequestForAdmin: new Notificatin(

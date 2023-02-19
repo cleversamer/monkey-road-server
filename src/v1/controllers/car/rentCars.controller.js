@@ -214,7 +214,7 @@ module.exports.addRentCar = async (req, res, next) => {
     const response = _.pick(rentCar, rentCarSchema);
 
     // Send notification to office
-    const notification = notifications.rentCars.postAdded;
+    const notification = notifications.rentCars.postAdded(rentCar.photos[0]);
     await usersService.sendNotificationToAdmins(notification);
 
     res.status(httpStatus.OK).json(response);
