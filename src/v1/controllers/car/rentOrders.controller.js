@@ -119,20 +119,22 @@ module.exports.payOrder = async (req, res, next) => {
     const user = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.payOrder(user, orderId);
+    const { order, rentCar } = await ordersService.payOrder(user, orderId);
 
     // Send notification to admin
     const notificationForAdmin =
-      notifications.rentCars.rentalRequestPaidForAdmin;
+      notifications.rentCars.rentalRequestPaidForAdmin(rentCar.photos[0]);
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
     const notificationForOffice =
-      notifications.rentCars.rentalRequestPaidForOffice;
+      notifications.rentCars.rentalRequestPaidForOffice(rentCar.photos[0]);
     await usersService.sendNotification([order.office], notificationForOffice);
 
     // Send notification to user
-    const notificationForUser = notifications.rentCars.rentalRequestPaidForUser;
+    const notificationForUser = notifications.rentCars.rentalRequestPaidForUser(
+      rentCar.photos[0]
+    );
     await usersService.sendNotification([order.author], notificationForUser);
 
     const orders = await ordersService.getMyOrders(user, skip);

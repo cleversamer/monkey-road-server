@@ -276,6 +276,14 @@ module.exports.payOrder = async (user, orderId) => {
       throw new ApiError(statusCode, message);
     }
 
+    // Check if rent car exists
+    const rentCar = await RentCar.findById(order.rentCar);
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
     // Check if the user is the order owner
     const isOrderOwner = order.author.toString() === user._id.toString();
     if (!isOrderOwner) {
@@ -297,7 +305,7 @@ module.exports.payOrder = async (user, orderId) => {
     // Save order to the DB
     await order.save();
 
-    return order;
+    return { order, rentCar };
   } catch (err) {
     throw err;
   }
