@@ -103,4 +103,8 @@ module.exports = Object.freeze({
     en: "Error authenticating with Google",
     ar: "حصل خطأ في المصادقة مع جوجل",
   },
+  hasNoPassword: {
+    en: "You need to set your password because you joined using Google",
+    ar: "تحتاج إلى تعيين كلمة المرور الخاصة بك لأنك انضممت باستخدام جوجل",
+  },
 });

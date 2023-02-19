@@ -108,6 +108,14 @@ module.exports.loginWithEmail = async (emailOrPhone, password, deviceToken) => {
       throw new ApiError(statusCode, message);
     }
 
+    // Check if user has a password
+    // HINT: this happens when a user registers with Google
+    if (!user.password.length) {
+      const statusCode = httpStatus.UNAUTHORIZED;
+      const message = errors.auth.hasNoPassword;
+      throw new ApiError(statusCode, message);
+    }
+
     // Decoding user's password and comparing it with the password argument
     if (!(await user.comparePassword(password))) {
       const statusCode = httpStatus.UNAUTHORIZED;
