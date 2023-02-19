@@ -248,7 +248,7 @@ module.exports.acceptRentCar = async (req, res, next) => {
     const car = await rentCarsService.acceptRentCar(carId);
 
     // Send notification to office
-    const notification = notifications.rentCars.postAccepted;
+    const notification = notifications.rentCars.postAccepted(car.photos[0]);
     await usersService.sendNotification([car.office.ref], notification);
 
     const response = _.pick(car, rentCarSchema);
