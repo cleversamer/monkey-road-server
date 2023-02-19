@@ -45,6 +45,7 @@ const approveOrderValidator = [
 const rejectOrderValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkOrderId,
+  commonMiddleware.checkRejectionReason,
   commonMiddleware.next,
 ];
 

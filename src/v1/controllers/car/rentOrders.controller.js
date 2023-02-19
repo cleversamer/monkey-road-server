@@ -227,8 +227,34 @@ module.exports.rejectOrder = async (req, res, next) => {
   try {
     const office = req.user;
     const { orderId } = req.params;
+    const { rejectionReason } = req.body;
 
-    await ordersService.rejectOrder(office, orderId);
+    const order = await ordersService.rejectOrder(
+      office,
+      orderId,
+      rejectionReason
+    );
+
+    // Send notification to admin
+    const notificationForAdmin = {
+      ...notifications.rentCars.rentalRequestRejectedForAdmin,
+      body: rejectionReason,
+    };
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to office
+    const notificationForOffice = {
+      ...notifications.rentCars.rentalRequestRejectedForOffice,
+      body: rejectionReason,
+    };
+    await usersService.sendNotification([office._id], notificationForOffice);
+
+    // Send notification to user
+    const notificationForUser = {
+      ...notifications.rentCars.rentalRequestRejectedForUser,
+      body: rejectionReason,
+    };
+    await usersService.sendNotification([order.author], notificationForUser);
 
     const orders = await ordersService.getMyReceivedOrders(office, skip);
 

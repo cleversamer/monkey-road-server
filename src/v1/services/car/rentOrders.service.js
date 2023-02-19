@@ -408,7 +408,7 @@ module.exports.approveOrder = async (office, orderId) => {
   }
 };
 
-module.exports.rejectOrder = async (office, orderId) => {
+module.exports.rejectOrder = async (office, orderId, rejectionReason) => {
   try {
     // Check if orders exists
     const order = await RentOrder.findById(orderId);
@@ -440,8 +440,11 @@ module.exports.rejectOrder = async (office, orderId) => {
       throw new ApiError(statusCode, message);
     }
 
-    // Approve order
+    // Reject order
     order.reject();
+
+    // Add rejection reason
+    order.reasonFor.rejection = rejectionReason;
 
     // Save order to the DB
     await order.save();

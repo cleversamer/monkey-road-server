@@ -185,6 +185,13 @@ const checkOrderId = check("orderId")
   .isMongoId()
   .withMessage(errors.system.invalidOrderId);
 
+const checkRejectionReason = check("rejectionReason")
+  .isLength({
+    min: rentOrderValidation.reasonForRejection.minLength,
+    max: rentOrderValidation.reasonForRejection.maxLength,
+  })
+  .withMessage(errors.rentOrder.invalidRejectionReason);
+
 const checkRentCarName = check("carName")
   .trim()
   .isLength({
@@ -505,6 +512,7 @@ module.exports = {
   checkSkip,
   checkCarId,
   checkOrderId,
+  checkRejectionReason,
   checkRentCarName,
   checkRentCarModel,
   checkRentCarENColor,

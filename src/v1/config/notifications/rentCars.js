@@ -43,4 +43,16 @@ module.exports = {
     "تم دفع رسوم تأجير السيّارة بنجاح",
     "إجراء طلبك إكتمل وسيتم تسليمك السيّارة في المدة المحددة"
   ),
+  rentalRequestRejectedForAdmin: new Notificatin(
+    "تم رفض طلب إستئجار سيّارة من طرف مكتب تأجير",
+    ""
+  ),
+  rentalRequestRejectedForOffice: new Notificatin(
+    "تم رفض طلب إستئجار السيّارة وإبلاغ المستخدم بسبب الرفض",
+    ""
+  ),
+  rentalRequestRejectedForOffice: new Notificatin(
+    "تم رفض طلب إستئجار السيّارة الذي أرسلته",
+    ""
+  ),
 };

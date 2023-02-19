@@ -1,4 +1,9 @@
-const { noOfDays, locationTitle, fullName } = require("../../models/rentOrder");
+const {
+  noOfDays,
+  locationTitle,
+  fullName,
+  reasonForRejection,
+} = require("../../models/rentOrder");
 
 module.exports = Object.freeze({
   noOrders: {
@@ -72,5 +77,9 @@ module.exports = Object.freeze({
   noAddedOrders: {
     en: "There are no rental orders until now",
     ar: "لا توجد طلبات تأجير حتى الآن",
+  },
+  invalidRejectionReason: {
+    en: `Rejection reason should be ${reasonForRejection.minLength}-${reasonForRejection.maxLength} letters`,
+    ar: `سبب الرفض يجب أن يكون بين ${reasonForRejection.minLength}-${reasonForRejection.maxLength} حرفًا`,
   },
 });
