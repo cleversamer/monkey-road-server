@@ -11,7 +11,7 @@ const uploadFile = async (file = { name: "", path: "" }) => {
       projectId: "monkey-road",
     });
 
-    const bucketName = "bayan-bucket-1";
+    const bucketName = "monkey-road-bucket-1";
     const filePath = path.join(__dirname, `../../../../uploads${file.path}`);
     const destFileName = file.name;
     const generationMatchPrecondition = 0;
