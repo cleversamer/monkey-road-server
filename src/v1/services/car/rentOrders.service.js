@@ -1,4 +1,5 @@
 const { RentOrder } = require("../../models/car/rentOrder.model");
+const { RentCar } = require("../../models/car/rentCar.model");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
@@ -374,6 +375,14 @@ module.exports.approveOrder = async (office, orderId) => {
       throw new ApiError(statusCode, message);
     }
 
+    // Check if rent car exists
+    const rentCar = await RentCar.findById(order.rentCar);
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
     // Check if the user is the receiver office
     const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
@@ -402,7 +411,7 @@ module.exports.approveOrder = async (office, orderId) => {
     // Save order to the DB
     await order.save();
 
-    return order;
+    return { order, rentCar };
   } catch (err) {
     throw err;
   }

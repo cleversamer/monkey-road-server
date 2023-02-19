@@ -33,18 +33,27 @@ module.exports = {
       {},
       photoURL
     ),
-  rentalRequestApprovedForAdmin: new Notificatin(
-    "تم قبول طلب إستئجار",
-    "هناك طلب إستئجار سيّارة تم قبولة من طرف مكتب التأجير الآن وهو بإنتظار الدفع من طرف المستأجر"
-  ),
-  rentalRequestApprovedForOffice: new Notificatin(
-    "تم قبول طلب إستئجار",
-    "لقد قمت بقبول طلب التأجير وهو الآن بإنتظار الدفع من قبل المستأجر قبل التسليم"
-  ),
-  rentalRequestApprovedForUser: new Notificatin(
-    "تم قبول طلب إستئجار",
-    "تم قبول طلب إستئجار سيّارة من طرف مكتب التأجير يرجى الدفع لإستلام طلبك"
-  ),
+  rentalRequestApprovedForAdmin: (photoURL) =>
+    new Notificatin(
+      "تم قبول طلب إستئجار",
+      "هناك طلب إستئجار سيّارة تم قبولة من طرف مكتب التأجير الآن وهو بإنتظار الدفع من طرف المستأجر",
+      {},
+      photoURL
+    ),
+  rentalRequestApprovedForOffice: (photoURL) =>
+    new Notificatin(
+      "تم قبول طلب إستئجار",
+      "لقد قمت بقبول طلب التأجير وهو الآن بإنتظار الدفع من قبل المستأجر قبل التسليم",
+      {},
+      photoURL
+    ),
+  rentalRequestApprovedForUser: (photoURL) =>
+    new Notificatin(
+      "تم قبول طلب إستئجار",
+      "تم قبول طلب إستئجار سيّارة من طرف مكتب التأجير يرجى الدفع لإستلام طلبك",
+      {},
+      photoURL
+    ),
   rentalRequestPaidForAdmin: new Notificatin(
     "تم دفع رسوم التأجير من مستأجر",
     "هناك طلب إستئجار سيّارة تم دفعه من طرف المستأجر وهو الآن بإنتظار التسليم من طرف مكتب التأجير"

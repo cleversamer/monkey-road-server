@@ -187,20 +187,25 @@ module.exports.approveOrder = async (req, res, next) => {
     const office = req.user;
     const { orderId } = req.params;
 
-    const order = await ordersService.approveOrder(office, orderId);
+    const { order, rentCar } = await ordersService.approveOrder(
+      office,
+      orderId
+    );
 
     // Send notification to admin
-    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin;
+    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin(
+      rentCar.photos[0]
+    );
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
     const notificationForOffice =
-      notifications.rentCars.rentalRequestApprovedForOffice;
+      notifications.rentCars.rentalRequestApprovedForOffice(rentCar.photos[0]);
     await usersService.sendNotification([office._id], notificationForOffice);
 
     // Send notification to user
     const notificationForUser =
-      notifications.rentCars.rentalRequestApprovedForUser;
+      notifications.rentCars.rentalRequestApprovedForUser(rentCar.photos[0]);
     await usersService.sendNotification([order.author], notificationForUser);
 
     const orders = await ordersService.getMyReceivedOrders(office, skip);
