@@ -4,6 +4,7 @@ const httpStatus = require("http-status");
 const emailService = require("./email.service");
 const notificationsService = require("./notifications.service");
 const rentCarsService = require("../car/rentCars.service");
+const rentOrdersService = require("../car/rentOrders.service");
 const purchaseCarsService = require("../car/purchaseCars.service");
 const localStorage = require("../storage/localStorage.service");
 const { ApiError } = require("../../middleware/apiError");
@@ -614,10 +615,12 @@ module.exports.getCarsStatus = async () => {
   try {
     const rentStatus = await rentCarsService.getRentCarsStatus();
     const purchaseStatus = await purchaseCarsService.getPurchaseCarsStatus();
+    const ordersStatus = await rentOrdersService.getRentOrdersStatus();
 
     return {
       rent: rentStatus,
       purchase: purchaseStatus,
+      order: ordersStatus,
     };
   } catch (err) {
     throw err;

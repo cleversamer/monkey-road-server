@@ -37,6 +37,20 @@ module.exports.createOrder = async (
   }
 };
 
+module.exports.getRentOrdersStatus = async () => {
+  try {
+    const rentOrders = await RentOrder.find({});
+
+    const totalCount = rentOrders.length;
+
+    return {
+      total: totalCount,
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Common Services ////////////////////
 module.exports.getMyOrders = async (user, skip) => {
   try {
