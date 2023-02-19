@@ -400,7 +400,7 @@ module.exports.approveOrder = async (office, orderId) => {
     }
 
     // Check if order is already approved
-    if (order.isApproved()) {
+    if (order.isWaitingForPayment()) {
       const statusCode = httpStatus.BAD_REQUEST;
       const message = errors.rentOrder.alreadyApproved;
       throw new ApiError(statusCode, message);

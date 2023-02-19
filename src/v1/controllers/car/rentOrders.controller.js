@@ -11,7 +11,7 @@ const {
 const { CLIENT_SCHEMA: userSchema } = require("../../models/user/user.model");
 const httpStatus = require("http-status");
 const _ = require("lodash");
-const { notifications } = require("../../config");
+const { notifications, success } = require("../../config");
 
 //////////////////// Common Routes ////////////////////
 module.exports.getMyOrders = async (req, res, next) => {
@@ -67,19 +67,7 @@ module.exports.closeOrder = async (req, res, next) => {
 
     await ordersService.closeOrder(user, orderId);
 
-    const orders = await ordersService.getMyOrders(user, skip);
-
-    const response = {
-      orders: orders.map((order) => {
-        const mappedOrder = {
-          ...order,
-          office: _.pick(order.office[0], userSchema),
-          rentCar: _.pick(order.rentCar, rentCarSchema),
-        };
-
-        return _.pick(mappedOrder, orderSchema);
-      }),
-    };
+    const response = success.rentOrder.orderClosed;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -94,19 +82,7 @@ module.exports.deleteOrder = async (req, res, next) => {
 
     await ordersService.deleteOrder(user, orderId);
 
-    const orders = await ordersService.getMyOrders(user, skip);
-
-    const response = {
-      orders: orders.map((order) => {
-        const mappedOrder = {
-          ...order,
-          office: _.pick(order.office[0], userSchema),
-          rentCar: _.pick(order.rentCar, rentCarSchema),
-        };
-
-        return _.pick(mappedOrder, orderSchema);
-      }),
-    };
+    const response = success.rentOrder.orderDeleted;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -137,19 +113,7 @@ module.exports.payOrder = async (req, res, next) => {
     );
     await usersService.sendNotification([order.author], notificationForUser);
 
-    const orders = await ordersService.getMyOrders(user, skip);
-
-    const response = {
-      orders: orders.map((order) => {
-        const mappedOrder = {
-          ...order,
-          office: _.pick(order.office[0], userSchema),
-          rentCar: _.pick(order.rentCar, rentCarSchema),
-        };
-
-        return _.pick(mappedOrder, orderSchema);
-      }),
-    };
+    const response = success.rentOrder.orderPaid;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -210,19 +174,7 @@ module.exports.approveOrder = async (req, res, next) => {
       notifications.rentCars.rentalRequestApprovedForUser(rentCar.photos[0]);
     await usersService.sendNotification([order.author], notificationForUser);
 
-    const orders = await ordersService.getMyReceivedOrders(office, skip);
-
-    const response = {
-      orders: orders.map((order) => {
-        const mappedOrder = {
-          ...order,
-          office: _.pick(order.office[0], userSchema),
-          rentCar: _.pick(order.rentCar, rentCarSchema),
-        };
-
-        return _.pick(mappedOrder, orderSchema);
-      }),
-    };
+    const response = success.rentOrder.orderApproved;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -266,22 +218,11 @@ module.exports.rejectOrder = async (req, res, next) => {
       );
     await usersService.sendNotification([order.author], notificationForUser);
 
-    const orders = await ordersService.getMyReceivedOrders(office, skip);
-
-    const response = {
-      orders: orders.map((order) => {
-        const mappedOrder = {
-          ...order,
-          office: _.pick(order.office[0], userSchema),
-          rentCar: _.pick(order.rentCar, rentCarSchema),
-        };
-
-        return _.pick(mappedOrder, orderSchema);
-      }),
-    };
+    const response = success.rentOrder.orderRejected;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
+    console.log("err", err);
     next(err);
   }
 };
@@ -293,19 +234,7 @@ module.exports.deliverOrder = async (req, res, next) => {
 
     await ordersService.deliverOrder(office, orderId);
 
-    const orders = await ordersService.getMyReceivedOrders(office, skip);
-
-    const response = {
-      orders: orders.map((order) => {
-        const mappedOrder = {
-          ...order,
-          office: _.pick(order.office[0], userSchema),
-          rentCar: _.pick(order.rentCar, rentCarSchema),
-        };
-
-        return _.pick(mappedOrder, orderSchema);
-      }),
-    };
+    const response = success.rentOrder.orderApproved;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
