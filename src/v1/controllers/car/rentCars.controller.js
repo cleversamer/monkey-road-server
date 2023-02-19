@@ -268,10 +268,10 @@ module.exports.rejectRentCar = async (req, res, next) => {
     const car = await rentCarsService.rejectRentCar(carId);
 
     // Send notification to office
-    const notification = {
-      ...notifications.rentCars.postRejected,
-      body: rejectionReason,
-    };
+    const notification = notifications.rentCars.postRejected(
+      rejectionReason,
+      car.photos[0]
+    );
     await usersService.sendNotification([car.office.ref], notification);
 
     // Create response

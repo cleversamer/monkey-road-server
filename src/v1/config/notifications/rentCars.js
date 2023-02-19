@@ -8,7 +8,8 @@ module.exports = {
       {},
       photoURL
     ),
-  postRejected: new Notificatin("طلب نشر سيّارة للإيجار", "تم رفض طلبك"),
+  postRejected: (body, photoURL) =>
+    new Notificatin("طلب نشر سيّارة للإيجار", body, {}, photoURL),
   postAccepted: new Notificatin("طلب نشر سيّارة للإيجار", "تم قبول طلبك"),
   rentalRequestForAdmin: new Notificatin(
     "طلب إستئجار سيّارة جديد",
