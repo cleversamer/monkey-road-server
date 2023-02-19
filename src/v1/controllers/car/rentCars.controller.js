@@ -116,7 +116,7 @@ module.exports.requestCarRental = async (req, res, next) => {
       phoneNSN,
     } = req.body;
 
-    const order = await rentCarsService.requestCarRental(
+    const { order, rentCar } = await rentCarsService.requestCarRental(
       user,
       rentCarId,
       startDate,
@@ -130,15 +130,21 @@ module.exports.requestCarRental = async (req, res, next) => {
     );
 
     // Send notification to admin
-    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin;
+    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin(
+      rentCar.photos[0]
+    );
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
-    const notificationForOffice = notifications.rentCars.rentalRequestForOffice;
+    const notificationForOffice = notifications.rentCars.rentalRequestForOffice(
+      rentCar.photos[0]
+    );
     await usersService.sendNotification([order.office], notificationForOffice);
 
     // Send notification to user
-    const notificationForUser = notifications.rentCars.rentalRequestForUser;
+    const notificationForUser = notifications.rentCars.rentalRequestForUser(
+      rentCar.photos[0]
+    );
     await usersService.sendNotification([order.author], notificationForUser);
 
     const response = _.pick(order, orderSchema);

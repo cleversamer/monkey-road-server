@@ -224,7 +224,7 @@ module.exports.requestCarRental = async (
 
     await order.save();
 
-    return order;
+    return { order, rentCar };
   } catch (err) {
     throw err;
   }

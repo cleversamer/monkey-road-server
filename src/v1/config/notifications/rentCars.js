@@ -12,18 +12,27 @@ module.exports = {
     new Notificatin("طلب نشر سيّارة للإيجار", body, {}, photoURL),
   postAccepted: (photoURL) =>
     new Notificatin("طلب نشر سيّارة للإيجار", "تم قبول طلبك", {}, photoURL),
-  rentalRequestForAdmin: new Notificatin(
-    "طلب إستئجار سيّارة جديد",
-    "هناك طلب إستئجار سيّارة جديد وهو قيد المراجعة من طرف مكتب التأجير الآن"
-  ),
-  rentalRequestForOffice: new Notificatin(
-    "طلب إستئجار سيّارة جديد",
-    "لقد وصلك طلب إستئجار سيّارة جديد يرجى مراجعته والرد عليه"
-  ),
-  rentalRequestForUser: new Notificatin(
-    "تم إرسال طلبك بنجاح",
-    "تم إرسال طلبك إلى مكتب التأجير وهو قيد المراجعة الآن"
-  ),
+  rentalRequestForAdmin: (photoURL) =>
+    new Notificatin(
+      "طلب إستئجار سيّارة جديد",
+      "هناك طلب إستئجار سيّارة جديد وهو قيد المراجعة من طرف مكتب التأجير الآن",
+      {},
+      photoURL
+    ),
+  rentalRequestForOffice: (photoURL) =>
+    new Notificatin(
+      "طلب إستئجار سيّارة جديد",
+      "لقد وصلك طلب إستئجار سيّارة جديد يرجى مراجعته والرد عليه",
+      {},
+      photoURL
+    ),
+  rentalRequestForUser: (photoURL) =>
+    new Notificatin(
+      "تم إرسال طلبك بنجاح",
+      "تم إرسال طلبك إلى مكتب التأجير وهو قيد المراجعة الآن",
+      {},
+      photoURL
+    ),
   rentalRequestApprovedForAdmin: new Notificatin(
     "تم قبول طلب إستئجار",
     "هناك طلب إستئجار سيّارة تم قبولة من طرف مكتب التأجير الآن وهو بإنتظار الدفع من طرف المستأجر"
