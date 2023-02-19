@@ -75,16 +75,25 @@ module.exports = {
       {},
       photoURL
     ),
-  rentalRequestRejectedForAdmin: new Notificatin(
-    "تم رفض طلب إستئجار سيّارة من طرف مكتب تأجير",
-    ""
-  ),
-  rentalRequestRejectedForOffice: new Notificatin(
-    "تم رفض طلب إستئجار السيّارة وإبلاغ المستخدم بسبب الرفض",
-    ""
-  ),
-  rentalRequestRejectedForOffice: new Notificatin(
-    "تم رفض طلب إستئجار السيّارة الذي أرسلته",
-    ""
-  ),
+  rentalRequestRejectedForAdmin: (body, photoURL) =>
+    new Notificatin(
+      "تم رفض طلب إستئجار سيّارة من طرف مكتب تأجير",
+      body,
+      {},
+      photoURL
+    ),
+  rentalRequestRejectedForOffice: (body, photoURL) =>
+    new Notificatin(
+      "تم رفض طلب إستئجار السيّارة وإبلاغ المستخدم بسبب الرفض",
+      body,
+      {},
+      photoURL
+    ),
+  rentalRequestRejectedForUser: (body, photoURL) =>
+    new Notificatin(
+      "تم رفض طلب إستئجار السيّارة الذي أرسلته",
+      body,
+      {},
+      photoURL
+    ),
 };

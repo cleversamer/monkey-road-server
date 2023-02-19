@@ -435,6 +435,14 @@ module.exports.rejectOrder = async (office, orderId, rejectionReason) => {
       throw new ApiError(statusCode, message);
     }
 
+    // Check if rent car exists
+    const rentCar = await RentCar.findById(order.rentCar);
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
     // Check if the user is the receiver office
     const isOfficeReceiver = order.office.toString() === office._id.toString();
     if (!isOfficeReceiver) {
@@ -466,7 +474,7 @@ module.exports.rejectOrder = async (office, orderId, rejectionReason) => {
     // Save order to the DB
     await order.save();
 
-    return order;
+    return { order, rentCar };
   } catch (err) {
     throw err;
   }
