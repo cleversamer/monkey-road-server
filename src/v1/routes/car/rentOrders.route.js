@@ -68,4 +68,12 @@ router.patch(
   ordersController.deliverOrder
 );
 
+//////////////////// Admin Routes ////////////////////
+router.get(
+  "/admin/all",
+  orderValidator.getAllOrdersValidator,
+  auth("readAny", "order"),
+  ordersController.getAllOrders
+);
+
 module.exports = router;

@@ -488,3 +488,67 @@ module.exports.deliverOrder = async (office, orderId) => {
     throw err;
   }
 };
+
+//////////////////// Admin Services ////////////////////
+module.exports.getAllOrders = async (skip = 0) => {
+  try {
+    const orders = await RentOrder.aggregate([
+      { $match: { status: { $not: { $eq: "closed" } } } },
+      { $sort: { _id: -1 } },
+      { $skip: parseInt(skip) },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      {
+        $lookup: {
+          from: "rentcars",
+          localField: "rentCar",
+          foreignField: "_id",
+          as: "rentCar",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          author: 1,
+          office: 1,
+          rentCar: 1,
+          fullName: 1,
+          phoneNumber: 1,
+          receptionLocation: 1,
+          totalPrice: 1,
+          status: 1,
+          startDate: 1,
+          endDate: 1,
+          author: { $arrayElemAt: ["$author", 0] },
+          rentCar: { $arrayElemAt: ["$rentCar", 0] },
+          author: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+            role: 1,
+          },
+        },
+      },
+    ]);
+
+    // Check if orders exists
+    if (!orders || !orders.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentOrder.noAddedOrders;
+      throw new ApiError(statusCode, message);
+    }
+
+    return orders;
+  } catch (err) {
+    throw err;
+  }
+};

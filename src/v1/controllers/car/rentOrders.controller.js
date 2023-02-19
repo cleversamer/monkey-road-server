@@ -276,3 +276,28 @@ module.exports.deliverOrder = async (req, res, next) => {
     next(err);
   }
 };
+
+//////////////////// Admin Controllers ////////////////////
+module.exports.getAllOrders = async (req, res, next) => {
+  try {
+    const { skip } = req.query;
+
+    const orders = await ordersService.getAllOrders(skip);
+
+    const response = {
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          office: _.pick(order.office[0], userSchema),
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

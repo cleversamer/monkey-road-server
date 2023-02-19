@@ -69,4 +69,8 @@ module.exports = Object.freeze({
     en: "You can't deliver an unpaid order",
     ar: "لا يمكنك تسليم طلب لم يتم دفعه",
   },
+  noAddedOrders: {
+    en: "There are no rental orders until now",
+    ar: "لا توجد طلبات تأجير حتى الآن",
+  },
 });
