@@ -9,6 +9,7 @@ const excelService = require("../storage/excel.service");
 module.exports.createTransaction = async (
   authorId,
   receiverId,
+  orderId,
   title,
   amount
 ) => {
@@ -16,6 +17,7 @@ module.exports.createTransaction = async (
     const transaction = new Transaction({
       author: authorId,
       receiver: receiverId,
+      order: orderId,
       title,
       amount,
     });

@@ -25,6 +25,11 @@ const transactionSchema = new Schema(
       ref: "User",
       required: true,
     },
+    order: {
+      type: Types.ObjectId,
+      ref: "RentOrder",
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -69,9 +74,9 @@ transactionSchema.index({ author: 1 });
 // fetch office's transactions
 transactionSchema.index({ receiver: 1 });
 
-// Create an index to the `status` field to easily
-// fetch transactions based on status
-transactionSchema.index({ status: 1 });
+// Create an index to the `order` field to easily
+// fetch order's transaction
+transactionSchema.index({ order: 1 });
 
 //////////////////// METHODS ////////////////////
 transactionSchema.methods.complete = function () {
