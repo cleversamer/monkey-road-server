@@ -1,13 +1,13 @@
 const { User } = require("../../models/user/user.model");
 const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status");
-const emailService = require("./email.service");
-const notificationsService = require("./notifications.service");
+const emailService = require("../cloud/email.service");
+const notificationsService = require("../cloud/notifications.service");
 const rentCarsService = require("../car/rentCars.service");
 const rentOrdersService = require("../car/rentOrders.service");
 const purchaseCarsService = require("../car/purchaseCars.service");
 const localStorage = require("../storage/localStorage.service");
-const cloudStorage = require("../storage/cloudStorage.service");
+const cloudStorage = require("../cloud/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const errors = require("../../config/errors");
 const { Notification } = require("../../config/notifications");

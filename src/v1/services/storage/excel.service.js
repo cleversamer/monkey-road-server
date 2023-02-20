@@ -1,6 +1,6 @@
 const Excel = require("exceljs");
 const localStorage = require("./localStorage.service");
-const cloudStorage = require("./cloudStorage.service");
+const cloudStorage = require("../cloud/cloudStorage.service");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 const { ApiError } = require("../../middleware/apiError");

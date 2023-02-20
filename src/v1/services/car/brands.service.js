@@ -1,7 +1,7 @@
 const { Brand } = require("../../models/car/brand.model");
 const { ApiError } = require("../../middleware/apiError");
 const localStorage = require("../storage/localStorage.service");
-const cloudStorage = require("../storage/cloudStorage.service");
+const cloudStorage = require("../cloud/cloudStorage.service");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
