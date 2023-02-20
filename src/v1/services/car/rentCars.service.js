@@ -193,10 +193,11 @@ module.exports.requestCarRental = async (
     }
 
     // Check if user has requested the same car and didn't receive it
-    const rentOrdersForThisCar = await RentOrder.find({ author: user._id });
-    const hasUndeliveredOrdersForThisCar =
-      rentOrdersForThisCar.findIndex((order) => !order.isDelivered()) >= 0;
-    if (hasUndeliveredOrdersForThisCar) {
+    const rentOrderForThisCar = await RentOrder.findOne({
+      author: user._id,
+      rentCar: rentCar._id,
+    });
+    if (rentOrderForThisCar && !rentOrderForThisCar.isDelivered()) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentCar.requestCarTwice;
       throw new ApiError(statusCode, message);
