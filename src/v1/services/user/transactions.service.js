@@ -5,6 +5,29 @@ const errors = require("../../config/errors");
 const usersService = require("./users.service");
 const excelService = require("../storage/excel.service");
 
+//////////////////// Inner Services ////////////////////
+module.exports.createTransaction = async (
+  authorId,
+  receiverId,
+  title,
+  amount
+) => {
+  try {
+    const transaction = new Transaction({
+      author: authorId,
+      receiver: receiverId,
+      title,
+      amount,
+    });
+
+    await transaction.save();
+
+    return transaction;
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Common Services ////////////////////
 module.exports.getMyTransactions = async (user, skip = 0) => {
   try {
