@@ -99,6 +99,17 @@ const rentOrderSchema = new Schema(
     totalPrice: {
       type: Number,
       required: true,
+      default: 0,
+    },
+    deservedAmount: {
+      forAdmin: {
+        type: Number,
+        default: 0,
+      },
+      forOffice: {
+        type: Number,
+        default: 0,
+      },
     },
     // The status of the order
     status: {
@@ -179,9 +190,16 @@ rentOrderSchema.methods.calcTotalPrice = function (noOfDays, price) {
     let pricePerDay =
       noOfDays < 7 ? daily : noOfDays < 30 ? weekly / 7 : monthly / 30;
 
-    const totalPrice = Math.ceil(noOfDays * pricePerDay + deposit) - 0.01;
+    const totalPrice = Math.ceil(noOfDays * pricePerDay + deposit);
 
     this.totalPrice = totalPrice;
+
+    const adminFees = Math.ceil(totalPrice * 0.15);
+    const officeBalance = totalPrice - adminFees;
+    this.deservedAmount = {
+      forAdmin: adminFees,
+      forOffice: officeBalance,
+    };
   } catch (err) {
     // Write error to the DB
   }

@@ -5,6 +5,7 @@ const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 const mongoose = require("mongoose");
 const transactionsService = require("../user/transactions.service");
+const usersService = require("../user/users.service");
 
 //////////////////// Outer Services ////////////////////
 module.exports.createOrder = async (
@@ -310,6 +311,18 @@ module.exports.payOrder = async (user, orderId) => {
 
     // Save order to the DB
     await order.save();
+
+    // Mark order's transaction as complete
+    await transactionsService.completeOrderTransaction(order._id);
+
+    // Find office
+    const office = await usersService.findUserById(order.office);
+
+    // Add balance to office
+    office.addBalance(order.deservedAmount.forOffice);
+
+    // Save office to the DB
+    await office.save();
 
     return { order, rentCar };
   } catch (err) {

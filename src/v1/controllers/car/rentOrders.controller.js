@@ -114,6 +114,14 @@ module.exports.payOrder = async (req, res, next) => {
     );
     await usersService.sendNotification([order.author], notificationForUser);
 
+    // Send transaction notification to user
+    const transactionNotificationForUser =
+      notifications.rentCars.transactionNotificationComplete();
+    await usersService.sendNotification(
+      [order.author],
+      transactionNotificationForUser
+    );
+
     const response = success.rentOrder.orderPaid;
 
     res.status(httpStatus.OK).json(response);
@@ -185,7 +193,7 @@ module.exports.approveOrder = async (req, res, next) => {
 
     // Send transaction notification to user
     const transactionNotificationForUser =
-      notifications.rentCars.transactionNotificationForUser();
+      notifications.rentCars.transactionNotificationIncomplete();
     await usersService.sendNotification(
       [order.author],
       transactionNotificationForUser

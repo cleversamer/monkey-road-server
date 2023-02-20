@@ -11,6 +11,7 @@ const CLIENT_SCHEMA = [
   "name",
   "email",
   "phone",
+  "balance",
   "favorites",
   "role",
   "verified",
@@ -101,6 +102,10 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       default: "",
+    },
+    balance: {
+      type: Number,
+      default: 0,
     },
     // The role of the user
     role: {
@@ -194,6 +199,22 @@ userSchema.methods.genAuthToken = function () {
   } catch (err) {
     // TODO: write the error to the database
     return "auth-token-error";
+  }
+};
+
+userSchema.methods.addBalance = function (amount) {
+  try {
+    this.balance += amount;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
+userSchema.methods.takeBalance = function (amount) {
+  try {
+    this.balance -= amount;
+  } catch (err) {
+    // TODO: write error to the DB
   }
 };
 

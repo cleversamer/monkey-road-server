@@ -96,9 +96,14 @@ module.exports = {
       {},
       photoURL
     ),
-  transactionNotificationForUser: () =>
+  transactionNotificationIncomplete: () =>
     new Notificatin(
-      "لديك معاملة ماليّة جديدة",
+      "لديك معاملة ماليّة جديدة بإنتظار الدفع",
       "لديك معاملة ماليّة جديدة يرجى مراجعة سجل المعاملات الماليّة"
+    ),
+  transactionNotificationComplete: () =>
+    new Notificatin(
+      "تم إكمال معاملتك الماليّة بنجاح",
+      "بإمكانك مراجعة سجل المعاملات الماليّة والتأكد من صحة الإكتمال"
     ),
 };
