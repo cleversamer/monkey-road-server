@@ -138,6 +138,8 @@ const checkPhoneICC = check("phoneICC")
   .withMessage(errors.auth.invalidICC);
 
 const checkPhoneNSN = check("phoneNSN")
+  .isNumeric()
+  .withMessage(errors.auth.invalidPhone)
   .isLength({
     min: countries.minNSN,
     max: countries.maxNSN,

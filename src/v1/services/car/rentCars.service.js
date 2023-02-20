@@ -208,6 +208,7 @@ module.exports.requestCarRental = async (
       rentCar: rentCar._id,
       fullName,
       startDate,
+      noOfDays,
       phoneNumber: {
         full: `${phoneICC}${phoneNSN}`,
         icc: phoneICC,
