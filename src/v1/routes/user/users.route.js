@@ -139,11 +139,18 @@ router.get(
   usersController.getCarsStatus
 );
 
-//////////////////// Admin: Cars ////////////////////
+//////////////////// Admin: Excel ////////////////////
 router.get(
   "/export",
   auth("readAny", "user"),
   usersController.exportUsersToExcel
+);
+
+//////////////////// Admin: Balance ////////////////////
+router.post(
+  "/admin/office/:userId/deliver-payment",
+  auth("updateAny", "user"),
+  usersController.deliverPaymentToOffice
 );
 
 module.exports = router;

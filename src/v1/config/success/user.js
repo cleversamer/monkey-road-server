@@ -7,4 +7,8 @@ module.exports = Object.freeze({
     en: "Car removed from your favorites",
     ar: "تم حذف السيّارة من مفضلتك",
   },
+  paymentDeliveredToOffice: {
+    en: "Payment delivered to office successfully",
+    ar: "تم تسليم الدفعة إلى مكتب التأجير بنجاح",
+  },
 });

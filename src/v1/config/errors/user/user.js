@@ -7,6 +7,14 @@ module.exports = Object.freeze({
     en: "User was not found",
     ar: "المستخدم غير موجود",
   },
+  officeNotFound: {
+    en: "Office was not found",
+    ar: "مكتب التأجير غير موجود",
+  },
+  notOffice: {
+    en: "User is not an office",
+    ar: "المستخدم ليس مكتب تأجير",
+  },
   emailAlreadyVerified: {
     en: "Your email is already verified",
     ar: "تم التحقق من بريدك الإلكتروني مسبقًا",

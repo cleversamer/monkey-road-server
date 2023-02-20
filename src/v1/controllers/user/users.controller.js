@@ -3,7 +3,7 @@ const _ = require("lodash");
 const { User, CLIENT_SCHEMA } = require("../../models/user/user.model");
 const { usersService, excelService } = require("../../services");
 const success = require("../../config/success");
-const { Notification } = require("../../config/notifications");
+const { Notification, user } = require("../../config/notifications");
 
 module.exports.isAuth = async (req, res, next) => {
   try {
@@ -362,6 +362,24 @@ module.exports.exportUsersToExcel = async (req, res, next) => {
 
     // Send response back to the client
     res.status(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deliverPaymentToOffice = async (req, res, next) => {
+  try {
+    const { userId: officeId } = req.params;
+    const { amount } = req.body;
+
+    const office = await usersService.deliverPaymentToOffice(officeId, amount);
+
+    const notification = user.paymentDelivered(amount);
+    await usersService.sendNotification([office._id], notification);
+
+    const response = success.user.paymentDeliveredToOffice;
+
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }

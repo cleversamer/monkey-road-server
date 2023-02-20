@@ -627,3 +627,32 @@ module.exports.getCarsStatus = async () => {
     throw err;
   }
 };
+
+module.exports.deliverPaymentToOffice = async (officeId, amount) => {
+  try {
+    // Check if office exists
+    const office = await this.findUserById(officeId);
+    if (!office) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.officeNotFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if user is an office
+    if (office.role !== "office") {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.user.notOffice;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Take balance from office
+    office.takeBalance(amount);
+
+    // Save office to the DB
+    await office.save();
+
+    return office;
+  } catch (err) {
+    throw err;
+  }
+};
