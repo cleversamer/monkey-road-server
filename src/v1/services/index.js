@@ -14,3 +14,5 @@ module.exports.rentOrdersService = require("./car/rentOrders.service");
 module.exports.notificationsService = require("./cloud/notifications.service");
 module.exports.emailService = require("./cloud/email.service");
 module.exports.cloudStorage = require("./cloud/cloudStorage.service");
+
+module.exports.scheduleService = require("./system/schedule.service");

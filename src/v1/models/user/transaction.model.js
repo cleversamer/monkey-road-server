@@ -75,6 +75,10 @@ transactionSchema.index({ author: 1 });
 // fetch office's transactions
 transactionSchema.index({ receiver: 1 });
 
+// Create an index to the `receiver` field to easily
+// fetch office's transactions
+transactionSchema.index({ status: 1 });
+
 //////////////////// METHODS ////////////////////
 transactionSchema.methods.complete = function () {
   try {

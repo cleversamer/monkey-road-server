@@ -49,6 +49,22 @@ module.exports.completeOrderTransaction = async (orderId) => {
   }
 };
 
+module.exports.getIncompleteTransactionsAuthorIds = async () => {
+  try {
+    const transactions = await Transaction.find({
+      status: "incomplete",
+    });
+
+    const authorIds = transactions
+      .map((transaction) => transaction.author)
+      .filter((value, index) => transactions.indexOf(value) === index);
+
+    return authorIds;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
 //////////////////// Common Services ////////////////////
 module.exports.getMyTransactions = async (user, skip = 0) => {
   try {

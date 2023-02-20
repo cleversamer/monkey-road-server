@@ -6,11 +6,23 @@ const notificationsService = require("../cloud/notifications.service");
 const rentCarsService = require("../car/rentCars.service");
 const rentOrdersService = require("../car/rentOrders.service");
 const purchaseCarsService = require("../car/purchaseCars.service");
+const transactionsCarsService = require("./transactions.service");
 const localStorage = require("../storage/localStorage.service");
 const cloudStorage = require("../cloud/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const errors = require("../../config/errors");
-const { Notification } = require("../../config/notifications");
+const { Notification, user } = require("../../config/notifications");
+
+module.exports.notifyUsersWithIncompleteTransactions = async () => {
+  try {
+    const userIds =
+      await transactionsCarsService.getIncompleteTransactionsAuthorIds();
+
+    await this.sendNotification(userIds, user.missedIncompleteTransaction);
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
 
 module.exports.findUserByEmailOrPhone = async (
   emailOrPhone,

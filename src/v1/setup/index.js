@@ -10,6 +10,7 @@ const {
 const passport = require("passport");
 const { jwtStrategy } = require("../middleware/passport");
 const socket = require("./socket");
+const setupScheduling = require("./scheduling");
 
 module.exports = (app) => {
   setupMongoDB();
@@ -26,4 +27,6 @@ module.exports = (app) => {
   });
 
   socket(expressServer);
+
+  setupScheduling();
 };
