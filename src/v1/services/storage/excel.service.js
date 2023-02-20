@@ -101,13 +101,69 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
     // Return file's path
     return cloudFile;
   } catch (err) {
-    console.log("err", err);
     const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     const message = errors.system.errorExportingExcel;
     throw new ApiError(statusCode, message);
   }
 };
 
+module.exports.exportUserTransactionsToExcel = async (user, transactions) => {
+  try {
+    // Create a new Excel Workbook
+    let workbook = new Excel.Workbook();
+    // Add new sheet to the Workbook
+    let worksheet = workbook.addWorksheet(`${user.name}'s Transactions Report`);
+
+    // Specify excel sheet's columns
+    worksheet.addRow([
+      "العنوان",
+      "مكتب التأجير",
+      "الحالة",
+      "المبلغ",
+      "التاريخ",
+    ]);
+
+    // Add row for each user in the Database
+    transactions.forEach(function (transaction) {
+      const { receiver, title, status, amount, date } = transaction;
+      const receiverName = receiver.name;
+      const viewStatus = status === "complete" ? "مكتمل" : "غير مكتملة";
+      let viewDate = new Date(date);
+      const day = viewDate.getDay();
+      const month = viewDate.getMonth();
+      const year = viewDate.getFullYear();
+      viewDate = `${day}-${month}-${year}`;
+
+      worksheet.addRow([title, receiverName, viewStatus, amount, viewDate]);
+    }, "i");
+
+    // Decide excel's file
+    const userName = user.name.toLowerCase().split(" ").join("_");
+    const fileName = filterName(`${userName}_${getCurrentDate()}`) + ".xlsx";
+    const filePath = `/${fileName}`;
+
+    // Generate and save excel file
+    await workbook.xlsx.writeFile(`./uploads/${fileName}`);
+
+    // Upload excel file to storage bucket
+    const cloudFile = await cloudStorage.uploadFile({
+      name: fileName,
+      path: filePath,
+    });
+
+    // Delete local excel file
+    await localStorage.deleteFile(filePath);
+
+    // Return file's path
+    return cloudFile;
+  } catch (err) {
+    const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+    const message = errors.system.errorExportingExcel;
+    throw new ApiError(statusCode, message);
+  }
+};
+
+//////////////////// HELPER FUNCTIONS ////////////////////
 const filterName = (name = "") => {
   return name.split(" ").join("_").split(":").join("_");
 };
