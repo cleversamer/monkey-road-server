@@ -17,7 +17,7 @@ const routes = [
     route: usersRoute,
   },
   {
-    path: "/transactionsRoute",
+    path: "/transactions",
     route: transactionsRoute,
   },
   {

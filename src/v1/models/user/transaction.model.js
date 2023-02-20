@@ -6,6 +6,7 @@ const CLIENT_SCHEMA = [
   "_id",
   "author",
   "receiver",
+  "order",
   "title",
   "status",
   "amount",
