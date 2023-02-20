@@ -16,6 +16,7 @@ const CLIENT_SCHEMA = [
   "reasonFor",
   "startDate",
   "endDate",
+  "noOfDays",
   "date",
 ];
 
@@ -127,6 +128,12 @@ const rentOrderSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    noOfDays: {
+      type: Number,
+      required: true,
+      min: validation.noOfDays.min,
+      max: validation.noOfDays.max,
     },
     date: {
       type: String,

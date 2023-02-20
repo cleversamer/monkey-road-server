@@ -30,6 +30,14 @@ module.exports.createTransaction = async (
   }
 };
 
+module.exports.deleteOrderTransaction = async (orderId) => {
+  try {
+    return await Transaction.deleteOne({ order: orderId });
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Common Services ////////////////////
 module.exports.getMyTransactions = async (user, skip = 0) => {
   try {

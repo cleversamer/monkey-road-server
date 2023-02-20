@@ -96,4 +96,9 @@ module.exports = {
       {},
       photoURL
     ),
+  transactionNotificationForUser: () =>
+    new Notificatin(
+      "لديك معاملة ماليّة جديدة",
+      "لديك معاملة ماليّة جديدة يرجى مراجعة سجل المعاملات الماليّة"
+    ),
 };

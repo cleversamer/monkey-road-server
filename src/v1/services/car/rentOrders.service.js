@@ -4,6 +4,7 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 const mongoose = require("mongoose");
+const transactionsService = require("../user/transactions.service");
 
 //////////////////// Outer Services ////////////////////
 module.exports.createOrder = async (
@@ -259,6 +260,11 @@ module.exports.deleteOrder = async (user, orderId) => {
 
     // Delete order
     await order.delete();
+
+    // Delete order's transaction if it's approved
+    if (order.isWaitingForPayment()) {
+      await transactionsService.deleteOrderTransaction(order._id);
+    }
 
     return order;
   } catch (err) {

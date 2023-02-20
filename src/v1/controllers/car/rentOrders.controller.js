@@ -1,6 +1,7 @@
 const {
   rentOrdersService: ordersService,
   usersService,
+  transactionsService,
 } = require("../../services");
 const {
   CLIENT_SCHEMA: orderSchema,
@@ -11,7 +12,7 @@ const {
 const { CLIENT_SCHEMA: userSchema } = require("../../models/user/user.model");
 const httpStatus = require("http-status");
 const _ = require("lodash");
-const { notifications, success } = require("../../config");
+const { notifications, success, transactions } = require("../../config");
 
 //////////////////// Common Routes ////////////////////
 module.exports.getMyOrders = async (req, res, next) => {
@@ -173,6 +174,22 @@ module.exports.approveOrder = async (req, res, next) => {
     const notificationForUser =
       notifications.rentCars.rentalRequestApprovedForUser(rentCar.photos[0]);
     await usersService.sendNotification([order.author], notificationForUser);
+
+    await transactionsService.createTransaction(
+      order.author,
+      office._id,
+      order._id,
+      transactions.rentalOrderPayment(order.noOfDays),
+      order.totalPrice
+    );
+
+    // Send transaction notification to user
+    const transactionNotificationForUser =
+      notifications.rentCars.transactionNotificationForUser();
+    await usersService.sendNotification(
+      [order.author],
+      transactionNotificationForUser
+    );
 
     const response = success.rentOrder.orderApproved;
 
