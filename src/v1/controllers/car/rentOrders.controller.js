@@ -66,7 +66,13 @@ module.exports.closeOrder = async (req, res, next) => {
     const user = req.user;
     const { orderId } = req.params;
 
-    await ordersService.closeOrder(user, orderId);
+    const { rentCar } = await ordersService.closeOrder(user, orderId);
+
+    // Send notification to user
+    const notificationForUser = notifications.rentOrder.orderClosedForUser(
+      rentCar.photos[0]
+    );
+    await usersService.sendNotification([user._id], notificationForUser);
 
     const response = success.rentOrder.orderClosed;
 
@@ -81,7 +87,13 @@ module.exports.deleteOrder = async (req, res, next) => {
     const user = req.user;
     const { orderId } = req.params;
 
-    await ordersService.deleteOrder(user, orderId);
+    const { rentCar } = await ordersService.deleteOrder(user, orderId);
+
+    // Send notification to user
+    const notificationForUser = notifications.rentOrder.orderDeletedForUser(
+      rentCar.photos[0]
+    );
+    await usersService.sendNotification([user._id], notificationForUser);
 
     const response = success.rentOrder.orderDeleted;
 
@@ -247,7 +259,6 @@ module.exports.rejectOrder = async (req, res, next) => {
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
-    console.log("err", err);
     next(err);
   }
 };
@@ -257,9 +268,36 @@ module.exports.deliverOrder = async (req, res, next) => {
     const office = req.user;
     const { orderId } = req.params;
 
-    await ordersService.deliverOrder(office, orderId);
+    const { order, rentCar } = await ordersService.deliverOrder(
+      office,
+      orderId
+    );
 
-    const response = success.rentOrder.orderApproved;
+    // Send notification to admin
+    const notificationForAdmin =
+      notifications.rentCars.rentalRequestDeliveredForAdmin(
+        rejectionReason,
+        rentCar.photos[0]
+      );
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to office
+    const notificationForOffice =
+      notifications.rentCars.rentalRequestDeliveredForOffice(
+        rejectionReason,
+        rentCar.photos[0]
+      );
+    await usersService.sendNotification([office._id], notificationForOffice);
+
+    // Send notification to user
+    const notificationForUser =
+      notifications.rentCars.rentalRequestDeliveredForUser(
+        rejectionReason,
+        rentCar.photos[0]
+      );
+    await usersService.sendNotification([order.author], notificationForUser);
+
+    const response = success.rentOrder.orderDelivered;
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {

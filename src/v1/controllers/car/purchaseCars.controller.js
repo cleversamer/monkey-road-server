@@ -1,9 +1,10 @@
 const {
   CLIENT_SCHEMA: purchaseCarSchema,
 } = require("../../models/car/purchaseCar.model");
-const { purchaseCarsService } = require("../../services");
+const { purchaseCarsService, usersService } = require("../../services");
 const httpStatus = require("http-status");
 const _ = require("lodash");
+const { notifications } = require("../../config");
 
 module.exports.getPurchaseCarDetails = async (req, res, next) => {
   try {
@@ -166,6 +167,18 @@ module.exports.addPurchaseCar = async (req, res, next) => {
       photo5,
       photo6
     );
+
+    // Send notification to admins
+    const notificationForAdmin = notifications.purchaseCars.postAddedForAdmin(
+      car.photos[0]
+    );
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to user
+    const notificationForUser = notifications.purchaseCars.postAddedForUser(
+      car.photos[0]
+    );
+    await usersService.sendNotification([user._id], notificationForUser);
 
     const response = _.pick(car, purchaseCarSchema);
 
