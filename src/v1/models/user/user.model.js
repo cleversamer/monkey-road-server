@@ -384,16 +384,8 @@ userSchema.methods.addVisaCard = function (
   }
 };
 
-userSchema.methods.addNotification = function (
-  title,
-  body,
-  data,
-  date = new Date()
-) {
+userSchema.methods.addNotification = function (notification) {
   try {
-    // Construct the notification
-    const notification = { title, body, data, date, seen: false };
-
     // Making sure that the max notifications count
     // is considered.
     this.notifications = this.notifications.slice(0, MAX_NOTIFICATIONS_COUNT);

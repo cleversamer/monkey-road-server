@@ -10,6 +10,7 @@ const localStorage = require("../storage/localStorage.service");
 const cloudStorage = require("../storage/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const errors = require("../../config/errors");
+const { Notification } = require("../../config/notifications");
 
 module.exports.findUserByEmailOrPhone = async (
   emailOrPhone,
@@ -277,7 +278,8 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
     const tokens = users.map((user) => {
       // Add the notification to user's notifications array
       // Save the user to the database
-      user.addNotification(title, body, data);
+      const notification = new Notification(title, body, data);
+      user.addNotification(notification);
       user.save();
 
       return user.deviceToken;
@@ -307,7 +309,8 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
     const tokens = admins.map((admin) => {
       // Add the notification to user's notifications array
       // Save the user to the database
-      admin.addNotification(title, body, data);
+      const notification = new Notification(title, body, data);
+      admin.addNotification(notification);
       admin.save();
 
       return admin.deviceToken;
