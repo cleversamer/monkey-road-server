@@ -306,42 +306,42 @@ module.exports.addRentCar = async (
       const localPhoto = await localStorage.storeFile(photo1);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
+      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo2) {
       const localPhoto = await localStorage.storeFile(photo2);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
+      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo3) {
       const localPhoto = await localStorage.storeFile(photo3);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
+      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo4) {
       const localPhoto = await localStorage.storeFile(photo4);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
+      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo5) {
       const localPhoto = await localStorage.storeFile(photo5);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
+      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo6) {
       const localPhoto = await localStorage.storeFile(photo6);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
+      rentCar.photos.push(cloudPhoto);
     }
 
     await rentCar.save();
