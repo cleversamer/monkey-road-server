@@ -11,7 +11,7 @@ const localStorage = require("../storage/localStorage.service");
 const cloudStorage = require("../cloud/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const errors = require("../../config/errors");
-const { Notification, user } = require("../../config/notifications");
+const { user } = require("../../config/notifications");
 
 module.exports.notifyUsersWithIncompleteTransactions = async () => {
   try {
@@ -290,7 +290,6 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
     const tokens = users.map((user) => {
       // Add the notification to user's notifications array
       // Save the user to the database
-      const notification = new Notification(title, body, data);
       user.addNotification(notification);
       user.save();
 
@@ -321,7 +320,6 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
     const tokens = admins.map((admin) => {
       // Add the notification to user's notifications array
       // Save the user to the database
-      const notification = new Notification(title, body, data);
       admin.addNotification(notification);
       admin.save();
 

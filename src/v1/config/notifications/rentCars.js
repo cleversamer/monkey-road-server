@@ -10,7 +10,7 @@ module.exports = {
   postAddedForOffice: (photoURL) =>
     new Notificatin(
       "تم إرسال طلبك بنجاح",
-      "تم إرسال طلب نشر سيّارتك للبيع إلى مدير النظام وهو الآن قيد المراجعة",
+      "تم إرسال طلب نشر سيّارتك للإيجار إلى مدير النظام وهو الآن قيد المراجعة",
       photoURL
     ),
   postRejectedForAdmin: (body, photoURL) =>
