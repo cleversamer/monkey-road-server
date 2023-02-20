@@ -1,6 +1,7 @@
 const { PurchaseCar } = require("../../models/car/purchaseCar.model");
 const brandsService = require("./brands.service");
 const localStorage = require("../../services/storage/localStorage.service");
+const cloudStorage = require("../../services/storage/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
@@ -249,33 +250,45 @@ module.exports.addPurchaseCar = async (
     });
 
     if (photo1) {
-      const photo = await localStorage.storeFile(photo1);
-      purchaseCar.photos.push(photo.path);
+      const localPhoto = await localStorage.storeFile(photo1);
+      const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+      await localStorage.deleteFile(localPhoto.path);
+      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo2) {
-      const photo = await localStorage.storeFile(photo2);
-      purchaseCar.photos.push(photo.path);
+      const localPhoto = await localStorage.storeFile(photo2);
+      const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+      await localStorage.deleteFile(localPhoto.path);
+      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo3) {
-      const photo = await localStorage.storeFile(photo3);
-      purchaseCar.photos.push(photo.path);
+      const localPhoto = await localStorage.storeFile(photo3);
+      const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+      await localStorage.deleteFile(localPhoto.path);
+      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo4) {
-      const photo = await localStorage.storeFile(photo4);
-      purchaseCar.photos.push(photo.path);
+      const localPhoto = await localStorage.storeFile(photo4);
+      const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+      await localStorage.deleteFile(localPhoto.path);
+      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo5) {
-      const photo = await localStorage.storeFile(photo5);
-      purchaseCar.photos.push(photo.path);
+      const localPhoto = await localStorage.storeFile(photo5);
+      const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+      await localStorage.deleteFile(localPhoto.path);
+      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo6) {
-      const photo = await localStorage.storeFile(photo6);
-      purchaseCar.photos.push(photo.path);
+      const localPhoto = await localStorage.storeFile(photo6);
+      const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+      await localStorage.deleteFile(localPhoto.path);
+      purchaseCar.photos.push(cloudPhoto);
     }
 
     // TODO: check for payment

@@ -1,6 +1,7 @@
 const { Brand } = require("../../models/car/brand.model");
 const { ApiError } = require("../../middleware/apiError");
 const localStorage = require("../storage/localStorage.service");
+const cloudStorage = require("../storage/cloudStorage.service");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
@@ -42,10 +43,22 @@ module.exports.getPopularBrands = async (skip) => {
 
 module.exports.addBrand = async (nameEN, nameAR, photo) => {
   try {
-    const _photo = await localStorage.storeFile(photo);
+    // Check if brand name exists
+    const isBrandExist = await Brand.findOne({
+      $or: [{ "name.en": { $eq: nameEN } }, { "name.ar": { $eq: nameAR } }],
+    });
+    if (isBrandExist) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.brand.alreadyExists;
+      throw new ApiError(statusCode, message);
+    }
+
+    const localPhoto = await localStorage.storeFile(photo);
+    const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
+    await localStorage.deleteFile(localPhoto.path);
 
     const brand = new Brand({
-      photoURL: _photo.path,
+      photoURL: cloudPhoto,
       name: {
         en: nameEN,
         ar: nameAR,

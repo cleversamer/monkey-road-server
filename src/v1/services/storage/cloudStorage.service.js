@@ -18,9 +18,9 @@ const uploadFile = async (file = { name: "", path: "" }) => {
 
     const options = {
       destination: destFileName,
-      preconditionOpts: {
-        ifGenerationMatch: generationMatchPrecondition,
-      },
+      // preconditionOpts: {
+      //   ifGenerationMatch: generationMatchPrecondition,
+      // },
     };
 
     const cloudFile = await storage
@@ -33,6 +33,30 @@ const uploadFile = async (file = { name: "", path: "" }) => {
   }
 };
 
+const deleteFile = async (fileURL) => {
+  try {
+    if (!fileURL) return;
+
+    const storage = new Storage({
+      keyFilename: path.join(
+        __dirname,
+        "../../config/system/service-account.json"
+      ),
+      projectId: "monkey-road",
+    });
+
+    const bucketName = "monkey-road-bucket-1";
+    const fileName = fileURL.split("/o/")[1].split("?")[0];
+
+    await storage.bucket(bucketName).file(fileName).delete();
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports = {
   uploadFile,
+  deleteFile,
 };

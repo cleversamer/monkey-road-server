@@ -7,6 +7,7 @@ const rentCarsService = require("../car/rentCars.service");
 const rentOrdersService = require("../car/rentOrders.service");
 const purchaseCarsService = require("../car/purchaseCars.service");
 const localStorage = require("../storage/localStorage.service");
+const cloudStorage = require("../storage/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const errors = require("../../config/errors");
 
@@ -535,8 +536,10 @@ const updateUserProfile = async (user, body) => {
     // Updating avatar when there's new avatar
     if (avatar) {
       const file = await localStorage.storeFile(avatar);
-      await localStorage.deleteFile(user.avatarURL);
-      user.avatarURL = file.path;
+      const fileURL = await cloudStorage.uploadFile(file);
+      await localStorage.deleteFile(file.path);
+      await cloudStorage.deleteFile(user.avatarURL);
+      user.avatarURL = fileURL;
       changes.push("avatarURL");
     }
 

@@ -1,4 +1,6 @@
 const Excel = require("exceljs");
+const localStorage = require("./localStorage.service");
+const cloudStorage = require("./cloudStorage.service");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 const { ApiError } = require("../../middleware/apiError");
@@ -87,9 +89,19 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
     // Generate and save excel file
     await workbook.xlsx.writeFile(`./uploads/${fileName}`);
 
+    // Upload excel file to storage bucket
+    const cloudFile = await cloudStorage.uploadFile({
+      name: fileName,
+      path: filePath,
+    });
+
+    // Delete local excel file
+    await localStorage.deleteFile(filePath);
+
     // Return file's path
-    return filePath;
+    return cloudFile;
   } catch (err) {
+    console.log("err", err);
     const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     const message = errors.system.errorExportingExcel;
     throw new ApiError(statusCode, message);
