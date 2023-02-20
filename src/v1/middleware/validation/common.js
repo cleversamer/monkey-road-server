@@ -490,6 +490,10 @@ const checkFullName = check("fullName")
   })
   .withMessage(errors.rentOrder.invalidFullName);
 
+const checkUserId = check("userId")
+  .isMongoId()
+  .withMessage(errors.user.invalidId);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -554,4 +558,5 @@ module.exports = {
   checkNoOfDays,
   checkLocationTitle,
   checkFullName,
+  checkUserId,
 };

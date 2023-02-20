@@ -39,4 +39,7 @@ module.exports = Object.freeze({
     "update:own": ["*"],
     "delete:own": ["*"],
   },
+  transaction: {
+    "read:own": ["*"],
+  },
 });
