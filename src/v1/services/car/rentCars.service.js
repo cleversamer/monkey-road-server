@@ -231,7 +231,7 @@ module.exports.requestCarRental = async (
     // matches or are in another order's days
     const rentOrdersForThisCar = await RentOrder.find({
       rentCar: rentCar._id,
-      status: { $not: { $eq: "delivered" } },
+      status: { $not: { $in: ["rejected", "closed", "delivered"] } },
     });
     for (let thisOrder of rentOrdersForThisCar) {
       if (thisOrder.conflictsWith(order)) {

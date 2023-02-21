@@ -177,9 +177,8 @@ rentOrderSchema.index({ status: 1 });
 // Order object methods
 rentOrderSchema.methods.setEndDate = function (noOfDays) {
   const startDate = new Date(this.startDate);
-  const endDate = new Date();
-  endDate.setDate(startDate.getDate() + noOfDays);
-
+  const noOfDaysInMilliseconds = 1000 * 60 * 60 * 24 * noOfDays;
+  const endDate = new Date(startDate.getTime() + noOfDaysInMilliseconds);
   this.endDate = endDate;
 };
 
