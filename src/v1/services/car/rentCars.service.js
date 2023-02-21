@@ -243,6 +243,8 @@ module.exports.requestCarRental = async (
 
     await order.save();
 
+    // TODO: check for payment
+
     return { order, rentCar };
   } catch (err) {
     throw err;

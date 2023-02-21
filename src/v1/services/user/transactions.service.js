@@ -55,9 +55,11 @@ module.exports.getIncompleteTransactionsAuthorIds = async () => {
       status: "incomplete",
     });
 
-    const authorIds = transactions
-      .map((transaction) => transaction.author)
-      .filter((value, index) => transactions.indexOf(value) === index);
+    const authorIds = [
+      ...new Set(
+        transactions.map((transaction) => transaction.author.toString())
+      ),
+    ];
 
     return authorIds;
   } catch (err) {

@@ -18,7 +18,9 @@ module.exports.notifyUsersWithIncompleteTransactions = async () => {
     const userIds =
       await transactionsCarsService.getIncompleteTransactionsAuthorIds();
 
-    await this.sendNotification(userIds, user.missedIncompleteTransaction);
+    if (userIds && userIds.length) {
+      await this.sendNotification(userIds, user.missedIncompleteTransaction);
+    }
   } catch (err) {
     // TODO: write error to the DB
   }

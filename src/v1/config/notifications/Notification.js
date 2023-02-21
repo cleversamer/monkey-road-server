@@ -4,6 +4,6 @@ module.exports = class Notificatin {
     this.body = body;
     this.photoURL = photoURL;
     this.seen = false;
-    this.date = new Date().toString();
+    this.date = new Date().toISOString();
   }
 };
