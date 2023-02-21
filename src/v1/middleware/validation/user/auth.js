@@ -5,18 +5,12 @@ const commonMiddleware = require("../common");
 const loginWithEmailValidator = [
   commonMiddleware.checkEmailOrPhone,
   commonMiddleware.checkPassword,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
+  commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
 ];
 
 const loginWithGoogleValidator = [
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
+  commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
 ];
 
@@ -27,20 +21,14 @@ const registerWithEmailValidator = [
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkPassword,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
+  commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
 ];
 
 const registerWithGoogleValidator = [
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
+  commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
 ];
 

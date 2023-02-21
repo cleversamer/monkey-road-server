@@ -7,7 +7,7 @@ module.exports = {
   roles: ["user", "office", "admin"],
   authTypes: ["email", "google"],
   registerRoles: ["user"],
-  deviceToken: { minLength: 1, maxLength: 1024 },
+  deviceToken: { minLength: 0, maxLength: 1024 },
   password: { minLength: 8, maxLength: 64 },
   verificationCode: { exactLength: 4 },
 };

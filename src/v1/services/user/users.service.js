@@ -289,13 +289,18 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
     // Find users and map them to an array of device tokens.
     const queryCriteria = userIds.length ? { _id: { $in: userIds } } : {};
     const users = await User.find(queryCriteria);
+    if (!users || !users.length) return;
     const tokens = users.map((user) => {
-      // Add the notification to user's notifications array
-      // Save the user to the database
-      user.addNotification(notification);
-      user.save();
+      try {
+        // Add the notification to user's notifications array
+        // Save the user to the database
+        user.addNotification(notification);
+        user.save();
 
-      return user.deviceToken;
+        return user.deviceToken;
+      } catch (err) {
+        return "";
+      }
     });
 
     notificationsService.sendPushNotification(
@@ -320,12 +325,16 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
     // Find users and map them to an array of device tokens.
     const admins = await this.findAdmins();
     const tokens = admins.map((admin) => {
-      // Add the notification to user's notifications array
-      // Save the user to the database
-      admin.addNotification(notification);
-      admin.save();
+      try {
+        // Add the notification to user's notifications array
+        // Save the user to the database
+        admin.addNotification(notification);
+        admin.save();
 
-      return admin.deviceToken;
+        return admin.deviceToken;
+      } catch (err) {
+        return "";
+      }
     });
 
     notificationsService.sendPushNotification(
