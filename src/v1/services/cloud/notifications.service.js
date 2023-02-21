@@ -11,7 +11,6 @@ const fcm = new FCM(certPath);
 module.exports.sendPushNotification = (title, body, data, tokens, callback) => {
   try {
     tokens = filterTokens(tokens);
-    console.log("tokens", tokens);
 
     let payload = {
       data,
@@ -23,7 +22,6 @@ module.exports.sendPushNotification = (title, body, data, tokens, callback) => {
 
     fcm.sendToMultipleToken(payload, tokens, callback);
   } catch (err) {
-    console.log("err", err);
     const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     const message = errors.user.errorSendingNotification;
     throw new ApiError(statusCode, message);
