@@ -100,4 +100,8 @@ module.exports = Object.freeze({
     en: "You can't request a rental for the same car twice",
     ar: "لا يمكنك طلب إستئجار نفس السيّارة مرتين",
   },
+  orderTimeConflict: {
+    en: "The time you chose conflicts with another order for this car",
+    ar: "الوقت الذي إخترته يتعارض مع طلب آخر لهذه السيّارة",
+  },
 });

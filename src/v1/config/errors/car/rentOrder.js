@@ -82,4 +82,12 @@ module.exports = Object.freeze({
     en: `Rejection reason should be ${reasonForRejection.minLength}-${reasonForRejection.maxLength} letters`,
     ar: `سبب الرفض يجب أن يكون بين ${reasonForRejection.minLength}-${reasonForRejection.maxLength} حرفًا`,
   },
+  invalidStartDate: {
+    en: "Invalid start date",
+    ar: "تاريخ بداية التأجير غير صالح",
+  },
+  lowerStartDate: {
+    en: "The start date precedes the current date",
+    ar: "تاريخ البدء يسبق التاريخ الحالي",
+  },
 });

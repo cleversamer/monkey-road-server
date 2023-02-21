@@ -45,11 +45,16 @@ const searchRentCarsValidator = [
 ];
 
 const requestCarRentalValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
   commonMiddleware.checkNoOfDays,
+  commonMiddleware.checkStartDate,
   commonMiddleware.checkLocationTitle,
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkFullName,
+  commonMiddleware.checkLongitude,
+  commonMiddleware.checkLatitude,
   commonMiddleware.next,
 ];
 

@@ -184,7 +184,7 @@ const purchaseCarSchema = new Schema(
     },
     // The date of adding this car
     creationDate: {
-      type: String,
+      type: Date,
       required: true,
       default: new Date(),
     },

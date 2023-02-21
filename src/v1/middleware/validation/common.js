@@ -478,6 +478,34 @@ const checkNoOfDays = check("noOfDays")
   })
   .withMessage(errors.rentOrder.invalidNoOfDays);
 
+const checkStartDate = (req, res, next) => {
+  try {
+    const { startDate } = req.body;
+
+    // Check if `startDate` is a valid date string
+    const convertedStartDate = new Date(startDate);
+
+    const isValid = convertedStartDate.toString() !== "Invalid Date";
+
+    if (!isValid) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.invalidStartDate;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if `convertedStartDate` is >= now date
+    if (convertedStartDate < new Date()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentOrder.lowerStartDate;
+      throw new ApiError(statusCode, message);
+    }
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
 const checkLocationTitle = check("locationTitle")
   .isLength({
     min: rentOrderValidation.locationTitle.minLength,
@@ -491,6 +519,14 @@ const checkFullName = check("fullName")
     max: rentOrderValidation.fullName.maxLength,
   })
   .withMessage(errors.rentOrder.invalidFullName);
+
+const checkLongitude = check("longitude")
+  .isFloat({ min: -180, max: 180 })
+  .withMessage(errors.system.invalidLongitude);
+
+const checkLatitude = check("latitude")
+  .isFloat({ min: -90, max: 90 })
+  .withMessage(errors.system.invalidLatitude);
 
 const checkUserId = check("userId")
   .isMongoId()
@@ -558,7 +594,10 @@ module.exports = {
   checkBrandENName,
   checkBrandARName,
   checkNoOfDays,
+  checkStartDate,
   checkLocationTitle,
   checkFullName,
+  checkLongitude,
+  checkLatitude,
   checkUserId,
 };

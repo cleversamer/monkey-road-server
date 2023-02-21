@@ -142,7 +142,7 @@ const userSchema = new Schema(
     },
     // The last login date of the user
     lastLogin: {
-      type: String,
+      type: Date,
       default: new Date(),
     },
     // The email, phone, and password verification codes
@@ -153,7 +153,7 @@ const userSchema = new Schema(
           default: "",
         },
         expiryDate: {
-          type: String,
+          type: Date,
           default: "",
         },
       },
@@ -163,7 +163,7 @@ const userSchema = new Schema(
           default: "",
         },
         expiryDate: {
-          type: String,
+          type: Date,
           default: "",
         },
       },
@@ -173,7 +173,7 @@ const userSchema = new Schema(
           default: "",
         },
         expiryDate: {
-          type: String,
+          type: Date,
           default: "",
         },
       },

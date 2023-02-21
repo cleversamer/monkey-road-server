@@ -69,4 +69,12 @@ module.exports = Object.freeze({
     en: "Error exporting excel file",
     ar: "حصل خطأ عند تصدير ملف الاكسل",
   },
+  invalidLongitude: {
+    en: `Longitude should be between -180-180`,
+    ar: `خط الطول يجب أن يكون بين -180-180`,
+  },
+  invalidLatitude: {
+    en: `Latitude should be between -90-90`,
+    ar: `خط العرض يجب أن يكون بين -90-90`,
+  },
 });

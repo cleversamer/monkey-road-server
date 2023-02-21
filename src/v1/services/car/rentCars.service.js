@@ -193,11 +193,13 @@ module.exports.requestCarRental = async (
     }
 
     // Check if user has requested the same car and didn't receive it
-    const rentOrderForThisCar = await RentOrder.findOne({
+    const carOrders = await RentOrder.find({
       author: user._id,
       rentCar: rentCar._id,
     });
-    if (rentOrderForThisCar && !rentOrderForThisCar.isDelivered()) {
+    const hasUndeliveredOrderForThisCar =
+      carOrders.findIndex((order) => !order.isDelivered()) >= 0;
+    if (hasUndeliveredOrderForThisCar) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentCar.requestCarTwice;
       throw new ApiError(statusCode, message);
@@ -224,6 +226,20 @@ module.exports.requestCarRental = async (
 
     order.calcTotalPrice(noOfDays, rentCar.price);
     order.setEndDate(noOfDays);
+
+    // Check if there's an order and its delivery days
+    // matches or are in another order's days
+    const rentOrdersForThisCar = await RentOrder.find({
+      rentCar: rentCar._id,
+      status: { $not: { $eq: "delivered" } },
+    });
+    for (let thisOrder of rentOrdersForThisCar) {
+      if (thisOrder.conflictsWith(order)) {
+        const statusCode = httpStatus.FORBIDDEN;
+        const message = errors.rentCar.orderTimeConflict;
+        throw new ApiError(statusCode, message);
+      }
+    }
 
     await order.save();
 

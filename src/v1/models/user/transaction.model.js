@@ -53,7 +53,7 @@ const transactionSchema = new Schema(
       max: validation.amount.max,
     },
     date: {
-      type: String,
+      type: Date,
       required: true,
       trim: true,
       default: new Date(),

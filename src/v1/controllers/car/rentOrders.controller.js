@@ -155,7 +155,6 @@ module.exports.getMyReceivedOrders = async (req, res, next) => {
         const mappedOrder = {
           ...order,
           phoneNumber: "",
-          office: _.pick(order.office[0], userSchema),
           rentCar: _.pick(order.rentCar, rentCarSchema),
         };
 

@@ -130,13 +130,13 @@ const rentOrderSchema = new Schema(
     },
     // The start date of car rental
     startDate: {
-      type: String,
+      type: Date,
       required: true,
       trim: true,
     },
     // The end date of car rental
     endDate: {
-      type: String,
+      type: Date,
       required: true,
       trim: true,
     },
@@ -147,7 +147,7 @@ const rentOrderSchema = new Schema(
       max: validation.noOfDays.max,
     },
     date: {
-      type: String,
+      type: Date,
       required: true,
       trim: true,
       default: new Date(),
@@ -178,7 +178,7 @@ rentOrderSchema.index({ status: 1 });
 rentOrderSchema.methods.setEndDate = function (noOfDays) {
   const startDate = new Date(this.startDate);
   const endDate = new Date();
-  endDate.setHours(startDate.getHours() + noOfDays * 24);
+  endDate.setDate(startDate.getDate() + noOfDays);
 
   this.endDate = endDate;
 };
@@ -202,6 +202,25 @@ rentOrderSchema.methods.calcTotalPrice = function (noOfDays, price) {
     };
   } catch (err) {
     // Write error to the DB
+  }
+};
+
+rentOrderSchema.methods.conflictsWith = function (order) {
+  try {
+    const thisStartDate = new Date(this.startDate);
+    const thisEndDate = new Date(this.endDate);
+    const thatStartDate = new Date(order.startDate);
+    const thatEndDate = new Date(order.endDate);
+
+    const startDateConflict =
+      thatStartDate >= thisStartDate && thatStartDate <= thisEndDate;
+    const endDateConflict =
+      thatEndDate >= thisStartDate && thatEndDate <= thisEndDate;
+
+    return startDateConflict || endDateConflict;
+  } catch (err) {
+    // Write error to the DB
+    return true;
   }
 };
 
