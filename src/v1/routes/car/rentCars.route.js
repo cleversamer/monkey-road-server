@@ -50,6 +50,13 @@ router.post(
   rentCarsController.addRentCar
 );
 
+router.patch(
+  "/:carId/archive",
+  rentCarValidator.archiveRentCarValidator,
+  auth("updateOwn", "rentCar"),
+  rentCarsController.archiveRentCar
+);
+
 //////////////////// Admin Routes ////////////////////
 router.get(
   "/not-accepted",

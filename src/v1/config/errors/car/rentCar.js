@@ -108,4 +108,8 @@ module.exports = Object.freeze({
     en: "The time you chose conflicts with another order for this car",
     ar: "الوقت الذي إخترته يتعارض مع طلب آخر لهذه السيّارة",
   },
+  alreadyArchived: {
+    en: "Car is already archived",
+    ar: "السيّارة مؤرشفة مسبقًا",
+  },
 });
