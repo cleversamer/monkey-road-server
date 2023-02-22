@@ -179,9 +179,8 @@ module.exports.approveOrder = async (req, res, next) => {
     );
 
     // Send notification to admin
-    const notificationForAdmin = notifications.rentCars.rentalRequestForAdmin(
-      rentCar.photos[0]
-    );
+    const notificationForAdmin =
+      notifications.rentCars.rentalRequestApprovedForAdmin(rentCar.photos[0]);
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
