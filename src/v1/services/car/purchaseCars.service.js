@@ -83,13 +83,20 @@ module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
 
 module.exports.getLatestModelsPurchaseCars = async (skip) => {
   try {
-    const purchaseCars = await PurchaseCar.find({}).skip(skip).limit(10);
+    let purchaseCars = await PurchaseCar.find({}).skip(skip).limit(10);
 
+    // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noCars;
       throw new ApiError(statusCode, message);
     }
+
+    // Clear phone number for sold cars
+    purchaseCars = purchaseCars.map((car) => ({
+      ...car,
+      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+    }));
 
     return purchaseCars;
   } catch (err) {
