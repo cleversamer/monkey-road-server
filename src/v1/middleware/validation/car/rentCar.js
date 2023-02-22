@@ -91,6 +91,12 @@ const archiveRentCarValidator = [
   commonMiddleware.next,
 ];
 
+const restoreRentCarValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
+  commonMiddleware.next,
+];
+
 const getNotAcceptedRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkSkip,
@@ -119,6 +125,7 @@ module.exports = {
   getMyRentCarsValidator,
   addRentCarValidator,
   archiveRentCarValidator,
+  restoreRentCarValidator,
   getNotAcceptedRentCarsValidator,
   acceptRentCarValidator,
   rejectRentCarValidator,

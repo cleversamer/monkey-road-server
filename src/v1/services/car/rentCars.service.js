@@ -419,6 +419,35 @@ module.exports.archiveRentCar = async (rentCarId) => {
   }
 };
 
+module.exports.restoreRentCar = async (rentCarId) => {
+  try {
+    // Check if car exists
+    const rentCar = await RentCar.findById(rentCarId);
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if car is not archived
+    if (!rentCar.isArchived()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.rentCar.alreadyArchived;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Archive car
+    rentCar.restore();
+
+    // Save car to the DB
+    await rentCar.save();
+
+    return rentCar;
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Admin Services ////////////////////
 module.exports.getNotAcceptedRentCars = async (skip) => {
   try {

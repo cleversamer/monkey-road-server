@@ -251,6 +251,20 @@ module.exports.archiveRentCar = async (req, res, next) => {
   }
 };
 
+module.exports.restoreRentCar = async (req, res, next) => {
+  try {
+    const { carId: rentCarId } = req.params;
+
+    const restoredCar = await rentCarsService.restoreRentCar(rentCarId);
+
+    const response = _.pick(restoredCar, rentCarSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 //////////////////// Admin Controllers ////////////////////
 module.exports.getNotAcceptedRentCars = async (req, res, next) => {
   try {

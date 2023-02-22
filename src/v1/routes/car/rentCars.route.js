@@ -57,6 +57,13 @@ router.patch(
   rentCarsController.archiveRentCar
 );
 
+router.patch(
+  "/:carId/restore",
+  rentCarValidator.restoreRentCarValidator,
+  auth("updateOwn", "rentCar"),
+  rentCarsController.restoreRentCar
+);
+
 //////////////////// Admin Routes ////////////////////
 router.get(
   "/not-accepted",
