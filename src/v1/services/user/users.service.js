@@ -287,7 +287,9 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
     callback = typeof callback === "function" ? callback : () => {};
 
     // Find users and map them to an array of device tokens.
-    const queryCriteria = userIds.length ? { _id: { $in: userIds } } : {};
+    const queryCriteria = userIds.length
+      ? { _id: { $in: userIds } }
+      : { role: { $not: { $eq: "admin" } } };
     const users = await User.find(queryCriteria);
     if (!users || !users.length) return;
     const tokens = users.map((user) => {
