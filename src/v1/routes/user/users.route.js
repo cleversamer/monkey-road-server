@@ -60,6 +60,12 @@ router.patch(
   usersController.updateProfile
 );
 
+router.patch(
+  "/language/switch",
+  auth("updateOwn", "user"),
+  usersController.switchLanguage
+);
+
 //////////////////// User: Notifications ////////////////////
 router.get(
   "/notifications/see",

@@ -281,6 +281,20 @@ module.exports.updateProfile = async (
   }
 };
 
+module.exports.switchLanguage = async (user) => {
+  try {
+    // Switch user's language
+    user.switchLanguage();
+
+    // Save user to the DB
+    await user.save();
+
+    return user;
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.sendNotification = async (userIds, notification, callback) => {
   try {
     // Validate callback function

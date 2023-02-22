@@ -138,6 +138,20 @@ module.exports.updateProfile = async (req, res, next) => {
   }
 };
 
+module.exports.switchLanguage = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const updatedUser = await usersService.switchLanguage(user);
+
+    const response = _.pick(updatedUser, CLIENT_SCHEMA);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.sendNotification = async (req, res, next) => {
   try {
     const { userIds, titleEN, titleAR, bodyEN, bodyAR } = req.body;

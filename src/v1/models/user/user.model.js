@@ -210,6 +210,14 @@ userSchema.methods.genAuthToken = function () {
   }
 };
 
+userSchema.methods.switchLanguage = function () {
+  try {
+    this.favLang = this.favLang === "en" ? "ar" : "en";
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
 userSchema.methods.addBalance = function (amount) {
   try {
     this.balance += amount;
