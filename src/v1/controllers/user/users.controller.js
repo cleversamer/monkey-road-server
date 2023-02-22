@@ -374,8 +374,13 @@ module.exports.deliverPaymentToOffice = async (req, res, next) => {
 
     const office = await usersService.deliverPaymentToOffice(officeId, amount);
 
-    const notification = user.paymentDelivered(amount);
-    await usersService.sendNotification([office._id], notification);
+    // Send notification to admin
+    const notificationForAdmin = user.paymentDeliveredForAdmin(amount);
+    await usersService.sendNotificationToAdmins(notificationForAdmin);
+
+    // Send notification to office
+    const notificationForOffice = user.paymentDeliveredForOffice(amount);
+    await usersService.sendNotification([office._id], notificationForOffice);
 
     const response = success.user.paymentDeliveredToOffice;
 

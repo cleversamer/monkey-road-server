@@ -1,3 +1,5 @@
+const { paymentDeliveryAmount } = require("../../models/user");
+
 module.exports = Object.freeze({
   invalidId: {
     en: "Invalid user ID",
@@ -74,5 +76,13 @@ module.exports = Object.freeze({
   errorSendingNotification: {
     en: "Error sending notification",
     ar: "حصل خطأ عند إرسال الإشعار",
+  },
+  invalidPaymentDeliveryAmount: {
+    en: `Payment delivery amount should be ${paymentDeliveryAmount.min.toLocaleString()}-${paymentDeliveryAmount.max.toLocaleString()} AED`,
+    ar: `مبلغ تسليم الدفعة يجب أن يكون بين ${paymentDeliveryAmount.min.toLocaleString()}-${paymentDeliveryAmount.max.toLocaleString()} درهم إماراتي`,
+  },
+  deliveredAmountNotAvailable: {
+    en: "The delivery amount is not available in the office account",
+    ar: "مبلغ التسليم غير متوفر في حساب مكتب التأجير",
   },
 });

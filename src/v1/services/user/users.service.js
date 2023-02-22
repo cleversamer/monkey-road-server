@@ -669,7 +669,16 @@ module.exports.deliverPaymentToOffice = async (officeId, amount) => {
     }
 
     // Take balance from office
-    office.takeBalance(amount);
+    const successfull = office.takeBalance(amount);
+
+    // Check if operation is successful
+    // HINT: successfull means that the office has the specified
+    //       balance in their account.
+    if (!successfull) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.user.deliveredAmountNotAvailable;
+      throw new ApiError(statusCode, message);
+    }
 
     // Save office to the DB
     await office.save();

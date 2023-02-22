@@ -149,6 +149,7 @@ router.get(
 //////////////////// Admin: Balance ////////////////////
 router.post(
   "/admin/office/:userId/deliver-payment",
+  userValidator.deliverPaymentToOfficeValidator,
   auth("updateAny", "user"),
   usersController.deliverPaymentToOffice
 );

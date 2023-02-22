@@ -45,6 +45,13 @@ const deleteFromFavoritesValidator = [
   commonMiddleware.next,
 ];
 
+const deliverPaymentToOfficeValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkUserId,
+  commonMiddleware.checkPaymentDeliveryAmount,
+  commonMiddleware.next,
+];
+
 module.exports = {
   validateUpdateProfile,
   validateUpdateUserProfile,
@@ -53,4 +60,5 @@ module.exports = {
   validateFindUserByEmailOrPhone,
   addToFavoritesValidator,
   deleteFromFavoritesValidator,
+  deliverPaymentToOfficeValidator,
 };

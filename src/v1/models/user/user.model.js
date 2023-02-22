@@ -106,6 +106,8 @@ const userSchema = new Schema(
     balance: {
       type: Number,
       default: 0,
+      min: validation.balance.min,
+      max: validation.balance.max,
     },
     // The role of the user
     role: {
@@ -212,7 +214,9 @@ userSchema.methods.addBalance = function (amount) {
 
 userSchema.methods.takeBalance = function (amount) {
   try {
+    if (amount > this.balance) return false;
     this.balance -= amount;
+    return true;
   } catch (err) {
     // TODO: write error to the DB
   }

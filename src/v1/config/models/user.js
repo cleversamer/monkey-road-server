@@ -10,4 +10,6 @@ module.exports = {
   deviceToken: { minLength: 0, maxLength: 1024 },
   password: { minLength: 8, maxLength: 64 },
   verificationCode: { exactLength: 4 },
+  balance: { min: 0, max: 1000 * 1000 },
+  paymentDeliveryAmount: { min: 10, max: 1000 * 1000 },
 };

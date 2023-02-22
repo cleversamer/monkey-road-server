@@ -532,6 +532,13 @@ const checkUserId = check("userId")
   .isMongoId()
   .withMessage(errors.user.invalidId);
 
+const checkPaymentDeliveryAmount = check("amount")
+  .isFloat({
+    min: userValidation.paymentDeliveryAmount.min,
+    max: userValidation.paymentDeliveryAmount.max,
+  })
+  .withMessage(errors.user.invalidPaymentDeliveryAmount);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -600,4 +607,5 @@ module.exports = {
   checkLongitude,
   checkLatitude,
   checkUserId,
+  checkPaymentDeliveryAmount,
 };
