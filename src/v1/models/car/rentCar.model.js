@@ -15,6 +15,7 @@ const CLIENT_SCHEMA = [
   "description",
   "photos",
   "accepted",
+  "archived",
   "creationDate",
 ];
 
