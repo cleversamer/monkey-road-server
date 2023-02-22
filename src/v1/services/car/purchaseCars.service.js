@@ -45,7 +45,7 @@ module.exports.getPurchaseCarDetails = async (carId) => {
     }
 
     // Clear seller phone number if car is sold
-    if (purchaseCar.sold) {
+    if (purchaseCar.isSold()) {
       purchaseCar.phoneNumber = "";
     }
 
@@ -57,16 +57,23 @@ module.exports.getPurchaseCarDetails = async (carId) => {
 
 module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
   try {
-    const purchaseCars = await PurchaseCar.find({})
+    let purchaseCars = await PurchaseCar.find({})
       .sort({ _id: -1 })
       .skip(skip)
       .limit(10);
 
+    // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noCars;
       throw new ApiError(statusCode, message);
     }
+
+    // Clear phone number for sold cars
+    purchaseCars = purchaseCars.map((car) => ({
+      ...car,
+      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+    }));
 
     return purchaseCars;
   } catch (err) {
