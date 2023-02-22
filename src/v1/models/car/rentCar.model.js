@@ -138,6 +138,10 @@ const rentCarSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    archived: {
+      type: Boolean,
+      default: false,
+    },
     // The date of adding this car
     creationDate: {
       type: Date,
@@ -172,6 +176,30 @@ rentCarSchema.index({
 });
 
 // Rent car methods
+rentCarSchema.methods.archive = function () {
+  try {
+    this.archived = true;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
+rentCarSchema.methods.restore = function () {
+  try {
+    this.archived = false;
+  } catch (err) {
+    // Write error to the DB
+  }
+};
+
+rentCarSchema.methods.isArchived = function () {
+  try {
+    return this.archived;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
 rentCarSchema.methods.accept = function () {
   try {
     this.accepted = true;
