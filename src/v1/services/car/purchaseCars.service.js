@@ -36,12 +36,17 @@ module.exports.getPurchaseCarsStatus = async () => {
 //////////////////// Routes Services ////////////////////
 module.exports.getPurchaseCarDetails = async (carId) => {
   try {
+    // Check if purchase car exists
     const purchaseCar = await PurchaseCar.findById(carId);
-
     if (!purchaseCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.notFound;
       throw new ApiError(statusCode, message);
+    }
+
+    // Clear seller phone number if car is sold
+    if (purchaseCar.sold) {
+      purchaseCar.phoneNumber = "";
     }
 
     return purchaseCar;
