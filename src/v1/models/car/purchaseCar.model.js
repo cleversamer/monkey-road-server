@@ -21,6 +21,7 @@ const CLIENT_SCHEMA = [
   "phoneNumber",
   "description",
   "photos",
+  "sold",
   "creationDate",
 ];
 
@@ -182,6 +183,10 @@ const purchaseCarSchema = new Schema(
       min: validation.photos.min,
       max: validation.photos.max,
     },
+    sold: {
+      type: Boolean,
+      default: false,
+    },
     // The date of adding this car
     creationDate: {
       type: Date,
@@ -197,6 +202,14 @@ const purchaseCarSchema = new Schema(
     timestamps: true,
   }
 );
+
+purchaseCarSchema.methods.isSold = function () {
+  try {
+    return this.sold;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
 
 // Because the seller needs to read their own cars
 // and this process will happen a lot in the application
