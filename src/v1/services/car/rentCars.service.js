@@ -124,6 +124,7 @@ module.exports.searchRentCars = async (
     const match = {
       $text: { $search: searchTerm },
       accepted: true,
+      archived: false,
     };
 
     // if (minPrice) {
