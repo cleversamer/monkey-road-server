@@ -265,6 +265,20 @@ module.exports.restoreRentCar = async (req, res, next) => {
   }
 };
 
+module.exports.deleteRentCar = async (req, res, next) => {
+  try {
+    const { carId: rentCarId } = req.params;
+
+    const deletedCar = await rentCarsService.deleteRentCar(rentCarId);
+
+    const response = _.pick(deletedCar, rentCarSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 //////////////////// Admin Controllers ////////////////////
 module.exports.getNotAcceptedRentCars = async (req, res, next) => {
   try {

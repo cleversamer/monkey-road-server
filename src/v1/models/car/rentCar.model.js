@@ -177,6 +177,14 @@ rentCarSchema.index({
 });
 
 // Rent car methods
+rentCarSchema.method.isAccepted = function () {
+  try {
+    return this.accepted;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
 rentCarSchema.methods.archive = function () {
   try {
     this.archived = true;

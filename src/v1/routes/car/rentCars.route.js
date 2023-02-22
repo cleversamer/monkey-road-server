@@ -64,6 +64,13 @@ router.patch(
   rentCarsController.restoreRentCar
 );
 
+router.patch(
+  "/:carId/delete",
+  rentCarValidator.deleteRentCarValidator,
+  auth("updateOwn", "rentCar"),
+  rentCarsController.deleteRentCar
+);
+
 //////////////////// Admin Routes ////////////////////
 router.get(
   "/not-accepted",

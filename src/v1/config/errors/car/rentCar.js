@@ -112,4 +112,8 @@ module.exports = Object.freeze({
     en: "Car is already archived",
     ar: "السيّارة مؤرشفة مسبقًا",
   },
+  deleteAcceptedCar: {
+    en: "You can't delete an active car",
+    ar: "لا يمكنك حذف سيّارة نشطة",
+  },
 });

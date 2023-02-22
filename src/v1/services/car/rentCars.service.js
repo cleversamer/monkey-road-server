@@ -448,6 +448,32 @@ module.exports.restoreRentCar = async (rentCarId) => {
   }
 };
 
+module.exports.deleteRentCar = async (rentCarId) => {
+  try {
+    // Check if car exists
+    const rentCar = await RentCar.findById(rentCarId);
+    if (!rentCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if car is accepted
+    if (!rentCar.isAccepted()) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentCar.deleteAcceptedCar;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Delete rent car
+    await rentCar.delete();
+
+    return rentCar;
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Admin Services ////////////////////
 module.exports.getNotAcceptedRentCars = async (skip) => {
   try {
