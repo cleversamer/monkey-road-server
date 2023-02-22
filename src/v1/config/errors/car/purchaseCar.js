@@ -97,4 +97,8 @@ module.exports = Object.freeze({
     en: `Car's description should be ${description.minLength}-${description.maxLength} characters length`,
     ar: `وصف السيّارة يجب أن يكون بين ${description.minLength}-${description.maxLength} حرفًا`,
   },
+  alreadySold: {
+    en: "Car is already marked as sold",
+    ar: "تم تعليم السيّارة على أنها مُباعة مسبقًا",
+  },
 });

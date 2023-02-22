@@ -187,3 +187,19 @@ module.exports.addPurchaseCar = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.markPurchaseCarAsSold = async (req, res, next) => {
+  try {
+    const { carId: purchaseCarId } = req.body;
+
+    const purchaseCar = await purchaseCarsService.markPurchaseCarAsSold(
+      purchaseCarId
+    );
+
+    const response = _.pick(purchaseCar, purchaseCarSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

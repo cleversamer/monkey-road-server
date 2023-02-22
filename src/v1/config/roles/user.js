@@ -26,6 +26,7 @@ module.exports = Object.freeze({
   purchaseCar: {
     "create:own": ["*"],
     "read:own": ["*"],
+    "update:own": ["*"],
   },
   rentOrder: {
     "create:own": ["*"],

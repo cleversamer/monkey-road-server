@@ -48,4 +48,11 @@ router.post(
   purchaseCarsController.addPurchaseCar
 );
 
+router(
+  "/:carId/mark-sold",
+  purchaseCarValidator.markPurchaseCarAsSoldValidator,
+  auth("updateOwn", "purchaseCar"),
+  purchaseCarsController.markPurchaseCarAsSold
+);
+
 module.exports = router;

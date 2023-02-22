@@ -336,3 +336,32 @@ module.exports.addPurchaseCar = async (
     throw err;
   }
 };
+
+module.exports.markPurchaseCarAsSold = async (purchaseCarId) => {
+  try {
+    // Check if purchase car exists
+    const purchaseCar = await PurchaseCar.findById(purchaseCarId);
+    if (!purchaseCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.purchaseCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if purchase car is already sold
+    if (purchaseCar.isSold()) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.purchaseCar.alreadySold;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Mark purchase car as sold
+    purchaseCar.markAsSold();
+
+    // Save purchase car to the DB
+    await purchaseCar.save();
+
+    return purchaseCar;
+  } catch (err) {
+    throw err;
+  }
+};

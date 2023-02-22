@@ -211,6 +211,14 @@ purchaseCarSchema.methods.isSold = function () {
   }
 };
 
+purchaseCarSchema.methods.markAsSold = function () {
+  try {
+    this.sold = true;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
 // Because the seller needs to read their own cars
 // and this process will happen a lot in the application
 // and we can not let mongodb to do a COLLSACAN

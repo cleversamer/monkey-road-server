@@ -76,6 +76,12 @@ const addPurchaseCarValidator = [
   commonMiddleware.next,
 ];
 
+const markPurchaseCarAsSoldValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getPurchaseCarDetailsValidator,
   getRecentlyArrivedPurchaseCarsValidator,
@@ -84,4 +90,5 @@ module.exports = {
   searchPurchaseCarsValidator,
   getMyPurchaseCarsValidator,
   addPurchaseCarValidator,
+  markPurchaseCarAsSoldValidator,
 };
