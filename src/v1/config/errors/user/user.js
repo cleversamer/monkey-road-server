@@ -89,9 +89,9 @@ module.exports = Object.freeze({
     en: "The delivery amount is not available in the office account",
     ar: "مبلغ التسليم غير متوفر في حساب مكتب التأجير",
   },
-  noUserIds: {
-    en: "Please select user or users",
-    ar: "يرجى إختيار مستخدم أو عدّة مستخدمين",
+  invalidUserIds: {
+    en: "User IDS should be a list",
+    ar: "معرّفات المستخدمين يجب أن تكون قائمة",
   },
   invalidNotificationTitle: {
     en: `Notification's title should be ${notificationTitle.min}-${notificationTitle.max} letters`,

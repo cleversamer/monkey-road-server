@@ -546,19 +546,12 @@ const checkUserIds = (req, res, next) => {
     // Check if `userIds` is valid
     if (!userIds || !Array.isArray(userIds)) {
       const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.user.noUserIds;
+      const message = errors.user.invalidUserIds;
       throw new ApiError(statusCode, message);
     }
 
     // Filter `userIds` and pick valid MongoDB Document ID
     const filteredArray = userIds.filter((userId) => isValidObjectId(userId));
-
-    // Check if there are no user IDs
-    if (!filteredArray.length) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.user.noUserIds;
-      throw new ApiError(statusCode, message);
-    }
 
     // Update `userIds` in the body
     req.body.userIds = filteredArray;
