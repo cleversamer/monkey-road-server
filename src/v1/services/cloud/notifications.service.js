@@ -13,7 +13,7 @@ module.exports.sendPushNotification = (title, body, tokens, callback) => {
     tokens = filterTokens(tokens);
 
     let payload = {
-      data: null,
+      data: {},
       notification: {
         title,
         body,
