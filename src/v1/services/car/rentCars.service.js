@@ -30,7 +30,7 @@ module.exports.getRentCarsStatus = async () => {
 //////////////////// User Services ////////////////////
 module.exports.getAllRentCars = async (skip) => {
   try {
-    const rentCars = await RentCar.find({ accepted: true })
+    const rentCars = await RentCar.find({ accepted: true, archived: false })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(10);
