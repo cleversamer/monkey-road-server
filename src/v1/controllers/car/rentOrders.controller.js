@@ -273,26 +273,17 @@ module.exports.deliverOrder = async (req, res, next) => {
 
     // Send notification to admin
     const notificationForAdmin =
-      notifications.rentCars.rentalRequestDeliveredForAdmin(
-        rejectionReason,
-        rentCar.photos[0]
-      );
+      notifications.rentCars.rentalRequestDeliveredForAdmin(rentCar.photos[0]);
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
     const notificationForOffice =
-      notifications.rentCars.rentalRequestDeliveredForOffice(
-        rejectionReason,
-        rentCar.photos[0]
-      );
+      notifications.rentCars.rentalRequestDeliveredForOffice(rentCar.photos[0]);
     await usersService.sendNotification([office._id], notificationForOffice);
 
     // Send notification to user
     const notificationForUser =
-      notifications.rentCars.rentalRequestDeliveredForUser(
-        rejectionReason,
-        rentCar.photos[0]
-      );
+      notifications.rentCars.rentalRequestDeliveredForUser(rentCar.photos[0]);
     await usersService.sendNotification([order.author], notificationForUser);
 
     const response = success.rentOrder.orderDelivered;
