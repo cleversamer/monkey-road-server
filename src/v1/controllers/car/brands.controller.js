@@ -29,14 +29,14 @@ module.exports.addBrand = async (req, res, next) => {
 
     // Send notification to admin
     const notificationForAdmin = notifications.brand.brandAddedForAdmin(
-      brand.name.ar,
+      brand.name,
       brand.photoURL
     );
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to all users
     const notificationForAllUsers = notifications.brand.brandAddedForAllUsers(
-      brand.name.ar,
+      brand.name,
       brand.photoURL
     );
     await usersService.sendNotification([], notificationForAllUsers);

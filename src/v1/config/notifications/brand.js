@@ -1,16 +1,20 @@
 const Notificatin = require("./Notification");
 
 module.exports = {
-  brandAddedForAdmin: (nameAR, photoURL) =>
+  brandAddedForAdmin: (name, photoURL) =>
     new Notificatin(
-      `تم إضافة شركة السيّارات ${nameAR} بنجاح`,
-      `تم إضافة شركة السيّارات ${nameAR} إلى النظام وإعلان كافّة المستخدمين بنجاح`,
+      `Brand \'${name.en}\' has been added successfully`,
+      `تم إضافة شركة السيّارات ${name.ar} بنجاح`,
+      `Brand \'${name.en}\' has been added successfully and users has been notified`,
+      `تم إضافة شركة السيّارات \'${name.ar}\' إلى النظام وإعلان كافّة المستخدمين بنجاح`,
       photoURL
     ),
-  brandAddedForAllUsers: (nameAR, photoURL) =>
+  brandAddedForAllUsers: (name, photoURL) =>
     new Notificatin(
-      `تم إضافة شركة سيّارات جديدة من نوع ${nameAR}`,
-      `تم إضافة شركة سيّارات جديدة للتطبيق من نوع ${nameAR}، بإمكانك إضافة سيّارات جديدة من هذا النوع الآن`,
+      `New brand \'${name.en}\' has been added to app`,
+      `تم إضافة شركة سيّارات جديدة من نوع \'${name.ar}\'`,
+      `New brand \'${name.en}\' has been added to app, and now you can post cars with this brand`,
+      `تم إضافة شركة سيّارات جديدة للتطبيق من نوع ${name.ar}، بإمكانك إضافة سيّارات جديدة من هذا النوع الآن`,
       photoURL
     ),
 };
