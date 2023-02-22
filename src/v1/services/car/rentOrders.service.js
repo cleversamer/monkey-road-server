@@ -486,7 +486,7 @@ module.exports.rejectOrder = async (office, orderId, rejectionReason) => {
       throw new ApiError(statusCode, message);
     }
 
-    // Check if order is already approved
+    // Check if order is already rejected
     if (order.isRejected()) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentOrder.alreadyRejected;
@@ -494,7 +494,8 @@ module.exports.rejectOrder = async (office, orderId, rejectionReason) => {
     }
 
     // Check if order is waiting waiting for approval
-    if (!order.isWaitingForApproval()) {
+    // or waiting for payment
+    if (!order.isWaitingForApproval() || !order.isWaitingForPayment()) {
       const statusCode = httpStatus.BAD_REQUEST;
       const message = errors.rentOrder.isNotPending;
       throw new ApiError(statusCode, message);
