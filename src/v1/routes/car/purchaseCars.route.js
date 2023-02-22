@@ -48,7 +48,7 @@ router.post(
   purchaseCarsController.addPurchaseCar
 );
 
-router(
+router.patch(
   "/:carId/mark-sold",
   purchaseCarValidator.markPurchaseCarAsSoldValidator,
   auth("updateOwn", "purchaseCar"),
