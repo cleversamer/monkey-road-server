@@ -78,7 +78,13 @@ module.exports.getSimilarRentCars = async (
     const searchTerm = `${name} ${model} ${brandEN} ${brandAR} ${colorEN} ${colorAR} ${year} ${description}`;
 
     let rentCars = await RentCar.aggregate([
-      { $match: { $text: { $search: searchTerm }, accepted: true } },
+      {
+        $match: {
+          $text: { $search: searchTerm },
+          accepted: true,
+          archived: false,
+        },
+      },
       { $sort: { score: { $meta: "textScore" } } },
       { $limit: 10 },
     ]);
