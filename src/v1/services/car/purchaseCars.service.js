@@ -178,11 +178,18 @@ module.exports.searchPurchaseCars = async (
     //     .limit(10);
     // }
 
+    // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noSearchCars;
       throw new ApiError(statusCode, message);
     }
+
+    // Clear phone number for sold cars
+    purchaseCars = purchaseCars.map((car) => ({
+      ...car,
+      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+    }));
 
     return purchaseCars;
   } catch (err) {
