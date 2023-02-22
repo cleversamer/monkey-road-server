@@ -64,7 +64,7 @@ router.patch(
   rentCarsController.restoreRentCar
 );
 
-router.patch(
+router.delete(
   "/:carId/delete",
   rentCarValidator.deleteRentCarValidator,
   auth("updateOwn", "rentCar"),
