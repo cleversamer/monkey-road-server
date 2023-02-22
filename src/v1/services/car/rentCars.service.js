@@ -200,6 +200,13 @@ module.exports.requestCarRental = async (
       throw new ApiError(statusCode, message);
     }
 
+    // Check if car is archived
+    if (!rentCar.archived) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentCar.requestArchivedCar;
+      throw new ApiError(statusCode, message);
+    }
+
     // Check if user has requested the same car and didn't receive it
     const carOrders = await RentOrder.find({
       author: user._id,

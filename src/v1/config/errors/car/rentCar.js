@@ -96,6 +96,10 @@ module.exports = Object.freeze({
     en: "You can't request inactive car",
     ar: "لا يمكنك إستئجار سيّارة غير نشطة",
   },
+  requestArchivedCar: {
+    en: "You can't request archived car",
+    ar: "لا يمكنك إستئجار سيّارة مؤرشفة",
+  },
   requestCarTwice: {
     en: "You can't request a rental for the same car twice",
     ar: "لا يمكنك طلب إستئجار نفس السيّارة مرتين",
