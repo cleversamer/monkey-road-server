@@ -28,6 +28,15 @@ const validateVerifyUser = [
   commonMiddleware.next,
 ];
 
+const sendNotificationValidator = [
+  commonMiddleware.checkUserIds,
+  commonMiddleware.checkNotificationTitleEN,
+  commonMiddleware.checkNotificationTitleAR,
+  commonMiddleware.checkNotificationBodyEN,
+  commonMiddleware.checkNotificationBodyAR,
+  commonMiddleware.next,
+];
+
 const validateFindUserByEmailOrPhone = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkEmailOrPhone,
@@ -57,6 +66,7 @@ module.exports = {
   validateUpdateUserProfile,
   validateUpdateUserRole,
   validateVerifyUser,
+  sendNotificationValidator,
   validateFindUserByEmailOrPhone,
   addToFavoritesValidator,
   deleteFromFavoritesValidator,

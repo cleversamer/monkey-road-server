@@ -283,15 +283,21 @@ module.exports.updateProfile = async (
 
 module.exports.sendNotification = async (userIds, notification, callback) => {
   try {
-    const { title, body, data } = notification;
+    // Validate callback function
     callback = typeof callback === "function" ? callback : () => {};
 
-    // Find users and map them to an array of device tokens.
+    // Decide query criteria based on array of users
     const queryCriteria = userIds.length
       ? { _id: { $in: userIds } }
       : { role: { $not: { $eq: "admin" } } };
+
+    // Check if there are users
     const users = await User.find(queryCriteria);
-    if (!users || !users.length) return;
+    if (!users || !users.length) {
+      return;
+    }
+
+    // Get users' tokens and add notification to them
     const tokens = users.map((user) => {
       try {
         // Add the notification to user's notifications array
@@ -299,17 +305,35 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
         user.addNotification(notification);
         user.save();
 
-        return user.deviceToken;
+        return { lang: user.favLang, value: user.deviceToken };
       } catch (err) {
         return "";
       }
     });
 
+    // Get device tokens for english users
+    const enTokens = tokens
+      .filter((token) => token.lang === "en")
+      .map((token) => token.value);
+
+    // Get device tokens for arabic users
+    const arTokens = tokens
+      .filter((token) => token.lang === "ar")
+      .map((token) => token.value);
+
+    // Send notification to english users
     notificationsService.sendPushNotification(
-      title,
-      body,
-      data,
-      tokens,
+      notification.title.en,
+      notification.body.en,
+      enTokens,
+      callback
+    );
+
+    // Send notification to arabic users
+    notificationsService.sendPushNotification(
+      notification.title.ar,
+      notification.body.ar,
+      arTokens,
       callback
     );
 
@@ -321,11 +345,16 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
 
 module.exports.sendNotificationToAdmins = async (notification, callback) => {
   try {
-    const { title, body, data } = notification;
+    // Validate callback function
     callback = typeof callback === "function" ? callback : () => {};
 
-    // Find users and map them to an array of device tokens.
+    // Check if there are admins
     const admins = await this.findAdmins();
+    if (!admins.length) {
+      return;
+    }
+
+    // Get admins' tokens and add notification to them
     const tokens = admins.map((admin) => {
       try {
         // Add the notification to user's notifications array
@@ -333,17 +362,35 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
         admin.addNotification(notification);
         admin.save();
 
-        return admin.deviceToken;
+        return { lang: user.favLang, value: user.deviceToken };
       } catch (err) {
         return "";
       }
     });
 
+    // Get device tokens for english users
+    const enTokens = tokens
+      .filter((token) => token.lang === "en")
+      .map((token) => token.value);
+
+    // Get device tokens for arabic users
+    const arTokens = tokens
+      .filter((token) => token.lang === "ar")
+      .map((token) => token.value);
+
+    // Send notification to english users
     notificationsService.sendPushNotification(
-      title,
-      body,
-      data,
-      tokens,
+      notification.title.en,
+      notification.body.en,
+      enTokens,
+      callback
+    );
+
+    // Send notification to arabic users
+    notificationsService.sendPushNotification(
+      notification.title.ar,
+      notification.body.ar,
+      arTokens,
       callback
     );
 

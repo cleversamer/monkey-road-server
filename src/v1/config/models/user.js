@@ -4,6 +4,7 @@ module.exports = {
   phone: {
     nsn: { minLength: 4, maxLength: 13 },
   },
+  // First value is the default value
   roles: ["user", "office", "admin"],
   authTypes: ["email", "google"],
   registerRoles: ["user"],
@@ -12,4 +13,8 @@ module.exports = {
   verificationCode: { exactLength: 4 },
   balance: { min: 0, max: 1000 * 1000 },
   paymentDeliveryAmount: { min: 10, max: 1000 * 1000 },
+  // First value is the default value
+  favLanguages: ["ar", "en"],
+  notificationTitle: { min: 3, max: 128 },
+  notificationBody: { min: 3, max: 265 },
 };

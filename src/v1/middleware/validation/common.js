@@ -539,6 +539,64 @@ const checkPaymentDeliveryAmount = check("amount")
   })
   .withMessage(errors.user.invalidPaymentDeliveryAmount);
 
+const checkUserIds = (req, res, next) => {
+  try {
+    const { userIds } = req.body;
+
+    // Check if `userIds` is valid
+    if (!userIds || !Array.isArray(userIds)) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.user.noUserIds;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Filter `userIds` and pick valid MongoDB Document ID
+    const filteredArray = userIds.filter((userId) => isValidObjectId(userId));
+
+    // Check if there are no user IDs
+    if (!filteredArray.length) {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.user.noUserIds;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Update `userIds` in the body
+    req.body.userIds = filteredArray;
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+const checkNotificationTitleEN = check("titleEN")
+  .isLength({
+    min: userValidation.notificationTitle.min,
+    max: userValidation.notificationTitle.max,
+  })
+  .withMessage(errors.user.invalidNotificationTitle);
+
+const checkNotificationTitleAR = check("titleAR")
+  .isLength({
+    min: userValidation.notificationTitle.min,
+    max: userValidation.notificationTitle.max,
+  })
+  .withMessage(errors.user.invalidNotificationTitle);
+
+const checkNotificationBodyEN = check("bodyEN")
+  .isLength({
+    min: userValidation.notificationBody.min,
+    max: userValidation.notificationBody.max,
+  })
+  .withMessage(errors.user.invalidNotificationBody);
+
+const checkNotificationBodyAR = check("bodyAR")
+  .isLength({
+    min: userValidation.notificationBody.min,
+    max: userValidation.notificationBody.max,
+  })
+  .withMessage(errors.user.invalidNotificationBody);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -608,4 +666,9 @@ module.exports = {
   checkLatitude,
   checkUserId,
   checkPaymentDeliveryAmount,
+  checkUserIds,
+  checkNotificationTitleEN,
+  checkNotificationTitleAR,
+  checkNotificationBodyEN,
+  checkNotificationBodyAR,
 };

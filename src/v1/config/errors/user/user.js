@@ -1,4 +1,8 @@
-const { paymentDeliveryAmount } = require("../../models/user");
+const {
+  paymentDeliveryAmount,
+  notificationTitle,
+  notificationBody,
+} = require("../../models/user");
 
 module.exports = Object.freeze({
   invalidId: {
@@ -84,5 +88,17 @@ module.exports = Object.freeze({
   deliveredAmountNotAvailable: {
     en: "The delivery amount is not available in the office account",
     ar: "مبلغ التسليم غير متوفر في حساب مكتب التأجير",
+  },
+  noUserIds: {
+    en: "Please select user or users",
+    ar: "يرجى إختيار مستخدم أو عدّة مستخدمين",
+  },
+  invalidNotificationTitle: {
+    en: `Notification's title should be ${notificationTitle.min}-${notificationTitle.max} letters`,
+    ar: `عنوان الإشعار يجب أن يكون بين ${notificationTitle.min}-${notificationTitle.max} حرفًا`,
+  },
+  invalidNotificationBody: {
+    en: `Notification's body should be ${notificationBody.min}-${notificationBody.max} letters`,
+    ar: `محتوى الإشعار يجب أن يكون بين ${notificationBody.min}-${notificationBody.max} حرفًا`,
   },
 });

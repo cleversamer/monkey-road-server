@@ -140,20 +140,12 @@ module.exports.updateProfile = async (req, res, next) => {
 
 module.exports.sendNotification = async (req, res, next) => {
   try {
-    const { userIds = [], title = "", body = "", data = {} } = req.body;
+    const { userIds, titleEN, titleAR, bodyEN, bodyAR } = req.body;
 
-    const notification = new Notification(title, body, data);
+    const notification = new Notification(titleEN, titleAR, bodyEN, bodyAR);
     await usersService.sendNotification(userIds, notification);
 
-    const response = {
-      title,
-      body,
-      data,
-      date: new Date(),
-      seen: false,
-    };
-
-    res.status(httpStatus.OK).json(response);
+    res.status(httpStatus.OK).json(notification);
   } catch (err) {
     next(err);
   }

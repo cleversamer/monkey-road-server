@@ -8,12 +8,12 @@ const { ApiError } = require("../../middleware/apiError");
 
 const fcm = new FCM(certPath);
 
-module.exports.sendPushNotification = (title, body, data, tokens, callback) => {
+module.exports.sendPushNotification = (title, body, tokens, callback) => {
   try {
     tokens = filterTokens(tokens);
 
     let payload = {
-      data,
+      data: null,
       notification: {
         title,
         body,

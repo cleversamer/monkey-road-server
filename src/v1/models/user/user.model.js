@@ -15,6 +15,7 @@ const CLIENT_SCHEMA = [
   "favorites",
   "role",
   "verified",
+  "favLang",
   "notifications",
   "lastLogin",
 ];
@@ -113,7 +114,12 @@ const userSchema = new Schema(
     role: {
       type: String,
       enum: validation.roles,
-      default: "user",
+      default: validation.roles[0],
+    },
+    favLang: {
+      type: String,
+      enum: validation.favLanguages,
+      default: validation.favLanguages[0],
     },
     // The email and phone verification status of the user
     verified: {

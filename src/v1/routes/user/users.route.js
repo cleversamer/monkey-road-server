@@ -128,6 +128,7 @@ router.patch(
 //////////////////// Admin: Notifications ////////////////////
 router.post(
   "/admin/notification/send",
+  userValidator.sendNotificationValidator,
   auth("createAny", "notification"),
   usersController.sendNotification
 );
