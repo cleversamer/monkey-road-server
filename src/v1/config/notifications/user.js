@@ -3,16 +3,23 @@ const Notificatin = require("./Notification");
 module.exports = {
   paymentDeliveredForAdmin: (amount) =>
     new Notificatin(
-      `تم تأكيد تسليم دفعة ماليّة بمبلغ ${amount} درهم إماراتي لمكتب التأجير`,
-      `تم تأكيد تسليم دفعة مالية لمكتب التأجير وخصم المبلغ من رصيد حسابه لدينا`
+      `A payment of ${amount.toLocaleString()} AED has been confirmed to the rental office`,
+      `تم تأكيد تسليم دفعة ماليّة بمبلغ ${amount.toLocaleString()} درهم إماراتي لمكتب التأجير`,
+      "A payment has been confirmed to the office and the amount has been deducted from their account balance with us",
+      "تم تأكيد تسليم دفعة مالية لمكتب التأجير وخصم المبلغ من رصيد حسابه لدينا"
     ),
   paymentDeliveredForOffice: (amount) =>
     new Notificatin(
-      `تم تأكيد إستلامك لدفعة ماليّة بمبلغ ${amount} درهم إماراتي`,
-      `تم تأكيد إستلامك للدفعة المالية وخصم المبلغ من رصيد حسابك لدينا`
+      `You are confirmed to have received a payment of ${amount.toLocaleString()} AED`,
+      `تم تأكيد استلامك لدفعة ماليّة بمبلغ ${amount} درهم إماراتي`,
+      "Your payment has been confirmed and the amount has been deducted from your account balance with us",
+      "تم تأكيد استلامك للدفعة المالية وخصم المبلغ من رصيد حسابك لدينا"
     ),
-  missedIncompleteTransaction: new Notificatin(
-    "لديك معاملات ماليّة غير مكتملة",
-    "يرجى مراجعة سجل المعاملات الماليّة بانتظام وإكمال المعاملات الماليّة بأسرع وقت"
-  ),
+  missedIncompleteTransaction: () =>
+    new Notificatin(
+      "You have incomplete transactions",
+      "لديك معاملات ماليّة غير مكتملة",
+      "Please review and complete your transactions regularly as soon as possible",
+      "يرجى مراجعة سجل المعاملات الماليّة بانتظام وإكمال المعاملات الماليّة بأسرع وقت"
+    ),
 };
