@@ -219,13 +219,15 @@ module.exports.addRentCar = async (req, res, next) => {
 
     // Send notification to admins
     const notificationForAdmin = notifications.rentCars.postAddedForAdmin(
-      rentCar.photos[0]
+      rentCar.photos[0],
+      rentCar._id
     );
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
     const notificationForOffice = notifications.rentCars.postAddedForOffice(
-      rentCar.photos[0]
+      rentCar.photos[0],
+      rentCar._id
     );
     await usersService.sendNotification([user._id], notificationForOffice);
 
