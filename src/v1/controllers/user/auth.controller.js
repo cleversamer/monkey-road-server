@@ -35,13 +35,14 @@ module.exports.registerWithEmail = async (req, res, next) => {
 
 module.exports.registerWithGoogle = async (req, res, next) => {
   try {
-    const { googleToken, phoneICC, phoneNSN, deviceToken } = req.body;
+    const { lang, googleToken, phoneICC, phoneNSN, deviceToken } = req.body;
 
     const user = await authService.registerWithGoogle(
       googleToken,
       phoneICC,
       phoneNSN,
-      deviceToken
+      deviceToken,
+      lang
     );
 
     // TODO: send phone activation code to user's phone.

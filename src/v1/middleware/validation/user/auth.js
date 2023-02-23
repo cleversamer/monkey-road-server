@@ -26,6 +26,7 @@ const registerWithEmailValidator = [
 ];
 
 const registerWithGoogleValidator = [
+  commonMiddleware.checkLanguage,
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkDeviceToken,

@@ -54,7 +54,8 @@ module.exports.registerWithGoogle = async (
   googleToken,
   phoneICC,
   phoneNSN,
-  deviceToken
+  deviceToken,
+  lang
 ) => {
   try {
     const googleUser = await googleService.decodeToken(googleToken);
@@ -70,6 +71,7 @@ module.exports.registerWithGoogle = async (
       authType: "google",
       email: googleUser.email,
       name: googleUser.name,
+      favLang: lang,
       phone: {
         full: `${phoneICC}${phoneNSN}`,
         icc: phoneICC,
