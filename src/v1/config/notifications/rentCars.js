@@ -117,7 +117,8 @@ module.exports = {
       "تم دفع مبلغ التأجير من مستأجر",
       "There is a car rental order that has been paid by the renter and is now waiting for delivery by the office",
       "هناك طلب استئجار سيّارة تم دفعه من طرف المستأجر وهو الآن بانتظار التسليم من طرف مكتب التأجير",
-      photoURL
+      photoURL,
+      "officesOrders"
     ),
   rentalRequestPaidForOffice: (photoURL) =>
     new Notificatin(
@@ -125,7 +126,8 @@ module.exports = {
       "تم دفع مبلغ التأجير من مستأجر",
       "There is a car rental order that has been paid by the renter, please go to the delivery procedures to hand over the car to the renter",
       "هناك طلب استئجار سيّارة تم دفعه من طرف المستأجر يرجى التوجه إلى إجراءات التسليم لتسليم السيّارة للمستأجر",
-      photoURL
+      photoURL,
+      "myReceivedOrders"
     ),
   rentalRequestPaidForUser: (photoURL) =>
     new Notificatin(
@@ -133,7 +135,8 @@ module.exports = {
       "تم دفع مبلغ التأجير بنجاح",
       "Your order has been paid and the car will be delivered to you within the specified period",
       "إجراء طلبك اكتمل وسيتم تسليمك السيّارة في المدة المحددة",
-      photoURL
+      photoURL,
+      "myOrders"
     ),
   rentalRequestRejectedForAdmin: (body, photoURL) =>
     new Notificatin(
@@ -141,7 +144,8 @@ module.exports = {
       "تم رفض طلب استئجار سيّارة من طرف مكتب تأجير",
       body,
       body,
-      photoURL
+      photoURL,
+      "officesOrders"
     ),
   rentalRequestRejectedForOffice: (body, photoURL) =>
     new Notificatin(
@@ -149,7 +153,8 @@ module.exports = {
       "تم رفض طلب استئجار السيّارة وإبلاغ المستخدم بسبب الرفض",
       body,
       body,
-      photoURL
+      photoURL,
+      "myReceivedOrders"
     ),
   rentalRequestRejectedForUser: (body, photoURL) =>
     new Notificatin(
@@ -157,21 +162,25 @@ module.exports = {
       "تم رفض طلب استئجار السيّارة الذي أرسلته",
       body,
       body,
-      photoURL
+      photoURL,
+      "myOrders"
     ),
   transactionNotificationIncomplete: () =>
     new Notificatin(
       "You have a new incomplete transaction",
       "لديك معاملة ماليّة جديدة بانتظار الدفع",
       "You have a new incomplete transaction, please check your transactions",
-      "لديك معاملة ماليّة جديدة يرجى مراجعة سجل المعاملات الماليّة"
+      "لديك معاملة ماليّة جديدة يرجى مراجعة سجل المعاملات الماليّة",
+      "",
+      "myTransactions"
     ),
   transactionNotificationComplete: () =>
     new Notificatin(
       "Your transaction has been completed successfully",
       "تم إكمال معاملتك الماليّة بنجاح",
       "You can review your transactions and make sure it is complete",
-      "بإمكانك مراجعة سجل المعاملات الماليّة والتأكد من صحة الاكتمال"
+      "بإمكانك مراجعة سجل المعاملات الماليّة والتأكد من صحة الاكتمال",
+      "myTransactions"
     ),
   rentalRequestDeliveredForAdmin: (photoURL) =>
     new Notificatin(
@@ -179,7 +188,8 @@ module.exports = {
       "تم تأكيد تسليم سيّارة لمستأجر",
       "The delivery of a car to a renter has been confirmed by an office",
       "تم تأكيد تسليم سيّارة لمستأجر من طرف مكتب تأجير",
-      photoURL
+      photoURL,
+      "officesOrders"
     ),
   rentalRequestDeliveredForOffice: (photoURL) =>
     new Notificatin(
@@ -187,7 +197,8 @@ module.exports = {
       "تم تأكيد تسليم السيّارة للمستأجر",
       "Delivery is confirmed and the renter and admin are notified",
       "تم تأكيد التسليم وإعلام المستأجر ومدير النظام بذلك",
-      photoURL
+      photoURL,
+      "myReceivedOrders"
     ),
   rentalRequestDeliveredForUser: (photoURL) =>
     new Notificatin(
@@ -195,6 +206,7 @@ module.exports = {
       "تم تأكيد تسليم السيّارة لك",
       "The car has been confirmed to be delivered to you by the office that owns the car",
       "تم تأكيد تسليم السيّارة لك من طرف مكتب التأجير المالك للسيّارة",
-      photoURL
+      photoURL,
+      "myOrders"
     ),
 };
