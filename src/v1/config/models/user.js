@@ -14,7 +14,7 @@ module.exports = {
   balance: { min: 0, max: 1000 * 1000 },
   paymentDeliveryAmount: { min: 10, max: 1000 * 1000 },
   // First value is the default value
-  favLanguages: ["ar", "en"],
+  favLanguages: ["en", "ar"],
   notificationTitle: { min: 3, max: 128 },
   notificationBody: { min: 3, max: 265 },
 };
