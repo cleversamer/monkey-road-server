@@ -112,29 +112,42 @@ module.exports.exportUserTransactionsToExcel = async (user, transactions) => {
     // Create a new Excel Workbook
     let workbook = new Excel.Workbook();
     // Add new sheet to the Workbook
-    let worksheet = workbook.addWorksheet(`${user.name}'s Transactions Report`);
+    const worksheetName =
+      user.favLang === "en"
+        ? `${user.name}'s Transactions Report`
+        : `سجل المعاملات الماليّة ${user.name}`;
+    let worksheet = workbook.addWorksheet(worksheetName);
 
     // Specify excel sheet's columns
     worksheet.addRow([
-      "العنوان",
-      "مكتب التأجير",
-      "الحالة",
-      "المبلغ",
-      "التاريخ",
+      user.favLang === "en" ? "Title" : "العنوان",
+      user.favLang === "en" ? "Office Name" : "مكتب التأجير",
+      user.favLang === "en" ? "Status" : "الحالة",
+      user.favLang === "en" ? "Amount" : "المبلغ",
+      user.favLang === "en" ? "Date" : "التاريخ",
     ]);
 
     // Add row for each user in the Database
     transactions.forEach(function (transaction) {
       const { receiver, title, status, amount, date } = transaction;
-      const receiverName = receiver.name;
-      const viewStatus = status === "complete" ? "مكتمل" : "غير مكتملة";
+      const receiverName = receiver[0].name;
+      const viewStatus =
+        status === "complete"
+          ? { en: "complete", ar: "مكتملة" }
+          : { en: "incomplete", ar: "غير مكتملة" };
       let viewDate = new Date(date);
       const day = viewDate.getDay();
       const month = viewDate.getMonth();
       const year = viewDate.getFullYear();
       viewDate = `${day}-${month}-${year}`;
 
-      worksheet.addRow([title, receiverName, viewStatus, amount, viewDate]);
+      worksheet.addRow([
+        title[user.favLang],
+        receiverName,
+        viewStatus[user.favLang],
+        amount,
+        viewDate,
+      ]);
     }, "i");
 
     // Decide excel's file
