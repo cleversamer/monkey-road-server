@@ -63,7 +63,8 @@ module.exports = {
       "طلب استئجار سيّارة جديد",
       "There is a new car rental order which is under review by the office now",
       "هناك طلب استئجار سيّارة جديد وهو قيد المراجعة من طرف مكتب التأجير الآن",
-      photoURL
+      photoURL,
+      "officesOrders"
     ),
   rentalRequestForOffice: (photoURL) =>
     new Notificatin(
@@ -71,7 +72,8 @@ module.exports = {
       "طلب استئجار سيّارة جديد",
       "You just received a new car rental order, please review and respond to it",
       "لقد وصلك طلب استئجار سيّارة جديد يرجى مراجعته والرد عليه",
-      photoURL
+      photoURL,
+      "myReceivedOrders"
     ),
   rentalRequestForUser: (photoURL) =>
     new Notificatin(
@@ -79,7 +81,8 @@ module.exports = {
       "تم إرسال طلبك بنجاح",
       "Your order has been sent to the office and is now under review",
       "تم إرسال طلبك إلى مكتب التأجير وهو قيد المراجعة الآن",
-      photoURL
+      photoURL,
+      "myOrders"
     ),
   rentalRequestApprovedForAdmin: (photoURL) =>
     new Notificatin(
