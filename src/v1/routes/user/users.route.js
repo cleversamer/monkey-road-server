@@ -10,7 +10,6 @@ router.get("/isauth", auth("readOwn", "user", true), usersController.isAuth);
 router
   .route("/verify/email")
   .get(
-    authValidator.resendCodeValidator,
     auth("readOwn", "emailVerificationCode", true),
     usersController.resendEmailOrPhoneVerificationCode("email")
   )
@@ -23,7 +22,6 @@ router
 router
   .route("/verify/phone")
   .get(
-    authValidator.resendCodeValidator,
     auth("readOwn", "phoneVerificationCode", true),
     usersController.resendEmailOrPhoneVerificationCode("phone")
   )

@@ -73,12 +73,6 @@ const emailValidator = [commonMiddleware.checkEmail, commonMiddleware.next];
 
 const codeValidator = [commonMiddleware.checkCode, commonMiddleware.next];
 
-const resendCodeValidator = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkLanguage,
-  commonMiddleware.next,
-];
-
 module.exports = {
   loginWithEmailValidator,
   loginWithGoogleValidator,
@@ -89,5 +83,4 @@ module.exports = {
   emailValidator,
   getForgotPasswordCode,
   codeValidator,
-  resendCodeValidator,
 };
