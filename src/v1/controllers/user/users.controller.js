@@ -33,9 +33,8 @@ module.exports.resendEmailOrPhoneVerificationCode =
   (key) => async (req, res, next) => {
     try {
       const user = req.user;
-      const { lang } = req.query;
 
-      await usersService.resendEmailOrPhoneVerificationCode(key, user, lang);
+      await usersService.resendEmailOrPhoneVerificationCode(key, user);
 
       const response = {
         ok: true,

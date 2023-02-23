@@ -132,7 +132,7 @@ module.exports.verifyEmailOrPhone = async (key, user, code) => {
   }
 };
 
-module.exports.resendEmailOrPhoneVerificationCode = async (key, user, lang) => {
+module.exports.resendEmailOrPhoneVerificationCode = async (key, user) => {
   try {
     // Ensure that key is correct
     key = key.toLowerCase();
@@ -157,7 +157,7 @@ module.exports.resendEmailOrPhoneVerificationCode = async (key, user, lang) => {
 
     // Sending email or phone verification code to user's email or phone
     if (key === "email")
-      await emailService.registerEmail(lang, user.email, user);
+      await emailService.registerEmail(user.favLang, user.email, user);
 
     // TODO: send phone verification code to user's phone
   } catch (err) {
