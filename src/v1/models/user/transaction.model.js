@@ -33,11 +33,20 @@ const transactionSchema = new Schema(
       unique: true,
     },
     title: {
-      type: String,
-      required: true,
-      trim: true,
-      minLength: validation.title.minLength,
-      maxLength: validation.title.maxLength,
+      en: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: validation.title.minLength,
+        maxLength: validation.title.maxLength,
+      },
+      ar: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: validation.title.minLength,
+        maxLength: validation.title.maxLength,
+      },
     },
     status: {
       type: String,
