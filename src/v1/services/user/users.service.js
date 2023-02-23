@@ -338,7 +338,8 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
       notification.title.en,
       notification.body.en,
       enTokens,
-      callback
+      callback,
+      notification.photoURL
     );
 
     // Send notification to arabic users
@@ -346,7 +347,8 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
       notification.title.ar,
       notification.body.ar,
       arTokens,
-      callback
+      callback,
+      notification.photoURL
     );
 
     return true;
@@ -395,7 +397,8 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
       notification.title.en,
       notification.body.en,
       enTokens,
-      callback
+      callback,
+      notification.photoURL
     );
 
     // Send notification to arabic users
@@ -403,7 +406,8 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
       notification.title.ar,
       notification.body.ar,
       arTokens,
-      callback
+      callback,
+      notification.photoURL
     );
 
     return true;
