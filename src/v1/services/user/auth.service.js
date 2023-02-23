@@ -12,7 +12,8 @@ module.exports.registerWithEmail = async (
   name,
   phoneICC,
   phoneNSN,
-  deviceToken
+  deviceToken,
+  lang
 ) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -23,6 +24,7 @@ module.exports.registerWithEmail = async (
       name,
       email,
       password: hashed,
+      favLang: lang,
       phone: {
         full: `${phoneICC}${phoneNSN}`,
         icc: phoneICC,

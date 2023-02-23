@@ -14,7 +14,8 @@ module.exports.registerWithEmail = async (req, res, next) => {
       name,
       phoneICC,
       phoneNSN,
-      deviceToken
+      deviceToken,
+      lang
     );
 
     await emailService.registerEmail(lang, email, user);
