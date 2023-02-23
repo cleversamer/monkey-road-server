@@ -11,14 +11,10 @@ module.exports = (server) => {
   const io = socketIo(server, options);
 
   io.on("connection", (socket) => {
-    const secret = process.env.SOCKET_SECRET;
-
     socket.on("send notification", (notification) => {
       try {
         io.emit("notification received", notification);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     });
   });
 };
