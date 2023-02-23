@@ -37,21 +37,25 @@ module.exports = {
       body,
       photoURL
     ),
-  postAcceptedForAdmin: (photoURL) =>
+  postAcceptedForAdmin: (photoURL, rentCarId) =>
     new Notificatin(
       "Your rental post request has been approved",
       "تم قبول طلب نشر سيّارة للإيجار بنجاح",
       "Rental post request has been successfully approved and the office has been notified",
       "تم قبول طلب نشر السيّارة بنجاح وإعلام مكتب التأجير بذلك",
-      photoURL
+      photoURL,
+      "rentCarDetails",
+      rentCarId
     ),
-  postAcceptedForOffice: (photoURL) =>
+  postAcceptedForOffice: (photoURL, rentCarId) =>
     new Notificatin(
       "Rental post request",
       "طلب نشر سيّارة للإيجار",
       "Your request has been approved",
       "تم قبول طلبك",
-      photoURL
+      photoURL,
+      "rentCarDetails",
+      rentCarId
     ),
   rentalRequestForAdmin: (photoURL) =>
     new Notificatin(

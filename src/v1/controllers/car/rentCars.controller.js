@@ -307,13 +307,15 @@ module.exports.acceptRentCar = async (req, res, next) => {
 
     // Send notification to admins
     const notificationForAdmin = notifications.rentCars.postAcceptedForAdmin(
-      car.photos[0]
+      car.photos[0],
+      car._id
     );
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to office
     const notificationForOffice = notifications.rentCars.postAcceptedForOffice(
-      car.photos[0]
+      car.photos[0],
+      car._id
     );
     await usersService.sendNotification(
       [car.office.ref],
