@@ -50,8 +50,7 @@ module.exports.getRentCarDetails = async (carId) => {
   try {
     const rentCar = await RentCar.findById(carId);
 
-    const notFound = !rentCar || rentCar.isArchived();
-    if (notFound) {
+    if (!rentCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.notFound;
       throw new ApiError(statusCode, message);
