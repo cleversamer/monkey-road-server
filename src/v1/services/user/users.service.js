@@ -572,7 +572,6 @@ module.exports.verifyUser = async (emailOrPhone) => {
 };
 
 module.exports.updateUserProfile = async (
-  lang,
   emailOrPhone,
   name,
   email,
@@ -590,7 +589,6 @@ module.exports.updateUserProfile = async (
     }
 
     const body = {
-      lang,
       emailOrPhone,
       name,
       email,

@@ -1,7 +1,6 @@
 const commonMiddleware = require("../common");
 
 const validateUpdateProfile = [
-  commonMiddleware.checkLanguage,
   commonMiddleware.conditionalCheck("name", commonMiddleware.checkName),
   commonMiddleware.checkFile("avatar", ["png", "jpg", "jpeg"], false),
   commonMiddleware.conditionalCheck("email", commonMiddleware.checkEmail),

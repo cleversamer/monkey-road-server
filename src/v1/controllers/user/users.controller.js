@@ -270,18 +270,10 @@ module.exports.deleteFromFavorites = async (req, res, next) => {
 ///////////////////////////// ADMIN /////////////////////////////
 module.exports.updateUserProfile = async (req, res, next) => {
   try {
-    const {
-      lang = "ar",
-      emailOrPhone,
-      name,
-      email,
-      phoneICC,
-      phoneNSN,
-    } = req.body;
+    const { emailOrPhone, name, email, phoneICC, phoneNSN } = req.body;
     const avatar = req?.files?.avatar || null;
 
     const info = await usersService.updateUserProfile(
-      lang,
       emailOrPhone,
       name,
       email,
