@@ -170,13 +170,15 @@ module.exports.addPurchaseCar = async (req, res, next) => {
 
     // Send notification to admins
     const notificationForAdmin = notifications.purchaseCars.postAddedForAdmin(
-      car.photos[0]
+      car.photos[0],
+      car._id
     );
     await usersService.sendNotificationToAdmins(notificationForAdmin);
 
     // Send notification to user
     const notificationForUser = notifications.purchaseCars.postAddedForUser(
-      car.photos[0]
+      car.photos[0],
+      car._id
     );
     await usersService.sendNotification([user._id], notificationForUser);
 
