@@ -116,4 +116,8 @@ module.exports = Object.freeze({
     en: "You can't delete an active car",
     ar: "لا يمكنك حذف سيّارة نشطة",
   },
+  requestOwnRentCar: {
+    en: "You can't rent one of your cars",
+    ar: "لا يمكنك استئجار واحدة من سيّاراتك",
+  },
 });

@@ -193,6 +193,13 @@ module.exports.requestCarRental = async (
       throw new ApiError(statusCode, message);
     }
 
+    // Check if the user is car's owner
+    if (rentCar.office.ref.toString() === user._id.toString()) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.rentCar.requestOwnRentCar;
+      throw new ApiError(statusCode, message);
+    }
+
     // Check if car is accepted
     if (!rentCar.accepted) {
       const statusCode = httpStatus.FORBIDDEN;
