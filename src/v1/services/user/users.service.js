@@ -256,7 +256,6 @@ module.exports.resetPasswordWithCode = async (
 };
 
 module.exports.updateProfile = async (
-  lang,
   user,
   name,
   email,
@@ -266,7 +265,6 @@ module.exports.updateProfile = async (
 ) => {
   try {
     const body = {
-      lang,
       user,
       name,
       email,
@@ -609,7 +607,7 @@ module.exports.updateUserProfile = async (
 
 const updateUserProfile = async (user, body) => {
   try {
-    const { lang, name, email, phoneICC, phoneNSN, avatar } = body;
+    const { name, email, phoneICC, phoneNSN, avatar } = body;
 
     // To store data changes
     const changes = [];
@@ -649,7 +647,7 @@ const updateUserProfile = async (user, body) => {
       user.verified.email = false;
       changes.push("email");
       user.updateCode("email");
-      await emailService.changeEmail(lang, email, user);
+      await emailService.changeEmail(user.favLang, email, user);
     }
 
     // Updating phone, setting phone as not verified,

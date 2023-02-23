@@ -113,11 +113,10 @@ module.exports.handleForgotPassword = async (req, res, next) => {
 module.exports.updateProfile = async (req, res, next) => {
   try {
     const user = req.user;
-    const { name, email, phoneICC, phoneNSN, lang } = req.body;
+    const { name, email, phoneICC, phoneNSN } = req.body;
     const avatar = req?.files?.avatar || null;
 
     const info = await usersService.updateProfile(
-      lang,
       user,
       name,
       email,
