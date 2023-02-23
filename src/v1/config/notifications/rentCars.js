@@ -90,7 +90,8 @@ module.exports = {
       "تم قبول طلب استئجار",
       "There is a car rental order that has been approved by the office now and is waiting for payment from the renter",
       "هناك طلب استئجار سيّارة تم قبوله من طرف مكتب التأجير الآن وهو بانتظار الدفع من طرف المستأجر",
-      photoURL
+      photoURL,
+      "officesOrders"
     ),
   rentalRequestApprovedForOffice: (photoURL) =>
     new Notificatin(
@@ -98,7 +99,8 @@ module.exports = {
       "تم قبول طلب استئجار",
       "You just approved the rental order and it is now waiting for payment from the renter before delivery",
       "لقد قمت بقبول طلب التأجير وهو الآن بانتظار الدفع من قبل المستأجر قبل التسليم",
-      photoURL
+      photoURL,
+      "myReceivedOrders"
     ),
   rentalRequestApprovedForUser: (photoURL) =>
     new Notificatin(
@@ -106,7 +108,8 @@ module.exports = {
       "تم قبول طلب استئجار",
       "Your car rental order has been approved by the office, please pay to receive your request",
       "تم قبول طلب استئجار سيّارة من طرف مكتب التأجير يرجى الدفع لاستلام طلبك",
-      photoURL
+      photoURL,
+      "myOrders"
     ),
   rentalRequestPaidForAdmin: (photoURL) =>
     new Notificatin(
