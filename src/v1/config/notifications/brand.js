@@ -7,7 +7,8 @@ module.exports = {
       `تم إضافة شركة السيّارات ${name.ar} بنجاح`,
       `Brand \'${name.en}\' has been added successfully and users has been notified`,
       `تم إضافة شركة السيّارات \'${name.ar}\' إلى النظام وإعلان كافّة المستخدمين بنجاح`,
-      photoURL
+      photoURL,
+      "popularBrands"
     ),
   brandAddedForAllUsers: (name, photoURL) =>
     new Notificatin(
@@ -15,6 +16,7 @@ module.exports = {
       `تم إضافة شركة سيّارات جديدة من نوع \'${name.ar}\'`,
       `New brand \'${name.en}\' has been added to app, and now you can post cars with this brand`,
       `تم إضافة شركة سيّارات جديدة للتطبيق من نوع ${name.ar}، بإمكانك إضافة سيّارات جديدة من هذا النوع الآن`,
-      photoURL
+      photoURL,
+      "popularBrands"
     ),
 };
