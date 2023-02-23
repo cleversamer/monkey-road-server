@@ -1,21 +1,25 @@
 const Notificatin = require("./Notification");
 
 module.exports = {
-  postAddedForAdmin: (photoURL) =>
+  postAddedForAdmin: (photoURL, rentCarId) =>
     new Notificatin(
       "New pending rental post",
       "طلب نشر سيّارة للإيجار",
       "There is a new pending rental post, please check it out",
       "يوجد هناك طلب نشر سيّارة للإيجار جديد تفحّصه",
-      photoURL
+      photoURL,
+      "rentCarDetails",
+      rentCarId
     ),
-  postAddedForOffice: (photoURL) =>
+  postAddedForOffice: (photoURL, rentCarId) =>
     new Notificatin(
       "Your request has been sent successfully",
       "تم إرسال طلبك بنجاح",
       "Your request to post your rental car has been sent to admin and is currently under review",
       "تم إرسال طلب نشر سيّارتك للإيجار إلى مدير النظام وهو الآن قيد المراجعة",
-      photoURL
+      photoURL,
+      "rentCarDetails",
+      rentCarId
     ),
   postRejectedForAdmin: (body, photoURL) =>
     new Notificatin(
