@@ -14,7 +14,7 @@ module.exports = class Notificatin {
     this.seen = false;
     this.date = new Date().toISOString();
     this.data = {
-      screen,
+      screen: screen || "home",
       id,
     };
   }
