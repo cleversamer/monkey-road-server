@@ -50,7 +50,7 @@ module.exports.getRentCarDetails = async (carId) => {
   try {
     const rentCar = await RentCar.findById(carId);
 
-    const notFound = !rentCar || !rentCar.accepted || rentCar.archived;
+    const notFound = !rentCar || !rentCar.isAccepted() || rentCar.isArchived();
     if (notFound) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.notFound;
@@ -201,7 +201,7 @@ module.exports.requestCarRental = async (
     }
 
     // Check if car is archived
-    if (!rentCar.archived) {
+    if (rentCar.isArchived()) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentCar.requestArchivedCar;
       throw new ApiError(statusCode, message);
