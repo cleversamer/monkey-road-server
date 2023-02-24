@@ -132,7 +132,7 @@ module.exports.getBestSellerPurchaseCars = async (page, limit) => {
     let purchaseCars = await PurchaseCar.find({})
       .sort({ model: 1 })
       .skip((page - 1) * limit)
-      .limit(10);
+      .limit(limit);
 
     // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
