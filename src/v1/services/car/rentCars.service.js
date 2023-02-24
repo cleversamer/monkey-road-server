@@ -505,12 +505,15 @@ module.exports.deleteRentCar = async (rentCarId) => {
 };
 
 //////////////////// Admin Services ////////////////////
-module.exports.getNotAcceptedRentCars = async (skip) => {
+module.exports.getNotAcceptedRentCars = async (page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const rentCars = await RentCar.find({ accepted: false })
       .sort({ _id: -1 })
-      .skip(skip)
-      .limit(10);
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -518,7 +521,13 @@ module.exports.getNotAcceptedRentCars = async (skip) => {
       throw new ApiError(statusCode, message);
     }
 
-    return rentCars;
+    const count = await RentCar.count({ accepted: false });
+
+    return {
+      rentCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

@@ -108,7 +108,8 @@ const deleteRentCarValidator = [
 
 const getNotAcceptedRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 

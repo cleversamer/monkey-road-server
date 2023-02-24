@@ -299,12 +299,15 @@ module.exports.deleteRentCar = async (req, res, next) => {
 //////////////////// Admin Controllers ////////////////////
 module.exports.getNotAcceptedRentCars = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const cars = await rentCarsService.getNotAcceptedRentCars(skip);
+    const { currentPage, totalPages, rentCars } =
+      await rentCarsService.getNotAcceptedRentCars(page, limit);
 
     const response = {
-      cars: cars.map((car) => _.pick(car, rentCarSchema)),
+      currentPage,
+      totalPages,
+      rentCars: rentCars.map((car) => _.pick(car, rentCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);
