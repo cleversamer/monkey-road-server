@@ -43,13 +43,13 @@ module.exports.getLatestModelsPurchaseCars = async (req, res, next) => {
   try {
     const { page, limit } = req.query;
 
-    const cars = await purchaseCarsService.getLatestModelsPurchaseCars(
-      page,
-      limit
-    );
+    const { currentPage, totalPages, purchaseCars } =
+      await purchaseCarsService.getLatestModelsPurchaseCars(page, limit);
 
     const response = {
-      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+      currentPage,
+      totalPages,
+      purchaseCars: purchaseCars.map((car) => _.pick(car, purchaseCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);
@@ -62,13 +62,13 @@ module.exports.getBestSellerPurchaseCars = async (req, res, next) => {
   try {
     const { page, limit } = req.query;
 
-    const cars = await purchaseCarsService.getBestSellerPurchaseCars(
-      page,
-      limit
-    );
+    const { currentPage, totalPages, purchaseCars } =
+      await purchaseCarsService.getBestSellerPurchaseCars(page, limit);
 
     const response = {
-      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+      currentPage,
+      totalPages,
+      purchaseCars: purchaseCars.map((car) => _.pick(car, purchaseCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);

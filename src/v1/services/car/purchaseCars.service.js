@@ -65,14 +65,14 @@ module.exports.getRecentlyArrivedPurchaseCars = async (page, limit) => {
       .skip((page - 1) * limit)
       .limit(limit);
 
-    const count = await PurchaseCar.count({});
-
     // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noCars;
       throw new ApiError(statusCode, message);
     }
+
+    const count = await PurchaseCar.count({});
 
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
@@ -90,9 +90,14 @@ module.exports.getRecentlyArrivedPurchaseCars = async (page, limit) => {
   }
 };
 
-module.exports.getLatestModelsPurchaseCars = async (skip) => {
+module.exports.getLatestModelsPurchaseCars = async (page, limit) => {
   try {
-    let purchaseCars = await PurchaseCar.find({}).skip(skip).limit(10);
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    let purchaseCars = await PurchaseCar.find({})
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
@@ -101,13 +106,19 @@ module.exports.getLatestModelsPurchaseCars = async (skip) => {
       throw new ApiError(statusCode, message);
     }
 
+    const count = await PurchaseCar.count({});
+
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
       ...car._doc,
       phoneNumber: car.sold ? "" : car.phoneNumber,
     }));
 
-    return purchaseCars;
+    return {
+      purchaseCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }
