@@ -78,21 +78,33 @@ module.exports.getSimilarRentCars = async (req, res, next) => {
 
 module.exports.searchRentCars = async (req, res, next) => {
   try {
-    const { searchTerm, skip, minPrice, maxPrice, brands, colors, years } =
-      req.body;
-
-    const cars = await rentCarsService.searchRentCars(
+    const {
       searchTerm,
-      skip,
+      page,
+      limit,
       minPrice,
       maxPrice,
       brands,
       colors,
-      years
-    );
+      years,
+    } = req.body;
+
+    const { currentPage, totalPages, rentCars } =
+      await rentCarsService.searchRentCars(
+        searchTerm,
+        page,
+        limit,
+        minPrice,
+        maxPrice,
+        brands,
+        colors,
+        years
+      );
 
     const response = {
-      cars: cars.map((car) => _.pick(car, rentCarSchema)),
+      currentPage,
+      totalPages,
+      rentCars: rentCars.map((car) => _.pick(car, rentCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);

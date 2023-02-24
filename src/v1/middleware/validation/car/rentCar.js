@@ -29,8 +29,9 @@ const getSimilarRentCarsValidator = [
 
 const searchRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
   commonMiddleware.checkSearchTerm,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.conditionalCheck(
     "minPrice",
     commonMiddleware.checkRentCarSearchMinPrice

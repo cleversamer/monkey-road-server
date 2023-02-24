@@ -122,7 +122,8 @@ module.exports.getSimilarRentCars = async (
 
 module.exports.searchRentCars = async (
   searchTerm,
-  skip,
+  page,
+  limit,
   minPrice,
   maxPrice,
   brands,
@@ -130,6 +131,9 @@ module.exports.searchRentCars = async (
   years
 ) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const match = {
       $text: { $search: searchTerm },
       accepted: true,
@@ -159,15 +163,9 @@ module.exports.searchRentCars = async (
     let rentCars = await RentCar.aggregate([
       { $match: match },
       { $sort: { score: { $meta: "textScore" } } },
-      { $skip: parseInt(skip) },
-      { $limit: 10 },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
     ]);
-
-    // if (!rentCars || !rentCars.length) {
-    //   rentCars = await RentCar.find({ accepted: true })
-    //     .sort({ _id: -1 })
-    //     .limit(10);
-    // }
 
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -175,7 +173,14 @@ module.exports.searchRentCars = async (
       throw new ApiError(statusCode, message);
     }
 
-    return rentCars;
+    const results = await RentCar.aggregate([{ $match: match }]);
+    const count = results.length;
+
+    return {
+      rentCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }
