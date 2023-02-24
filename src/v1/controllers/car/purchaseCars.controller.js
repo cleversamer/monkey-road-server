@@ -22,12 +22,15 @@ module.exports.getPurchaseCarDetails = async (req, res, next) => {
 
 module.exports.getRecentlyArrivedPurchaseCars = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const cars = await purchaseCarsService.getRecentlyArrivedPurchaseCars(skip);
+    const { currentPage, totalPages, purchaseCars } =
+      await purchaseCarsService.getRecentlyArrivedPurchaseCars(page, limit);
 
     const response = {
-      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+      currentPage,
+      totalPages,
+      purchaseCars: purchaseCars.map((car) => _.pick(car, purchaseCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);
@@ -38,9 +41,12 @@ module.exports.getRecentlyArrivedPurchaseCars = async (req, res, next) => {
 
 module.exports.getLatestModelsPurchaseCars = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const cars = await purchaseCarsService.getLatestModelsPurchaseCars(skip);
+    const cars = await purchaseCarsService.getLatestModelsPurchaseCars(
+      page,
+      limit
+    );
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
@@ -54,9 +60,12 @@ module.exports.getLatestModelsPurchaseCars = async (req, res, next) => {
 
 module.exports.getBestSellerPurchaseCars = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const cars = await purchaseCarsService.getBestSellerPurchaseCars(skip);
+    const cars = await purchaseCarsService.getBestSellerPurchaseCars(
+      page,
+      limit
+    );
 
     const response = {
       cars: cars.map((car) => _.pick(car, purchaseCarSchema)),

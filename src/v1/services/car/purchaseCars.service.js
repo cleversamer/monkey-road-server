@@ -55,12 +55,17 @@ module.exports.getPurchaseCarDetails = async (carId) => {
   }
 };
 
-module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
+module.exports.getRecentlyArrivedPurchaseCars = async (page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     let purchaseCars = await PurchaseCar.find({})
       .sort({ _id: -1 })
-      .skip(skip)
-      .limit(10);
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const count = await PurchaseCar.count({});
 
     // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
@@ -71,11 +76,15 @@ module.exports.getRecentlyArrivedPurchaseCars = async (skip) => {
 
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
-      ...car,
-      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+      ...car._doc,
+      phoneNumber: car.sold ? "" : car.phoneNumber,
     }));
 
-    return purchaseCars;
+    return {
+      purchaseCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }
@@ -94,8 +103,8 @@ module.exports.getLatestModelsPurchaseCars = async (skip) => {
 
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
-      ...car,
-      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+      ...car._doc,
+      phoneNumber: car.sold ? "" : car.phoneNumber,
     }));
 
     return purchaseCars;
@@ -120,8 +129,8 @@ module.exports.getBestSellerPurchaseCars = async (skip) => {
 
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
-      ...car,
-      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+      ...car._doc,
+      phoneNumber: car.sold ? "" : car.phoneNumber,
     }));
 
     return purchaseCars;

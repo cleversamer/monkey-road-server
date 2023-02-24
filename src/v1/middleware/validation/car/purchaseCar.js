@@ -8,19 +8,22 @@ const getPurchaseCarDetailsValidator = [
 
 const getRecentlyArrivedPurchaseCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
 const getLatestModelsPurchaseCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
 const getBestSellerPurchaseCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
