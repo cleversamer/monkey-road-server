@@ -288,20 +288,29 @@ module.exports.requestCarRental = async (
 };
 
 //////////////////// Office Services ////////////////////
-module.exports.getMyRentCars = async (office, skip) => {
+module.exports.getMyRentCars = async (office, page, limit) => {
   try {
-    const myCars = await RentCar.find({ "office.ref": office._id })
-      .sort({ _id: -1 })
-      .skip(skip)
-      .limit(10);
+    page = parseInt(page);
+    limit = parseInt(limit);
 
-    if (!myCars || !myCars.length) {
+    const rentCars = await RentCar.find({ "office.ref": office._id })
+      .sort({ _id: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.noPostedCars;
       throw new ApiError(statusCode, message);
     }
 
-    return myCars;
+    const count = await RentCar.count({ "office.ref": office._id });
+
+    return {
+      rentCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

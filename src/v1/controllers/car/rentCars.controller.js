@@ -171,12 +171,15 @@ module.exports.requestCarRental = async (req, res, next) => {
 module.exports.getMyRentCars = async (req, res, next) => {
   try {
     const user = req.user;
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const myCars = await rentCarsService.getMyRentCars(user, skip);
+    const { currentPage, totalPages, rentCars } =
+      await rentCarsService.getMyRentCars(user, page, limit);
 
     const response = {
-      cars: myCars.map((car) => _.pick(car, rentCarSchema)),
+      currentPage,
+      totalPages,
+      rentCars: rentCars.map((car) => _.pick(car, rentCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);

@@ -62,7 +62,8 @@ const requestCarRentalValidator = [
 
 const getMyRentCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
