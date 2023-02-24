@@ -14,10 +14,13 @@ module.exports.getAllRentCars = async (req, res, next) => {
   try {
     const { page, limit } = req.query;
 
-    const cars = await rentCarsService.getAllRentCars(page, limit);
+    const { currentPage, totalPages, rentCars } =
+      await rentCarsService.getAllRentCars(page, limit);
 
     const response = {
-      cars: cars.map((car) => _.pick(car, rentCarSchema)),
+      currentPage,
+      totalPages,
+      rentCars: rentCars.map((car) => _.pick(car, rentCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);
