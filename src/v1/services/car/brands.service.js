@@ -22,12 +22,15 @@ module.exports.getBrand = async (brandId) => {
 };
 
 //////////////////// Routes Services ////////////////////
-module.exports.getPopularBrands = async (skip) => {
+module.exports.getPopularBrands = async (page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const brands = await Brand.find({})
       .sort({ "noOfCars.rental": -1 })
-      .skip(skip)
-      .limit(10);
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     if (!brands || !brands.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -35,7 +38,13 @@ module.exports.getPopularBrands = async (skip) => {
       throw new ApiError(statusCode, message);
     }
 
-    return brands;
+    const count = await Brand.count({});
+
+    return {
+      brands,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

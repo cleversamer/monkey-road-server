@@ -6,11 +6,14 @@ const { notifications } = require("../../config");
 
 module.exports.getPopularBrands = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const brands = await brandsService.getPopularBrands(skip);
+    const { currentPage, totalPages, brands } =
+      await brandsService.getPopularBrands(page, limit);
 
     const response = {
+      currentPage,
+      totalPages,
       brands: brands.map((brand) => _.pick(brand, brandSchema)),
     };
 

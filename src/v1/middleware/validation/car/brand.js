@@ -2,7 +2,8 @@ const commonMiddleware = require("../common");
 
 const getPopularBrandsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
