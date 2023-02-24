@@ -68,13 +68,16 @@ module.exports.getIncompleteTransactionsAuthorIds = async () => {
 };
 
 //////////////////// Common Services ////////////////////
-module.exports.getMyTransactions = async (user, skip = 0) => {
+module.exports.getMyTransactions = async (user, page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const transactions = await Transaction.aggregate([
       { $match: { author: user._id } },
       { $sort: { _id: -1 } },
-      { $skip: parseInt(skip) },
-      { $limit: 10 },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
       {
         $lookup: {
           from: "users",
@@ -109,7 +112,16 @@ module.exports.getMyTransactions = async (user, skip = 0) => {
       throw new ApiError(statusCode, message);
     }
 
-    return transactions;
+    const results = await Transaction.aggregate([
+      { $match: { author: user._id } },
+    ]);
+    const count = results.length;
+
+    return {
+      transactions,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

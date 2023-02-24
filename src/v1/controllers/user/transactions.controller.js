@@ -7,14 +7,14 @@ const _ = require("lodash");
 module.exports.getMyTransactions = async (req, res, next) => {
   try {
     const user = req.user;
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const transactions = await transactionsService.getMyTransactions(
-      user,
-      skip
-    );
+    const { currentPage, totalPages, transactions } =
+      await transactionsService.getMyTransactions(user, page, limit);
 
     const response = {
+      currentPage,
+      totalPages,
       transactions: transactions.map((t) => _.pick(t, CLIENT_SCHEMA)),
     };
 
