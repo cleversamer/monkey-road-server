@@ -59,7 +59,8 @@ const deliverOrderValidator = [
 
 const getAllOrdersValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 

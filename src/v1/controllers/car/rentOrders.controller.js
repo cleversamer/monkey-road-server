@@ -306,11 +306,14 @@ module.exports.deliverOrder = async (req, res, next) => {
 //////////////////// Admin Controllers ////////////////////
 module.exports.getAllOrders = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const orders = await ordersService.getAllOrders(skip);
+    const { currentPage, totalPages, orders } =
+      await ordersService.getAllOrders(page, limit);
 
     const response = {
+      currentPage,
+      totalPages,
       orders: orders.map((order) => {
         const mappedOrder = {
           ...order,

@@ -586,13 +586,16 @@ module.exports.deliverOrder = async (office, orderId) => {
 };
 
 //////////////////// Admin Services ////////////////////
-module.exports.getAllOrders = async (skip = 0) => {
+module.exports.getAllOrders = async (page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const orders = await RentOrder.aggregate([
       { $match: { status: { $not: { $eq: "closed" } } } },
       { $sort: { _id: -1 } },
-      { $skip: parseInt(skip) },
-      { $limit: 10 },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
       {
         $lookup: {
           from: "users",
@@ -643,7 +646,16 @@ module.exports.getAllOrders = async (skip = 0) => {
       throw new ApiError(statusCode, message);
     }
 
-    return orders;
+    const results = await RentOrder.aggregate([
+      { $match: { status: { $not: { $eq: "closed" } } } },
+    ]);
+    const count = results.length;
+
+    return {
+      orders,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }
