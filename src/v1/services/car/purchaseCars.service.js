@@ -230,12 +230,15 @@ module.exports.searchPurchaseCars = async (
   }
 };
 
-module.exports.getMyPurchaseCars = async (user, skip) => {
+module.exports.getMyPurchaseCars = async (user, page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const myCars = await PurchaseCar.find({ "owner.ref": user._id })
       .sort({ _id: -1 })
-      .skip(skip)
-      .limit(10);
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     if (!myCars || !myCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -243,7 +246,13 @@ module.exports.getMyPurchaseCars = async (user, skip) => {
       throw new ApiError(statusCode, message);
     }
 
-    return myCars;
+    const count = await PurchaseCar.count({ "owner.ref": user._id });
+
+    return {
+      purchaseCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

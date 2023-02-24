@@ -117,12 +117,15 @@ module.exports.searchPurchaseCars = async (req, res, next) => {
 module.exports.getMyPurchaseCars = async (req, res, next) => {
   try {
     const user = req.user;
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const cars = await purchaseCarsService.getMyPurchaseCars(user, skip);
+    const { currentPage, totalPages, purchaseCars } =
+      await purchaseCarsService.getMyPurchaseCars(user, page, limit);
 
     const response = {
-      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+      currentPage,
+      totalPages,
+      purchaseCars: purchaseCars.map((car) => _.pick(car, purchaseCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);

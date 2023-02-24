@@ -48,7 +48,8 @@ const searchPurchaseCarsValidator = [
 
 const getMyPurchaseCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
