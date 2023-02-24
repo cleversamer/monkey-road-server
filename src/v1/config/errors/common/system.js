@@ -57,9 +57,17 @@ module.exports = Object.freeze({
     en: "Error sending notification",
     ar: "حصل خطأ عند إرسال الإشعار",
   },
-  invalidSkip: {
+  invalidSkipNumber: {
     en: "Skip number is required",
     ar: "عدد التخطي مطلوب",
+  },
+  invalidPageNumber: {
+    en: "Page number is required",
+    ar: "رقم الصفحة مطلوب",
+  },
+  invalidLimitNumber: {
+    en: "Limit count is required",
+    ar: "عدد التحديد مطلوب",
   },
   emailError: {
     en: "Error sending email",

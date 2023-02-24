@@ -88,11 +88,11 @@ module.exports.getSimilarRentCars = async (
       { $limit: 10 },
     ]);
 
-    if (!rentCars || !rentCars.length) {
-      rentCars = await RentCar.find({ accepted: true })
-        .sort({ _id: -1 })
-        .limit(10);
-    }
+    // if (!rentCars || !rentCars.length) {
+    //   rentCars = await RentCar.find({ accepted: true })
+    //     .sort({ _id: -1 })
+    //     .limit(10);
+    // }
 
     rentCars = rentCars.filter(
       (car) => car._id.toString() !== carId.toString()

@@ -132,7 +132,8 @@ module.exports.getBestSellerPurchaseCars = async (skip) => {
 
 module.exports.searchPurchaseCars = async (
   searchTerm,
-  skip,
+  page,
+  limit,
   minPrice,
   maxPrice,
   brands,
@@ -140,6 +141,9 @@ module.exports.searchPurchaseCars = async (
   years
 ) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const match = {
       $text: { $search: searchTerm },
     };
@@ -167,16 +171,9 @@ module.exports.searchPurchaseCars = async (
     let purchaseCars = await PurchaseCar.aggregate([
       { $match: match },
       { $sort: { score: { $meta: "textScore" } } },
-      { $skip: parseInt(skip) },
-      { $limit: 10 },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
     ]);
-
-    // if (!purchaseCars || !purchaseCars.length) {
-    //   purchaseCars = await PurchaseCar.find({})
-    //     .sort({ _id: -1 })
-    //     .skip(skip)
-    //     .limit(10);
-    // }
 
     // Check if there are no cars
     if (!purchaseCars || !purchaseCars.length) {
@@ -185,13 +182,20 @@ module.exports.searchPurchaseCars = async (
       throw new ApiError(statusCode, message);
     }
 
+    const results = await PurchaseCar.aggregate([{ $match: match }]);
+    const count = results.length;
+
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
       ...car,
-      phoneNumber: car.isSold() ? "" : car.phoneNumber,
+      phoneNumber: car.sold ? "" : car.phoneNumber,
     }));
 
-    return purchaseCars;
+    return {
+      purchaseCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

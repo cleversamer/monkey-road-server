@@ -70,21 +70,33 @@ module.exports.getBestSellerPurchaseCars = async (req, res, next) => {
 
 module.exports.searchPurchaseCars = async (req, res, next) => {
   try {
-    const { searchTerm, skip, minPrice, maxPrice, brands, colors, years } =
-      req.body;
-
-    const cars = await purchaseCarsService.searchPurchaseCars(
+    const {
+      page,
+      limit,
       searchTerm,
-      skip,
       minPrice,
       maxPrice,
       brands,
       colors,
-      years
-    );
+      years,
+    } = req.body;
+
+    const { currentPage, totalPages, purchaseCars } =
+      await purchaseCarsService.searchPurchaseCars(
+        searchTerm,
+        page,
+        limit,
+        minPrice,
+        maxPrice,
+        brands,
+        colors,
+        years
+      );
 
     const response = {
-      cars: cars.map((car) => _.pick(car, purchaseCarSchema)),
+      currentPage,
+      totalPages,
+      purchaseCars: purchaseCars.map((car) => _.pick(car, purchaseCarSchema)),
     };
 
     res.status(httpStatus.OK).json(response);

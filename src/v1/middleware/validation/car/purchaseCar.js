@@ -26,7 +26,8 @@ const getBestSellerPurchaseCarsValidator = [
 
 const searchPurchaseCarsValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.checkSearchTerm,
   commonMiddleware.conditionalCheck(
     "minPrice",

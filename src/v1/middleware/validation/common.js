@@ -179,6 +179,16 @@ const checkSkip = check("skip")
   .isNumeric()
   .withMessage(errors.system.invalidSkip);
 
+const checkPage = check("page")
+  .trim()
+  .isNumeric()
+  .withMessage(errors.system.invalidPageNumber);
+
+const checkLimit = check("limit")
+  .trim()
+  .isNumeric()
+  .withMessage(errors.system.invalidLimitNumber);
+
 const checkCarId = check("carId")
   .isMongoId()
   .withMessage(errors.system.invalidCarId);
@@ -610,6 +620,8 @@ module.exports = {
   checkPhoneNSN,
   checkDeviceToken,
   checkSkip,
+  checkPage,
+  checkLimit,
   checkCarId,
   checkOrderId,
   checkRejectionReason,
