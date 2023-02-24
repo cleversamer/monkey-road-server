@@ -124,11 +124,14 @@ module.exports.getLatestModelsPurchaseCars = async (page, limit) => {
   }
 };
 
-module.exports.getBestSellerPurchaseCars = async (skip) => {
+module.exports.getBestSellerPurchaseCars = async (page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     let purchaseCars = await PurchaseCar.find({})
       .sort({ model: 1 })
-      .skip(skip)
+      .skip((page - 1) * limit)
       .limit(10);
 
     // Check if there are no cars
@@ -138,13 +141,19 @@ module.exports.getBestSellerPurchaseCars = async (skip) => {
       throw new ApiError(statusCode, message);
     }
 
+    const count = await PurchaseCar.count({});
+
     // Clear phone number for sold cars
     purchaseCars = purchaseCars.map((car) => ({
       ...car._doc,
       phoneNumber: car.sold ? "" : car.phoneNumber,
     }));
 
-    return purchaseCars;
+    return {
+      purchaseCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }
