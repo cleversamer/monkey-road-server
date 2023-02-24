@@ -152,11 +152,14 @@ module.exports.payOrder = async (req, res, next) => {
 module.exports.getMyReceivedOrders = async (req, res, next) => {
   try {
     const office = req.user;
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const orders = await ordersService.getMyReceivedOrders(office, skip);
+    const { currentPage, totalPages, orders } =
+      await ordersService.getMyReceivedOrders(office, page, limit);
 
     const response = {
+      currentPage,
+      totalPages,
       orders: orders.map((order) => {
         const mappedOrder = {
           ...order,

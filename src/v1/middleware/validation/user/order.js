@@ -33,7 +33,8 @@ const payOrderValidator = [
 
 const getMyReceivedOrdersValidator = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkSkip,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
 
