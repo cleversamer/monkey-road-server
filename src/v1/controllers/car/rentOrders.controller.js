@@ -18,11 +18,17 @@ const { notifications, success, transactions } = require("../../config");
 module.exports.getMyOrders = async (req, res, next) => {
   try {
     const user = req.user;
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const orders = await ordersService.getMyOrders(user, skip);
+    const { currentPage, totalPages, orders } = await ordersService.getMyOrders(
+      user,
+      page,
+      limit
+    );
 
     const response = {
+      currentPage,
+      totalPages,
       orders: orders.map((order) => {
         const mappedOrder = {
           ...order,

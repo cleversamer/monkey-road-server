@@ -55,13 +55,16 @@ module.exports.getRentOrdersStatus = async () => {
 };
 
 //////////////////// Common Services ////////////////////
-module.exports.getMyOrders = async (user, skip) => {
+module.exports.getMyOrders = async (user, page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const orders = await RentOrder.aggregate([
       { $match: { author: user._id } },
       { $sort: { _id: -1 } },
-      { $skip: parseInt(skip) },
-      { $limit: 10 },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
       {
         $lookup: {
           from: "users",
@@ -111,7 +114,16 @@ module.exports.getMyOrders = async (user, skip) => {
       throw new ApiError(statusCode, message);
     }
 
-    return orders;
+    const results = await RentOrder.aggregate([
+      { $match: { author: user._id } },
+    ]);
+    const count = results.length;
+
+    return {
+      orders,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }
