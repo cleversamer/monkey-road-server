@@ -28,19 +28,29 @@ module.exports.getRentCarsStatus = async () => {
 };
 
 //////////////////// User Services ////////////////////
-module.exports.getAllRentCars = async (skip) => {
+module.exports.getAllRentCars = async (page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     const rentCars = await RentCar.find({ accepted: true, archived: false })
       .sort({ _id: -1 })
-      .skip(skip)
-      .limit(10);
+      .skip((page - 1) * limit)
+      .limit(limit);
+
     if (!rentCars || !rentCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.rentCar.noCars;
       throw new ApiError(statusCode, message);
     }
 
-    return rentCars;
+    const count = await RentCar.count({ accepted: true, archived: false });
+
+    return {
+      rentCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

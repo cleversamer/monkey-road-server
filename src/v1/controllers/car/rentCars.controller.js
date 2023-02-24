@@ -12,9 +12,9 @@ const { notifications } = require("../../config");
 //////////////////// User Controllers ////////////////////
 module.exports.getAllRentCars = async (req, res, next) => {
   try {
-    const { skip } = req.query;
+    const { page, limit } = req.query;
 
-    const cars = await rentCarsService.getAllRentCars(skip);
+    const cars = await rentCarsService.getAllRentCars(page, limit);
 
     const response = {
       cars: cars.map((car) => _.pick(car, rentCarSchema)),
