@@ -50,9 +50,9 @@ module.exports = Object.freeze({
     en: `Full name should be ${fullName.minLength}-${fullName.maxLength} characters`,
     ar: `الإسم الكامل يجب أن يكون بين ${fullName.minLength}-${fullName.maxLength} حرفًا`,
   },
-  isNotPending: {
-    en: "Order is not waiting for approval",
-    ar: "الطلب يجب أن يكون بإنتظار الموافقة",
+  rejectNotPendingOrApproved: {
+    en: "You can reject only pending and waiting for payment orders",
+    ar: "يمكنك رفض الطلبات المعلّقة وبإنتظار الدفع فقط",
   },
   closePaidOrder: {
     en: "You can't close an order if it's waiting for delivery",
