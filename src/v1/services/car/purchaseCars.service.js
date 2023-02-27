@@ -260,12 +260,12 @@ module.exports.getMyPurchaseCars = async (user, page, limit) => {
     page = parseInt(page);
     limit = parseInt(limit);
 
-    const myCars = await PurchaseCar.find({ "owner.ref": user._id })
+    const purchaseCars = await PurchaseCar.find({ "owner.ref": user._id })
       .sort({ _id: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
-    if (!myCars || !myCars.length) {
+    if (!purchaseCars || !purchaseCars.length) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.noPostedCars;
       throw new ApiError(statusCode, message);
