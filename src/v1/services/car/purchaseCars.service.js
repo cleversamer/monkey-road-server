@@ -7,13 +7,38 @@ const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
 //////////////////// Internal Services ////////////////////
-module.exports.findPurchaseCars = async (purchaseCarIds = []) => {
+module.exports.getMyFavorites = async (user, page, limit) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    if (!user.favorites || !user.favorites.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.noFavorites;
+      throw new ApiError(statusCode, message);
+    }
+
     const purchaseCars = await PurchaseCar.find({
-      _id: { $in: purchaseCarIds },
+      _id: { $in: user.favorites },
+    })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    if (!purchaseCars || !purchaseCars.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.noFavorites;
+      throw new ApiError(statusCode, message);
+    }
+
+    const count = await PurchaseCar.count({
+      _id: { $in: user.favorites },
     });
 
-    return purchaseCars;
+    return {
+      purchaseCars,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
   } catch (err) {
     throw err;
   }

@@ -87,6 +87,7 @@ router.post(
 
 router.get(
   "/favorites/my",
+  userValidator.getMyFavoritesValidator,
   auth("readOwn", "favorites"),
   usersController.getMyFavorites
 );

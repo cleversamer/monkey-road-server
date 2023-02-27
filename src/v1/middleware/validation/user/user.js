@@ -47,6 +47,13 @@ const addToFavoritesValidator = [
   commonMiddleware.next,
 ];
 
+const getMyFavoritesValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
+  commonMiddleware.next,
+];
+
 const deleteFromFavoritesValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkPurchaseCarId,
@@ -68,6 +75,7 @@ module.exports = {
   sendNotificationValidator,
   validateFindUserByEmailOrPhone,
   addToFavoritesValidator,
+  getMyFavoritesValidator,
   deleteFromFavoritesValidator,
   deliverPaymentToOfficeValidator,
 };

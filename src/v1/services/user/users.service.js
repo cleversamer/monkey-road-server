@@ -481,7 +481,7 @@ module.exports.addToFavorites = async (user, purchaseCarId) => {
   }
 };
 
-module.exports.getMyFavorites = async (user) => {
+module.exports.getMyFavorites = async (user, page, limit) => {
   try {
     if (!user.favorites || !user.favorites.length) {
       const statusCode = httpStatus.NOT_FOUND;
@@ -489,9 +489,7 @@ module.exports.getMyFavorites = async (user) => {
       throw new ApiError(statusCode, message);
     }
 
-    const favorites = await purchaseCarsService.findPurchaseCars(
-      user.favorites
-    );
+    const favorites = await purchaseCarsService.getMyFavorites(user.favorites);
 
     if (!favorites || !favorites.length) {
       const statusCode = httpStatus.NOT_FOUND;

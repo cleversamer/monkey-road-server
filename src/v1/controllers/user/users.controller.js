@@ -1,7 +1,17 @@
 const httpStatus = require("http-status");
 const _ = require("lodash");
-const { User, CLIENT_SCHEMA } = require("../../models/user/user.model");
-const { usersService, excelService } = require("../../services");
+const {
+  User,
+  CLIENT_SCHEMA: userSchema,
+} = require("../../models/user/user.model");
+const {
+  CLIENT_SCHEMA: purchaseCarSchema,
+} = require("../../models/car/purchaseCar.model");
+const {
+  usersService,
+  excelService,
+  purchaseCarsService,
+} = require("../../services");
 const success = require("../../config/success");
 const { Notification, user } = require("../../config/notifications");
 
@@ -10,7 +20,7 @@ module.exports.isAuth = async (req, res, next) => {
     req.user.updateLastLogin();
     const user = await req.user.save();
 
-    res.status(httpStatus.OK).json(_.pick(user, CLIENT_SCHEMA));
+    res.status(httpStatus.OK).json(_.pick(user, userSchema));
   } catch (err) {
     next(err);
   }
@@ -23,7 +33,7 @@ module.exports.verifyEmailOrPhone = (key) => async (req, res, next) => {
 
     const verifiedUser = await usersService.verifyEmailOrPhone(key, user, code);
 
-    res.status(httpStatus.OK).json(_.pick(verifiedUser, CLIENT_SCHEMA));
+    res.status(httpStatus.OK).json(_.pick(verifiedUser, userSchema));
   } catch (err) {
     next(err);
   }
@@ -55,7 +65,7 @@ module.exports.changePassword = async (req, res, next) => {
     await usersService.changePassword(user, oldPassword, newPassword);
 
     const response = {
-      user: _.pick(user, CLIENT_SCHEMA),
+      user: _.pick(user, userSchema),
       token: user.genAuthToken(),
     };
 
@@ -99,7 +109,7 @@ module.exports.handleForgotPassword = async (req, res, next) => {
     );
 
     const response = {
-      user: _.pick(user, CLIENT_SCHEMA),
+      user: _.pick(user, userSchema),
       token: user.genAuthToken(),
     };
 
@@ -125,7 +135,7 @@ module.exports.updateProfile = async (req, res, next) => {
     );
 
     const response = {
-      user: _.pick(info.newUser, CLIENT_SCHEMA),
+      user: _.pick(info.newUser, userSchema),
       changes: info.changes,
       token: info.newUser.genAuthToken(),
     };
@@ -142,7 +152,7 @@ module.exports.switchLanguage = async (req, res, next) => {
 
     const updatedUser = await usersService.switchLanguage(user);
 
-    const response = _.pick(updatedUser, CLIENT_SCHEMA);
+    const response = _.pick(updatedUser, userSchema);
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {
@@ -233,11 +243,15 @@ module.exports.addToFavorites = async (req, res, next) => {
 module.exports.getMyFavorites = async (req, res, next) => {
   try {
     const user = req.user;
+    const { page, limit } = req.query;
 
-    const favorites = await usersService.getMyFavorites(user);
+    const { currentPage, totalPages, purchaseCars } =
+      await purchaseCarsService.getMyFavorites(user, page, limit);
 
     const response = {
-      favorites,
+      currentPage,
+      totalPages,
+      purchaseCars: purchaseCars.map((car) => _.pick(car, purchaseCarSchema)),
     };
 
     res.status(httpStatus.CREATED).json(response);
@@ -282,7 +296,7 @@ module.exports.updateUserProfile = async (req, res, next) => {
     );
 
     const response = {
-      user: _.pick(info.newUser, CLIENT_SCHEMA),
+      user: _.pick(info.newUser, userSchema),
       changes: info.changes,
       token: info.newUser.genAuthToken(),
     };
@@ -299,7 +313,7 @@ module.exports.verifyUser = async (req, res, next) => {
 
     const updatedUser = await usersService.verifyUser(emailOrPhone);
 
-    res.status(httpStatus.CREATED).json(_.pick(updatedUser, CLIENT_SCHEMA));
+    res.status(httpStatus.CREATED).json(_.pick(updatedUser, userSchema));
   } catch (err) {
     next(err);
   }
@@ -311,7 +325,7 @@ module.exports.changeUserRole = async (req, res, next) => {
 
     const updatedUser = await usersService.changeUserRole(emailOrPhone, role);
 
-    res.status(httpStatus.CREATED).json(_.pick(updatedUser, CLIENT_SCHEMA));
+    res.status(httpStatus.CREATED).json(_.pick(updatedUser, userSchema));
   } catch (err) {
     next(err);
   }
@@ -327,7 +341,7 @@ module.exports.findUserByEmailOrPhone = async (req, res, next) => {
       true
     );
 
-    res.status(httpStatus.OK).json(_.pick(user, CLIENT_SCHEMA));
+    res.status(httpStatus.OK).json(_.pick(user, userSchema));
   } catch (err) {
     next(err);
   }

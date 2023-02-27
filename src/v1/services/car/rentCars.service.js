@@ -489,7 +489,7 @@ module.exports.deleteRentCar = async (rentCarId) => {
     }
 
     // Check if car is accepted
-    if (!rentCar.isAccepted()) {
+    if (rentCar.isAccepted()) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.rentCar.deleteAcceptedCar;
       throw new ApiError(statusCode, message);
