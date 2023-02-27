@@ -177,7 +177,7 @@ rentCarSchema.index({
 });
 
 // Rent car methods
-rentCarSchema.method.isAccepted = function () {
+rentCarSchema.methods.isAccepted = function () {
   try {
     return this.accepted;
   } catch (err) {
