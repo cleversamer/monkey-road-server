@@ -232,6 +232,7 @@ module.exports.requestCarRental = async (
     const carOrders = await RentOrder.find({
       author: user._id,
       rentCar: rentCar._id,
+      status: { $not: { $in: ["closed", "rejected"] } },
     });
     const hasUndeliveredOrderForThisCar =
       carOrders.findIndex((order) => !order.isDelivered()) >= 0;
