@@ -4,6 +4,7 @@ const { transaction: validation } = require("../../config/models");
 // The data that will be received by the client side
 const CLIENT_SCHEMA = [
   "_id",
+  "photoURL",
   "author",
   "receiver",
   "order",
@@ -16,6 +17,11 @@ const CLIENT_SCHEMA = [
 // The default schema of the model
 const transactionSchema = new Schema(
   {
+    photoURL: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     author: {
       type: Types.ObjectId,
       ref: "User",

@@ -11,7 +11,8 @@ module.exports.createTransaction = async (
   receiverId,
   orderId,
   title,
-  amount
+  amount,
+  photoURL = ""
 ) => {
   try {
     const transaction = new Transaction({
@@ -20,6 +21,7 @@ module.exports.createTransaction = async (
       order: orderId,
       title,
       amount,
+      photoURL,
     });
 
     await transaction.save();

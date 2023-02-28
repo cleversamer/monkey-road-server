@@ -207,7 +207,8 @@ module.exports.approveOrder = async (req, res, next) => {
       office._id,
       order._id,
       transactions.rentalOrderPayment(order.noOfDays),
-      order.totalPrice
+      order.totalPrice,
+      rentCar.photos[0]
     );
 
     // Send transaction notification to user
