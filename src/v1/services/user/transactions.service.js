@@ -91,6 +91,7 @@ module.exports.getMyTransactions = async (user, page, limit) => {
       {
         $project: {
           _id: 1,
+          photoURL: 1,
           author: 1,
           receiver: { $arrayElemAt: ["$receiver", 0] },
           receiver: {
