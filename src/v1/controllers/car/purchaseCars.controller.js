@@ -216,11 +216,9 @@ module.exports.addPurchaseCar = async (req, res, next) => {
 
 module.exports.markPurchaseCarAsSold = async (req, res, next) => {
   try {
-    const { carId: purchaseCarId } = req.body;
+    const { carId } = req.params;
 
-    const purchaseCar = await purchaseCarsService.markPurchaseCarAsSold(
-      purchaseCarId
-    );
+    const purchaseCar = await purchaseCarsService.markPurchaseCarAsSold(carId);
 
     const response = _.pick(purchaseCar, purchaseCarSchema);
 
