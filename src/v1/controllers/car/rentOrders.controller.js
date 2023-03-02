@@ -318,7 +318,6 @@ module.exports.getAllOrders = async (req, res, next) => {
       orders: orders.map((order) => {
         const mappedOrder = {
           ...order,
-          office: _.pick(order.office[0], userSchema),
           rentCar: _.pick(order.rentCar, rentCarSchema),
         };
 

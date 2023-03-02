@@ -628,6 +628,14 @@ module.exports.getAllOrders = async (page, limit) => {
         },
       },
       {
+        $lookup: {
+          from: "users",
+          localField: "office",
+          foreignField: "_id",
+          as: "office",
+        },
+      },
+      {
         $project: {
           _id: 1,
           author: 1,
@@ -645,6 +653,7 @@ module.exports.getAllOrders = async (page, limit) => {
           date: 1,
           author: { $arrayElemAt: ["$author", 0] },
           rentCar: { $arrayElemAt: ["$rentCar", 0] },
+          office: { $arrayElemAt: ["$office", 0] },
           author: {
             _id: 1,
             avatarURL: 1,
@@ -652,6 +661,12 @@ module.exports.getAllOrders = async (page, limit) => {
             email: 1,
             phone: 1,
             role: 1,
+          },
+          office: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
           },
         },
       },
