@@ -664,6 +664,7 @@ module.exports.getAllOrders = async (page, limit) => {
           },
           office: {
             _id: 1,
+            avatarURL: 1,
             name: 1,
             email: 1,
             phone: 1,
