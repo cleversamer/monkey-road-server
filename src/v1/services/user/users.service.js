@@ -33,13 +33,17 @@ module.exports.findUserByEmailOrPhone = async (
 ) => {
   try {
     // Find user by email or phone
-    const user = await User.findOne({
+    const criteria = {
       $or: [
         { email: { $eq: emailOrPhone } },
         { "phone.full": { $eq: emailOrPhone } },
       ],
-      role,
-    });
+    };
+    if (role) {
+      criteria.role = role;
+    }
+
+    const user = await User.findOne(criteria);
 
     // Throwing error if no user found and `throwError = true`
     if (withError && !user) {
