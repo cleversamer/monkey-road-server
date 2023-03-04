@@ -333,11 +333,15 @@ module.exports.changeUserRole = async (req, res, next) => {
 
 module.exports.findUserByEmailOrPhone = async (req, res, next) => {
   try {
-    const { emailOrPhone } = req.query;
+    let { emailOrPhone, role } = req.query;
+
+    if (!emailOrPhone.includes("@") && !emailOrPhone.startsWith("+")) {
+      emailOrPhone = `+${emailOrPhone}`;
+    }
 
     const user = await usersService.findUserByEmailOrPhone(
       emailOrPhone,
-      "",
+      role,
       true
     );
 

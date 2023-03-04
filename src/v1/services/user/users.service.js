@@ -38,6 +38,7 @@ module.exports.findUserByEmailOrPhone = async (
         { email: { $eq: emailOrPhone } },
         { "phone.full": { $eq: emailOrPhone } },
       ],
+      role,
     });
 
     // Throwing error if no user found and `throwError = true`

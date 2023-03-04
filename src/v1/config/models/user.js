@@ -5,7 +5,7 @@ module.exports = {
     nsn: { minLength: 4, maxLength: 13 },
   },
   // First value is the default value
-  roles: ["user", "office", "admin"],
+  roles: ["user", "office", "secretary", "admin"],
   authTypes: ["email", "google"],
   registerRoles: ["user"],
   deviceToken: { minLength: 0, maxLength: 1024 },

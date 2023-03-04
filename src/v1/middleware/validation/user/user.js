@@ -39,6 +39,7 @@ const sendNotificationValidator = [
 const validateFindUserByEmailOrPhone = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkEmailOrPhone,
+  commonMiddleware.checkRole(true),
   commonMiddleware.next,
 ];
 
