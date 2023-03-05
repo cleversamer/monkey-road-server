@@ -233,11 +233,15 @@ module.exports.rejectOrder = async (req, res, next) => {
     const { orderId } = req.params;
     const { rejectionReason } = req.body;
 
+    // Mark order as rejected
     const { order, rentCar } = await ordersService.rejectOrder(
       office,
       orderId,
       rejectionReason
     );
+
+    // Delete order's transaction
+    await transactionsService.deleteOrderTransaction(order._id);
 
     // Send notification to admin
     const notificationForAdmin =
