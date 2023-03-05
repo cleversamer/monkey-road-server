@@ -180,6 +180,7 @@ module.exports = {
       "تم إكمال معاملتك الماليّة بنجاح",
       "You can review your transactions and make sure it is complete",
       "بإمكانك مراجعة سجل المعاملات الماليّة والتأكد من صحة الاكتمال",
+      "",
       "myTransactions"
     ),
   rentalRequestDeliveredForAdmin: (photoURL) =>
