@@ -75,9 +75,12 @@ module.exports.findUserById = async (userId) => {
   }
 };
 
-module.exports.findAdmins = async () => {
+module.exports.findAdminsAndSecretaries = async () => {
   try {
-    return await User.find({ role: "admin", "verified.email": true });
+    return await User.find({
+      role: { $in: ["admin", "secretary"] },
+      "verified.email": true,
+    });
   } catch (err) {
     throw err;
   }
@@ -368,7 +371,7 @@ module.exports.sendNotificationToAdmins = async (notification, callback) => {
     callback = typeof callback === "function" ? callback : () => {};
 
     // Check if there are admins
-    const admins = await this.findAdmins();
+    const admins = await this.findAdminsAndSecretaries();
     if (!admins.length) {
       return;
     }

@@ -694,7 +694,12 @@ module.exports.getOfficeReceivedOrders = async (officeId, page, limit) => {
     limit = parseInt(limit);
 
     const orders = await RentOrder.aggregate([
-      { $match: { status: { $not: { $eq: "closed" } }, office: officeId } },
+      {
+        $match: {
+          status: { $not: { $eq: "closed" } },
+          office: mongoose.Types.ObjectId(officeId),
+        },
+      },
       { $sort: { _id: -1 } },
       { $skip: (page - 1) * limit },
       { $limit: limit },

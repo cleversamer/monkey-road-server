@@ -19,10 +19,10 @@ router.get(
 
 //////////////////// Admin Routes ////////////////////
 router.get(
-  "/:userId",
-  transactionValidator.exportUserTransactionsToExcelValidator,
+  "/:userId/get",
+  transactionValidator.getUserTransactionsValidator,
   auth("readAny", "transaction"),
-  transactionsController.exportUserTransactionsToExcel
+  transactionsController.getUserTransactions
 );
 
 router.get(

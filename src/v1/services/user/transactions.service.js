@@ -4,6 +4,7 @@ const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 const usersService = require("./users.service");
 const excelService = require("../storage/excel.service");
+const mongoose = require("mongoose");
 
 //////////////////// Inner Services ////////////////////
 module.exports.createTransaction = async (
@@ -186,8 +187,14 @@ module.exports.getUserTransactions = async (userId, page, limit) => {
     page = parseInt(page);
     limit = parseInt(limit);
 
+    // TODO
     const transactions = await Transaction.aggregate([
-      { $match: { author: userId } },
+      {
+        $match: {
+          author: mongoose.Types.ObjectId(userId),
+          status: "incomplete",
+        },
+      },
       { $sort: { _id: -1 } },
       { $skip: (page - 1) * limit },
       { $limit: limit },
@@ -227,7 +234,12 @@ module.exports.getUserTransactions = async (userId, page, limit) => {
     }
 
     const results = await Transaction.aggregate([
-      { $match: { author: user._id } },
+      {
+        $match: {
+          author: mongoose.Types.ObjectId(userId),
+          status: "incomplete",
+        },
+      },
     ]);
     const count = results.length;
 
@@ -252,7 +264,7 @@ module.exports.exportUserTransactionsToExcel = async (userId) => {
     }
 
     const transactions = await Transaction.aggregate([
-      { $match: { author: user._id } },
+      { $match: { author: user._id, status: "incomplete" } },
       { $sort: { _id: -1 } },
       {
         $lookup: {

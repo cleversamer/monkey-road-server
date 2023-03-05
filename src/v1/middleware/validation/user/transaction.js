@@ -7,6 +7,12 @@ const getMyTransactionsValidator = [
   commonMiddleware.next,
 ];
 
+const getUserTransactionsValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkUserId,
+  commonMiddleware.next,
+];
+
 const exportUserTransactionsToExcelValidator = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkUserId,
@@ -16,4 +22,5 @@ const exportUserTransactionsToExcelValidator = [
 module.exports = {
   getMyTransactionsValidator,
   exportUserTransactionsToExcelValidator,
+  getUserTransactionsValidator,
 };
