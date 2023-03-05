@@ -64,6 +64,12 @@ const getAllOrdersValidator = [
   commonMiddleware.next,
 ];
 
+const getOfficeReceivedOrdersValidator = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkUserId,
+  commonMiddleware.next,
+];
+
 module.exports = {
   getMyOrdersValidator,
   getOrderDetailsValidator,
@@ -75,4 +81,5 @@ module.exports = {
   rejectOrderValidator,
   deliverOrderValidator,
   getAllOrdersValidator,
+  getOfficeReceivedOrdersValidator,
 };

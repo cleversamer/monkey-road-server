@@ -694,3 +694,97 @@ module.exports.getAllOrders = async (page, limit) => {
     throw err;
   }
 };
+
+module.exports.getOfficeReceivedOrders = async (officeId, page, limit) => {
+  try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const orders = await RentOrder.aggregate([
+      { $match: { status: { $not: { $eq: "closed" } }, office: officeId } },
+      { $sort: { _id: -1 } },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "users",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      {
+        $lookup: {
+          from: "rentcars",
+          localField: "rentCar",
+          foreignField: "_id",
+          as: "rentCar",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "office",
+          foreignField: "_id",
+          as: "office",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          author: 1,
+          office: 1,
+          rentCar: 1,
+          fullName: 1,
+          phoneNumber: 1,
+          receptionLocation: 1,
+          totalPrice: 1,
+          status: 1,
+          reasonFor: 1,
+          startDate: 1,
+          endDate: 1,
+          noOfDays: 1,
+          date: 1,
+          author: { $arrayElemAt: ["$author", 0] },
+          rentCar: { $arrayElemAt: ["$rentCar", 0] },
+          office: { $arrayElemAt: ["$office", 0] },
+          author: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+            role: 1,
+          },
+          office: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+          },
+        },
+      },
+    ]);
+
+    // Check if orders exists
+    if (!orders || !orders.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentOrder.noAddedOrders;
+      throw new ApiError(statusCode, message);
+    }
+
+    const results = await RentOrder.aggregate([
+      { $match: { status: { $not: { $eq: "closed" } } } },
+    ]);
+    const count = results.length;
+
+    return {
+      orders,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
+  } catch (err) {
+    throw err;
+  }
+};

@@ -77,6 +77,10 @@ module.exports = Object.freeze({
     en: "You can't update admin's role",
     ar: "لا يمكنك تعديل صلاحيّة الآدمن",
   },
+  updateNotUserRole: {
+    en: "You can only update users with user role",
+    ar: "يمكنك فقط تحويل صلاحيات المستخدمين بصلاحية مستخدم",
+  },
   errorSendingNotification: {
     en: "Error sending notification",
     ar: "حصل خطأ عند إرسال الإشعار",

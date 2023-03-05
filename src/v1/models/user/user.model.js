@@ -7,6 +7,7 @@ const countriesData = require("../../data/countries");
 
 const CLIENT_SCHEMA = [
   "_id",
+  "authType",
   "avatarURL",
   "name",
   "email",

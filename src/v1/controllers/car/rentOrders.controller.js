@@ -330,3 +330,29 @@ module.exports.getAllOrders = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getOfficeReceivedOrders = async (req, res, next) => {
+  try {
+    const { userId: officeId } = req.params;
+
+    const { currentPage, totalPages, orders } =
+      await ordersService.getOfficeReceivedOrders(officeId, page, limit);
+
+    const response = {
+      currentPage,
+      totalPages,
+      orders: orders.map((order) => {
+        const mappedOrder = {
+          ...order,
+          rentCar: _.pick(order.rentCar, rentCarSchema),
+        };
+
+        return _.pick(mappedOrder, orderSchema);
+      }),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

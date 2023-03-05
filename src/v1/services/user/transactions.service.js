@@ -181,6 +181,66 @@ module.exports.exportMyTransactionsToExcel = async (user) => {
 };
 
 //////////////////// Admin Services ////////////////////
+module.exports.getUserTransactions = async (userId, page, limit) => {
+  try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const transactions = await Transaction.aggregate([
+      { $match: { author: userId } },
+      { $sort: { _id: -1 } },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "users",
+          localField: "receiver",
+          foreignField: "_id",
+          as: "receiver",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          photoURL: 1,
+          author: 1,
+          receiver: { $arrayElemAt: ["$receiver", 0] },
+          receiver: {
+            _id: 1,
+            avatarURL: 1,
+            name: 1,
+            email: 1,
+            phone: 1,
+          },
+          title: 1,
+          status: 1,
+          amount: 1,
+          date: 1,
+        },
+      },
+    ]);
+
+    if (!transactions || !transactions.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.transaction.hasNoTransactions;
+      throw new ApiError(statusCode, message);
+    }
+
+    const results = await Transaction.aggregate([
+      { $match: { author: user._id } },
+    ]);
+    const count = results.length;
+
+    return {
+      transactions,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.exportUserTransactionsToExcel = async (userId) => {
   try {
     // Check if user exists

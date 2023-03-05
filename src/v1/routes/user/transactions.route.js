@@ -19,6 +19,13 @@ router.get(
 
 //////////////////// Admin Routes ////////////////////
 router.get(
+  "/:userId",
+  transactionValidator.exportUserTransactionsToExcelValidator,
+  auth("readAny", "transaction"),
+  transactionsController.exportUserTransactionsToExcel
+);
+
+router.get(
   "/:userId/export",
   transactionValidator.exportUserTransactionsToExcelValidator,
   auth("readAny", "transaction"),

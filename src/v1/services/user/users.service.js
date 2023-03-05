@@ -536,9 +536,9 @@ module.exports.changeUserRole = async (emailOrPhone, role) => {
       throw new ApiError(statusCode, message);
     }
 
-    if (user.role === "admin") {
+    if (user.role !== "user") {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.updateAdminRole;
+      const message = errors.user.updateNotUserRole;
       throw new ApiError(statusCode, message);
     }
 

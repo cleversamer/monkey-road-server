@@ -42,6 +42,26 @@ module.exports.exportMyTransactionsToExcel = async (req, res, next) => {
 };
 
 //////////////////// Admin Controllers ////////////////////
+module.exports.getUserTransactions = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { page, limit } = req.query;
+
+    const { currentPage, totalPages, transactions } =
+      await transactionsService.getUserTransactions(userId, page, limit);
+
+    const response = {
+      currentPage,
+      totalPages,
+      transactions: transactions.map((t) => _.pick(t, CLIENT_SCHEMA)),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.exportUserTransactionsToExcel = async (req, res, next) => {
   try {
     const { userId } = req.params;

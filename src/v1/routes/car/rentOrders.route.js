@@ -76,4 +76,11 @@ router.get(
   ordersController.getAllOrders
 );
 
+router.get(
+  "/admin/:userId/received",
+  orderValidator.getOfficeReceivedOrdersValidator,
+  auth("readAny", "order"),
+  ordersController.getOfficeReceivedOrders
+);
+
 module.exports = router;
