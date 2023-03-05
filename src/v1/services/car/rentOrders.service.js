@@ -526,15 +526,8 @@ module.exports.rejectOrder = async (office, orderId, rejectionReason) => {
       throw new ApiError(statusCode, message);
     }
 
-    // Check if order is waiting waiting for approval
-    if (!order.isWaitingForApproval()) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.rentOrder.rejectNotPendingOrApproved;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Check if order is waiting waiting for payment
-    if (!!order.isWaitingForPayment()) {
+    // Check if order is waiting waiting for approval or payment
+    if (!order.isWaitingForApproval() && !order.isWaitingForPayment()) {
       const statusCode = httpStatus.BAD_REQUEST;
       const message = errors.rentOrder.rejectNotPendingOrApproved;
       throw new ApiError(statusCode, message);
