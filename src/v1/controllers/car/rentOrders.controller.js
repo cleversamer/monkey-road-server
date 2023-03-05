@@ -334,6 +334,7 @@ module.exports.getAllOrders = async (req, res, next) => {
 module.exports.getOfficeReceivedOrders = async (req, res, next) => {
   try {
     const { userId: officeId } = req.params;
+    const { page, limit } = req.query;
 
     const { currentPage, totalPages, orders } =
       await ordersService.getOfficeReceivedOrders(officeId, page, limit);
