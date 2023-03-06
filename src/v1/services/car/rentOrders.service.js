@@ -235,9 +235,9 @@ module.exports.closeOrder = async (user, orderId) => {
     }
 
     // Check if order is paid and waiting for delivery
-    if (order.isWaitingForDelivery()) {
+    if (!order.isWaitingForApproval() && !order.isWaitingForPayment()) {
       const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.rentOrder.closePaidOrder;
+      const message = errors.rentOrder.closePendingOrPaidOrder;
       throw new ApiError(statusCode, message);
     }
 

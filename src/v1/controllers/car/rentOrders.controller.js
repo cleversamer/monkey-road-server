@@ -72,7 +72,9 @@ module.exports.closeOrder = async (req, res, next) => {
     const user = req.user;
     const { orderId } = req.params;
 
-    const { rentCar } = await ordersService.closeOrder(user, orderId);
+    const { rentCar, order } = await ordersService.closeOrder(user, orderId);
+
+    await transactionsService.deleteOrderTransaction(order._id);
 
     // Send notification to user
     const notificationForUser = notifications.rentOrder.orderClosedForUser(

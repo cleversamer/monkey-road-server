@@ -54,9 +54,9 @@ module.exports = Object.freeze({
     en: "You can reject only pending and waiting for payment orders",
     ar: "يمكنك رفض الطلبات المعلّقة وبإنتظار الدفع فقط",
   },
-  closePaidOrder: {
-    en: "You can't close an order if it's waiting for delivery",
-    ar: "لا يمكنك إغلاق طلب بإنتظار التسليم",
+  closePendingOrPaidOrder: {
+    en: "You can only close pending and approved orders",
+    ar: "يمكنك إغلاق الطلبات التي هي قيد الإنتظار والموافق عليها فقط",
   },
   deletePaidOrder: {
     en: "You can't delete an order if it's waiting for delivery",
