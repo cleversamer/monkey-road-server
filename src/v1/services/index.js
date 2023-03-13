@@ -2,6 +2,7 @@ module.exports.authService = require("./user/auth.service");
 module.exports.usersService = require("./user/users.service");
 module.exports.googleService = require("./user/google.service");
 module.exports.transactionsService = require("./user/transactions.service");
+module.exports.pricesService = require("./user/prices.service");
 
 module.exports.excelService = require("./storage/excel.service");
 module.exports.localStorage = require("./storage/localStorage.service");

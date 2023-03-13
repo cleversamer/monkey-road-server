@@ -4,3 +4,4 @@ module.exports.brand = require("./brand");
 module.exports.user = require("./user");
 module.exports.rentOrder = require("./rentOrder");
 module.exports.transaction = require("./transaction");
+module.exports.price = require("./price");

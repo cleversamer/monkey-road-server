@@ -15,6 +15,7 @@ const {
   purchaseCar: purchaseCarValidation,
   brand: brandValidation,
   rentOrder: rentOrderValidation,
+  price: priceValidation,
 } = require("../../config/models");
 
 const putQueryParamsInBody = (req, res, next) => {
@@ -600,6 +601,34 @@ const checkNotificationBodyAR = check("bodyAR")
   })
   .withMessage(errors.user.invalidNotificationBody);
 
+const checkPriceFor = check("priceFor")
+  .isLength({
+    min: priceValidation.priceFor.minLength,
+    max: priceValidation.priceFor.maxLength,
+  })
+  .withMessage(errors.price.invalidPriceFor);
+
+const checkPriceCoupon = check("coupon")
+  .isLength({
+    min: priceValidation.coupon.minLength,
+    max: priceValidation.coupon.maxLength,
+  })
+  .withMessage(errors.price.invalidCoupon);
+
+const checkPriceValue = check("value")
+  .isFloat({
+    min: priceValidation.value.min,
+    max: priceValidation.value.max,
+  })
+  .withMessage(errors.price.invalidValue);
+
+const checkPriceValidityHours = check("validityHours")
+  .isInt({
+    min: priceValidation.validityHours.min,
+    max: priceValidation.validityHours.max,
+  })
+  .withMessage(errors.price.invalidValidityHours);
+
 module.exports = {
   next,
   putQueryParamsInBody,
@@ -676,4 +705,8 @@ module.exports = {
   checkNotificationTitleAR,
   checkNotificationBodyEN,
   checkNotificationBodyAR,
+  checkPriceFor,
+  checkPriceCoupon,
+  checkPriceValue,
+  checkPriceValidityHours,
 };
