@@ -10,3 +10,5 @@ module.exports.rentCar = require("./car/rentCar");
 module.exports.purchaseCar = require("./car/purchaseCar");
 module.exports.brand = require("./car/brand");
 module.exports.rentOrder = require("./car/rentOrder");
+
+module.exports.fatora = require("./payment/fatora");
