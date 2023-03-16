@@ -614,7 +614,6 @@ module.exports.updateUserProfile = async (
 };
 
 const updateUserProfile = async (user, body) => {
-  let file = null;
   try {
     const { name, email, phoneICC, phoneNSN, avatar } = body;
 
@@ -629,7 +628,7 @@ const updateUserProfile = async (user, body) => {
 
     // Updating avatar when there's new avatar
     if (avatar) {
-      file = await localStorage.storeFile(avatar);
+      const file = await localStorage.storeFile(avatar);
       const fileURL = await cloudStorage.uploadFile(file);
       await localStorage.deleteFile(file.path);
       await cloudStorage.deleteFile(user.avatarURL);
@@ -699,10 +698,6 @@ const updateUserProfile = async (user, body) => {
 
     return { newUser: user, changes };
   } catch (err) {
-    if (file) {
-      await localStorage.deleteFile(file.path);
-    }
-
     throw err;
   }
 };

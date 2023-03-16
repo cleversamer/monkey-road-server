@@ -337,8 +337,6 @@ module.exports.addRentCar = async (
   photo5,
   photo6
 ) => {
-  const photos = [];
-
   try {
     const brand = await brandsService.getBrand(brandId);
 
@@ -375,7 +373,6 @@ module.exports.addRentCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo2) {
@@ -383,7 +380,6 @@ module.exports.addRentCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo3) {
@@ -391,7 +387,6 @@ module.exports.addRentCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo4) {
@@ -399,7 +394,6 @@ module.exports.addRentCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo5) {
@@ -407,7 +401,6 @@ module.exports.addRentCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      rentCar.photos.push(cloudPhoto);
     }
 
     if (photo6) {
@@ -415,7 +408,6 @@ module.exports.addRentCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      rentCar.photos.push(cloudPhoto);
     }
 
     await rentCar.save();
@@ -425,11 +417,6 @@ module.exports.addRentCar = async (
 
     return rentCar;
   } catch (err) {
-    if (photos.length) {
-      photos.forEach(async (photo) => {
-        await localStorage.deleteFile(photo.path);
-      });
-    }
     throw err;
   }
 };

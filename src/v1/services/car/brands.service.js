@@ -51,8 +51,6 @@ module.exports.getPopularBrands = async (page, limit) => {
 };
 
 module.exports.addBrand = async (nameEN, nameAR, photo) => {
-  let localPhoto = null;
-
   try {
     // Check if brand name exists
     const isBrandExist = await Brand.findOne({
@@ -64,7 +62,7 @@ module.exports.addBrand = async (nameEN, nameAR, photo) => {
       throw new ApiError(statusCode, message);
     }
 
-    localPhoto = await localStorage.storeFile(photo);
+    const localPhoto = await localStorage.storeFile(photo);
     const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
     await localStorage.deleteFile(localPhoto.path);
 
@@ -84,10 +82,6 @@ module.exports.addBrand = async (nameEN, nameAR, photo) => {
       const statusCode = httpStatus.BAD_REQUEST;
       const message = errors.brand.alreadyExists;
       err = new ApiError(statusCode, message);
-    }
-
-    if (localPhoto) {
-      await localStorage.deleteFile(localPhoto.path);
     }
 
     throw err;

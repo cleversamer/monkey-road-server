@@ -310,8 +310,6 @@ module.exports.addPurchaseCar = async (
   photo5,
   photo6
 ) => {
-  const photos = [];
-
   try {
     const brand = await brandsService.getBrand(brandId);
 
@@ -356,7 +354,6 @@ module.exports.addPurchaseCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo2) {
@@ -364,7 +361,6 @@ module.exports.addPurchaseCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo3) {
@@ -372,7 +368,6 @@ module.exports.addPurchaseCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo4) {
@@ -380,7 +375,6 @@ module.exports.addPurchaseCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo5) {
@@ -388,7 +382,6 @@ module.exports.addPurchaseCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
     }
 
     if (photo6) {
@@ -396,7 +389,6 @@ module.exports.addPurchaseCar = async (
       photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
-      purchaseCar.photos.push(cloudPhoto);
     }
 
     await purchaseCar.save();
@@ -408,12 +400,6 @@ module.exports.addPurchaseCar = async (
 
     return purchaseCar;
   } catch (err) {
-    if (photos.length) {
-      photos.forEach(async (photo) => {
-        await localStorage.deleteFile(photo.path);
-      });
-    }
-
     throw err;
   }
 };
