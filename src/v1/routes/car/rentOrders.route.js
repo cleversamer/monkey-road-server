@@ -33,10 +33,17 @@ router.delete(
 );
 
 router.post(
-  "/:orderId/pay",
-  orderValidator.payOrderValidator,
+  "/:orderId/request-payment",
+  orderValidator.requestPaymentValidator,
   auth("updateOwn", "order"),
-  ordersController.payOrder
+  ordersController.requestPayment
+);
+
+router.post(
+  "/:orderId/confirm-payment",
+  orderValidator.confirmPaymentValidator,
+  auth("updateOwn", "order"),
+  ordersController.confirmPayment
 );
 
 //////////////////// Office Routes ////////////////////

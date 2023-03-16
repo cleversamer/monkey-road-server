@@ -8,7 +8,6 @@ const CLIENT_SCHEMA = [
   "author",
   "receiver",
   "order",
-  "bankTransactionId",
   "title",
   "status",
   "amount",
@@ -38,11 +37,6 @@ const transactionSchema = new Schema(
       ref: "RentOrder",
       required: true,
       unique: true,
-    },
-    bankTransactionId: {
-      type: String,
-      trim: true,
-      default: "",
     },
     title: {
       en: {

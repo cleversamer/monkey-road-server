@@ -17,3 +17,6 @@ module.exports.emailService = require("./cloud/email.service");
 module.exports.cloudStorage = require("./cloud/cloudStorage.service");
 
 module.exports.scheduleService = require("./system/schedule.service");
+
+module.exports.fatoraService = require("./payment/fatora.service");
+module.exports.paypalService = require("./payment/paypal.service");

@@ -12,6 +12,7 @@ const CLIENT_SCHEMA = [
   "phoneNumber",
   "receptionLocation",
   "totalPrice",
+  "invoiceURL",
   "status",
   "reasonFor",
   "startDate",
@@ -94,6 +95,18 @@ const rentOrderSchema = new Schema(
         type: String,
         required: true,
       },
+    },
+    // Invoice URL
+    invoiceURL: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    // Bank transaction ID
+    bankTransactionId: {
+      type: String,
+      trim: true,
+      default: "",
     },
     // The total price of the order
     totalPrice: {
@@ -267,6 +280,10 @@ rentOrderSchema.methods.reject = function () {
 
 rentOrderSchema.methods.close = function () {
   this.status = "closed";
+};
+
+rentOrderSchema.methods.addInvoiceURL = function (invoiceURL) {
+  this.invoiceURL = invoiceURL;
 };
 
 // Creating the model

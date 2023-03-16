@@ -8,6 +8,36 @@ const transactionsService = require("../user/transactions.service");
 const usersService = require("../user/users.service");
 
 //////////////////// Outer Services ////////////////////
+module.exports.addInvoiceURL = async (order, invoiceURL) => {
+  try {
+    // Add invoice URL
+    order.addInvoiceURL(invoiceURL);
+
+    // Save order to the DB
+    await order.save();
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.getOrderById = async (orderId) => {
+  try {
+    // Check if order exists
+    const order = await RentOrder.findById(orderId);
+    if (!order) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.rentOrder.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    return order;
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.createOrder = async (
   purpose,
   author,
@@ -91,6 +121,7 @@ module.exports.getMyOrders = async (user, page, limit) => {
           phoneNumber: 1,
           receptionLocation: 1,
           totalPrice: 1,
+          invoiceURL: 1,
           status: 1,
           reasonFor: 1,
           startDate: 1,
@@ -162,6 +193,7 @@ module.exports.getOrderDetails = async (user, orderId) => {
           phoneNumber: 1,
           receptionLocation: 1,
           totalPrice: 1,
+          invoiceURL: 1,
           status: 1,
           reasonFor: 1,
           startDate: 1,
@@ -307,16 +339,8 @@ module.exports.deleteOrder = async (user, orderId) => {
   }
 };
 
-module.exports.payOrder = async (user, orderId) => {
+module.exports.confirmPayment = async (user, order) => {
   try {
-    // Check if orders exists
-    const order = await RentOrder.findById(orderId);
-    if (!order) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.rentOrder.notFound;
-      throw new ApiError(statusCode, message);
-    }
-
     // Check if rent car exists
     const rentCar = await RentCar.findById(order.rentCar);
     if (!rentCar) {
@@ -339,6 +363,8 @@ module.exports.payOrder = async (user, orderId) => {
       const message = errors.rentOrder.payUnapprovedOrder;
       throw new ApiError(statusCode, message);
     }
+
+    // TODO: check if invoice is paid
 
     // Mark order as paid and waiting for delivery
     order.pay();
@@ -401,6 +427,7 @@ module.exports.getMyReceivedOrders = async (office, page, limit) => {
           phoneNumber: 1,
           receptionLocation: 1,
           totalPrice: 1,
+          invoiceURL: 1,
           status: 1,
           reasonFor: 1,
           startDate: 1,
@@ -638,6 +665,7 @@ module.exports.getAllOrders = async (page, limit) => {
           phoneNumber: 1,
           receptionLocation: 1,
           totalPrice: 1,
+          invoiceURL: 1,
           status: 1,
           reasonFor: 1,
           startDate: 1,
@@ -737,6 +765,7 @@ module.exports.getOfficeReceivedOrders = async (officeId, page, limit) => {
           phoneNumber: 1,
           receptionLocation: 1,
           totalPrice: 1,
+          invoiceURL: 1,
           status: 1,
           reasonFor: 1,
           startDate: 1,

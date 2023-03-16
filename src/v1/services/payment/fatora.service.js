@@ -4,16 +4,12 @@ const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 
 const addTransactionURL = "https://api.fatora.io/v1/payments/checkout";
+const verifyPaymentURL = "https://api.fatora.io/v1/payments/verify";
 const sandboxApiKey = "E4B73FEE-F492-4607-A38D-852B0EBC91C9";
 const liveApiKey = process.env["FATORA_API_KEY"];
 const apiKey = liveApiKey || sandboxApiKey;
 
-module.exports.addFatoraTransaction = async (
-  user,
-  order,
-  onSuccess,
-  onFail
-) => {
+module.exports.addFatoraTransaction = (user, order, onSuccess, onFail) => {
   try {
     const data = {
       amount: order.totalPrice,
@@ -38,8 +34,12 @@ module.exports.addFatoraTransaction = async (
     };
 
     const callback = function (error, presponse, body) {
-      if (!error && presponse.statusCode == 200) onSuccess();
-      else onFail();
+      try {
+        if (!error && presponse.statusCode == 200) onSuccess(body);
+        else onFail(error);
+      } catch (err) {
+        onFail(err);
+      }
     };
 
     request.post(addTransactionURL, options, callback);
@@ -72,7 +72,7 @@ module.exports.verifyFatoraTransaction = async (
       else onFail();
     };
 
-    request.post(addTransactionURL, options, callback);
+    request.post(verifyPaymentURL, options, callback);
   } catch (err) {
     throw err;
   }
