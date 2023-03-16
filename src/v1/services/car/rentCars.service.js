@@ -337,6 +337,8 @@ module.exports.addRentCar = async (
   photo5,
   photo6
 ) => {
+  const photos = [];
+
   try {
     const brand = await brandsService.getBrand(brandId);
 
@@ -370,6 +372,7 @@ module.exports.addRentCar = async (
 
     if (photo1) {
       const localPhoto = await localStorage.storeFile(photo1);
+      photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
       rentCar.photos.push(cloudPhoto);
@@ -377,6 +380,7 @@ module.exports.addRentCar = async (
 
     if (photo2) {
       const localPhoto = await localStorage.storeFile(photo2);
+      photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
       rentCar.photos.push(cloudPhoto);
@@ -384,6 +388,7 @@ module.exports.addRentCar = async (
 
     if (photo3) {
       const localPhoto = await localStorage.storeFile(photo3);
+      photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
       rentCar.photos.push(cloudPhoto);
@@ -391,6 +396,7 @@ module.exports.addRentCar = async (
 
     if (photo4) {
       const localPhoto = await localStorage.storeFile(photo4);
+      photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
       rentCar.photos.push(cloudPhoto);
@@ -398,6 +404,7 @@ module.exports.addRentCar = async (
 
     if (photo5) {
       const localPhoto = await localStorage.storeFile(photo5);
+      photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
       rentCar.photos.push(cloudPhoto);
@@ -405,6 +412,7 @@ module.exports.addRentCar = async (
 
     if (photo6) {
       const localPhoto = await localStorage.storeFile(photo6);
+      photos.push(localPhoto);
       const cloudPhoto = await cloudStorage.uploadFile(localPhoto);
       await localStorage.deleteFile(localPhoto.path);
       rentCar.photos.push(cloudPhoto);
@@ -417,6 +425,11 @@ module.exports.addRentCar = async (
 
     return rentCar;
   } catch (err) {
+    if (photos.length) {
+      photos.forEach(async (photo) => {
+        await localStorage.deleteFile(photo.path);
+      });
+    }
     throw err;
   }
 };
