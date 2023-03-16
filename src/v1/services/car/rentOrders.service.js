@@ -364,8 +364,6 @@ module.exports.confirmPayment = async (user, order) => {
       throw new ApiError(statusCode, message);
     }
 
-    // TODO: check if invoice is paid
-
     // Mark order as paid and waiting for delivery
     order.pay();
 
