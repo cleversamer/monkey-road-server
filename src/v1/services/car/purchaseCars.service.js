@@ -70,7 +70,7 @@ module.exports.getMyFavorites = async (user, page, limit) => {
 
 module.exports.getPurchaseCarsStatus = async () => {
   try {
-    const purchaseCarsCount = await PurchaseCar.count({});
+    const purchaseCarsCount = await PurchaseCar.count({ paid: true });
 
     return {
       total: purchaseCarsCount,

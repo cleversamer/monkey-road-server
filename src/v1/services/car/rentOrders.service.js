@@ -72,12 +72,10 @@ module.exports.createOrder = async (
 
 module.exports.getRentOrdersStatus = async () => {
   try {
-    const rentOrders = await RentOrder.find({});
-
-    const totalCount = rentOrders.length;
+    const rentOrdersCount = await RentOrder.count({});
 
     return {
-      total: totalCount,
+      total: rentOrdersCount,
     };
   } catch (err) {
     throw err;

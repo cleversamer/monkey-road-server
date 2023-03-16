@@ -10,17 +10,13 @@ const errors = require("../../config/errors");
 //////////////////// Internal Services ////////////////////
 module.exports.getRentCarsStatus = async () => {
   try {
-    const rentCars = await RentCar.find({});
+    const totalRentCarsCount = await RentCar.count({});
 
-    const totalCount = rentCars.length;
-
-    const inactiveCarsCount = rentCars.filter(
-      (rentCar) => !rentCar.accepted
-    ).length;
+    const inactiveRentCarsCounr = await RentCar.count({ accepted: false });
 
     return {
-      total: totalCount,
-      inactive: inactiveCarsCount,
+      total: totalRentCarsCount,
+      inactive: inactiveRentCarsCounr,
     };
   } catch (err) {
     throw err;
