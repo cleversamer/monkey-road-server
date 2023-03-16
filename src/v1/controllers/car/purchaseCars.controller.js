@@ -210,6 +210,7 @@ module.exports.addPurchaseCar = async (req, res, next) => {
         const response = {
           type: "txt/url",
           path: checkoutURL,
+          carId: car._id,
         };
 
         res.status(httpStatus.OK).json(response);
