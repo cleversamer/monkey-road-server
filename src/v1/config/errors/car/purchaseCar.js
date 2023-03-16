@@ -17,6 +17,10 @@ module.exports = Object.freeze({
     en: "Car was not found",
     ar: "السيّارة غير موجودة",
   },
+  notPaid: {
+    en: "Car's post cost was not paid",
+    ar: "تكاليف نشر السيّارة غير مدفوعة",
+  },
   noCars: {
     en: "There're no cars for sale registered yet",
     ar: "لا يوجد هناك سيّارات للبيع مسجّلة بعد",

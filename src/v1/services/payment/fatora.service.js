@@ -9,12 +9,18 @@ const sandboxApiKey = "E4B73FEE-F492-4607-A38D-852B0EBC91C9";
 const liveApiKey = process.env["FATORA_API_KEY"];
 const apiKey = liveApiKey || sandboxApiKey;
 
-module.exports.addFatoraTransaction = (user, order, onSuccess, onFail) => {
+module.exports.addFatoraTransaction = (
+  user,
+  amount,
+  orderId,
+  onSuccess,
+  onFail
+) => {
   try {
     const data = {
-      amount: order.totalPrice,
+      amount,
       currency: "AED",
-      order_id: order._id,
+      order_id: orderId,
       client: {
         name: user.name,
         phone: user.phone.full,

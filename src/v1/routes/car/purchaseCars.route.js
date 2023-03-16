@@ -48,6 +48,13 @@ router.post(
   purchaseCarsController.addPurchaseCar
 );
 
+router.post(
+  "/:carId/pay-cost",
+  purchaseCarValidator.payPurchaseCarPostCostValidator,
+  auth("createOwn", "purchaseCar"),
+  purchaseCarsController.payPurchaseCarPostCost
+);
+
 router.patch(
   "/:carId/mark-sold",
   purchaseCarValidator.markPurchaseCarAsSoldValidator,

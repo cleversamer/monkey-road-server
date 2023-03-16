@@ -18,6 +18,7 @@ const CLIENT_SCHEMA = [
   "noOfSeats",
   "kiloPerHour",
   "price",
+  "invoiceURL",
   "phoneNumber",
   "description",
   "photos",
@@ -161,6 +162,18 @@ const purchaseCarSchema = new Schema(
       min: validation.price.min,
       max: validation.price.max,
     },
+    // Invoice URL
+    invoiceURL: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    // Bank transaction ID
+    bankTransactionId: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     // The phone number of the car's owner
     phoneNumber: {
       type: String,
@@ -184,6 +197,10 @@ const purchaseCarSchema = new Schema(
       max: validation.photos.max,
     },
     sold: {
+      type: Boolean,
+      default: false,
+    },
+    paid: {
       type: Boolean,
       default: false,
     },
@@ -214,6 +231,22 @@ purchaseCarSchema.methods.isSold = function () {
 purchaseCarSchema.methods.markAsSold = function () {
   try {
     this.sold = true;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
+purchaseCarSchema.methods.isPaid = function () {
+  try {
+    return this.paid;
+  } catch (err) {
+    // TODO: write error to the DB
+  }
+};
+
+purchaseCarSchema.methods.markAsPaid = function () {
+  try {
+    this.paid = true;
   } catch (err) {
     // TODO: write error to the DB
   }

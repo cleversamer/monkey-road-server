@@ -186,6 +186,11 @@ module.exports.confirmPayment = async (req, res, next) => {
     const handleSuccess = async (body) => {
       try {
         const paymentStatus = body.result.payment_status;
+        const bankTransactionId = body.result.transaction_id;
+
+        order.bankTransactionId = bankTransactionId;
+        await order.save();
+
         if (paymentStatus !== "SUCCESS") {
           const statusCode = httpStatus.FORBIDDEN;
           const message = errors.fatora.notPaid;

@@ -1,12 +1,36 @@
 const { PurchaseCar } = require("../../models/car/purchaseCar.model");
 const brandsService = require("./brands.service");
-const localStorage = require("../../services/storage/localStorage.service");
-const cloudStorage = require("../../services/cloud/cloudStorage.service");
+const localStorage = require("../storage/localStorage.service");
+const cloudStorage = require("../cloud/cloudStorage.service");
 const { ApiError } = require("../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../config/errors");
 
 //////////////////// Internal Services ////////////////////
+module.exports.findPurchaseCarById = async (purchaseCarId) => {
+  try {
+    // Check if purchase car exists
+    const purchaseCar = await PurchaseCar.findById(purchaseCarId);
+    if (!purchaseCar) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.purchaseCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    return purchaseCar;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.deletePurchaseCar = async (purchaseCarId) => {
+  try {
+    await PurchaseCar.findByIdAndDelete(purchaseCarId);
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.getMyFavorites = async (user, page, limit) => {
   try {
     page = parseInt(page);
@@ -46,12 +70,10 @@ module.exports.getMyFavorites = async (user, page, limit) => {
 
 module.exports.getPurchaseCarsStatus = async () => {
   try {
-    const purchaseCars = await PurchaseCar.find({});
-
-    const totalCount = purchaseCars.length;
+    const purchaseCarsCount = await PurchaseCar.count({});
 
     return {
-      total: totalCount,
+      total: purchaseCarsCount,
     };
   } catch (err) {
     throw err;
@@ -66,6 +88,12 @@ module.exports.getPurchaseCarDetails = async (carId) => {
     if (!purchaseCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    if (!purchase.isPaid()) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.purchaseCar.notPaid;
       throw new ApiError(statusCode, message);
     }
 
@@ -85,7 +113,7 @@ module.exports.getRecentlyArrivedPurchaseCars = async (page, limit) => {
     page = parseInt(page);
     limit = parseInt(limit);
 
-    let purchaseCars = await PurchaseCar.find({})
+    let purchaseCars = await PurchaseCar.find({ paid: true })
       .sort({ _id: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
@@ -120,7 +148,7 @@ module.exports.getLatestModelsPurchaseCars = async (page, limit) => {
     page = parseInt(page);
     limit = parseInt(limit);
 
-    let purchaseCars = await PurchaseCar.find({})
+    let purchaseCars = await PurchaseCar.find({ paid: true })
       .skip((page - 1) * limit)
       .limit(limit);
 
@@ -154,7 +182,7 @@ module.exports.getBestSellerPurchaseCars = async (page, limit) => {
     page = parseInt(page);
     limit = parseInt(limit);
 
-    let purchaseCars = await PurchaseCar.find({})
+    let purchaseCars = await PurchaseCar.find({ paid: true })
       .sort({ model: 1 })
       .skip((page - 1) * limit)
       .limit(limit);
@@ -200,6 +228,7 @@ module.exports.searchPurchaseCars = async (
 
     const match = {
       $text: { $search: searchTerm },
+      paid: { $eq: true },
     };
 
     // if (minPrice) {
@@ -396,8 +425,6 @@ module.exports.addPurchaseCar = async (
     brand.noOfCars.purchase = brand.noOfCars.purchase + 1;
     await brand.save();
 
-    // TODO: check for payment
-
     return purchaseCar;
   } catch (err) {
     throw err;
@@ -411,6 +438,13 @@ module.exports.markPurchaseCarAsSold = async (purchaseCarId) => {
     if (!purchaseCar) {
       const statusCode = httpStatus.NOT_FOUND;
       const message = errors.purchaseCar.notFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    // Check if purchase car is paid
+    if (!purchase.isPaid()) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.purchaseCar.notPaid;
       throw new ApiError(statusCode, message);
     }
 
