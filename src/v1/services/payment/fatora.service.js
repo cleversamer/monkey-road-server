@@ -68,8 +68,12 @@ module.exports.verifyFatoraTransaction = async (
     };
 
     const callback = function (error, presponse, body) {
-      if (!error && presponse.statusCode == 200) onSuccess();
-      else onFail();
+      try {
+        if (!error && presponse.statusCode == 200) onSuccess(body);
+        else onFail(error);
+      } catch (err) {
+        onFail(err);
+      }
     };
 
     request.post(verifyPaymentURL, options, callback);

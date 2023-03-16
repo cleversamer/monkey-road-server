@@ -185,6 +185,14 @@ module.exports.confirmPayment = async (req, res, next) => {
 
     const handleSuccess = async (body) => {
       try {
+        const paymentStatus = body.result.payment_status;
+        if (paymentStatus !== "SUCCESS") {
+          const statusCode = httpStatus.FORBIDDEN;
+          const message = errors.fatora.notPaid;
+          const error = new ApiError(statusCode, message);
+          return next(error);
+        }
+
         const { rentCar } = await ordersService.confirmPayment(user, order);
 
         // Send transaction notification to user
