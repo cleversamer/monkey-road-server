@@ -153,7 +153,8 @@ module.exports.requestPayment = async (req, res, next) => {
 
     fatoraService.addFatoraTransaction(
       user,
-      order,
+      order.totalPrice,
+      order._id,
       handleSuccess,
       handleFailure
     );
