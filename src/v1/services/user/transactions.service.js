@@ -23,6 +23,7 @@ module.exports.createTransaction = async (
       title,
       amount,
       photoURL,
+      date: new Date(),
     });
 
     await transaction.save();

@@ -59,6 +59,7 @@ module.exports.createOrder = async (
         latitude,
       },
       purpose,
+      date: new Date(),
     });
 
     // Save order to the DB

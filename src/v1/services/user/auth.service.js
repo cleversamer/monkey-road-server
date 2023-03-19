@@ -25,6 +25,7 @@ module.exports.registerWithEmail = async (
       email,
       password: hashed,
       favLang: lang,
+      lastLogin: new Date(),
       phone: {
         full: `${phoneICC}${phoneNSN}`,
         icc: phoneICC,
@@ -72,6 +73,7 @@ module.exports.registerWithGoogle = async (
       email: googleUser.email,
       name: googleUser.name,
       favLang: lang,
+      lastLogin: new Date(),
       phone: {
         full: `${phoneICC}${phoneNSN}`,
         icc: phoneICC,
