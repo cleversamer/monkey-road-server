@@ -91,7 +91,7 @@ module.exports.getPurchaseCarDetails = async (carId) => {
       throw new ApiError(statusCode, message);
     }
 
-    if (!purchase.isPaid()) {
+    if (!purchaseCar.isPaid()) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.purchaseCar.notPaid;
       throw new ApiError(statusCode, message);
