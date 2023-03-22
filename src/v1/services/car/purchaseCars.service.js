@@ -442,7 +442,7 @@ module.exports.markPurchaseCarAsSold = async (purchaseCarId) => {
     }
 
     // Check if purchase car is paid
-    if (!purchase.isPaid()) {
+    if (!purchaseCar.isPaid()) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.purchaseCar.notPaid;
       throw new ApiError(statusCode, message);
