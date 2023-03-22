@@ -23,6 +23,7 @@ const CLIENT_SCHEMA = [
   "description",
   "photos",
   "sold",
+  "paid",
   "creationDate",
 ];
 

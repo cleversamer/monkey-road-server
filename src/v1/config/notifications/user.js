@@ -14,7 +14,7 @@ module.exports = {
   paymentDeliveredForOffice: (amount) =>
     new Notificatin(
       `You are confirmed to have received a payment of ${amount.toLocaleString()} AED`,
-      `تم تأكيد استلامك لدفعة ماليّة بمبلغ ${amount} درهم إماراتي`,
+      `تم تأكيد استلامك لدفعة ماليّة بمبلغ ${amount.toLocaleString()} درهم إماراتي`,
       "Your payment has been confirmed and the amount has been deducted from your account balance with us",
       "تم تأكيد استلامك للدفعة المالية وخصم المبلغ من رصيد حسابك لدينا",
       "",

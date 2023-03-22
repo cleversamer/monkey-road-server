@@ -3,10 +3,9 @@ const { usersController } = require("../../controllers");
 const { authValidator, userValidator } = require("../../middleware/validation");
 const auth = require("../../middleware/auth");
 
-//////////////////// User: Authentication ////////////////////
+//////////////////// Common Routes ////////////////////
 router.get("/isauth", auth("readOwn", "user", true), usersController.isAuth);
 
-//////////////////// User: Varification ////////////////////
 router
   .route("/verify/email")
   .get(
@@ -31,7 +30,6 @@ router
     usersController.verifyEmailOrPhone("phone")
   );
 
-//////////////////// User: Password ////////////////////
 router
   .route("/password/forgot")
   .get(
@@ -50,7 +48,6 @@ router.patch(
   usersController.changePassword
 );
 
-//////////////////// User: Profile ////////////////////
 router.patch(
   "/profile/update",
   userValidator.validateUpdateProfile,
@@ -64,7 +61,6 @@ router.patch(
   usersController.switchLanguage
 );
 
-//////////////////// User: Notifications ////////////////////
 router.get(
   "/notifications/see",
   auth("readOwn", "notification", true),
@@ -77,7 +73,6 @@ router.delete(
   usersController.clearNotifications
 );
 
-//////////////////// User: Favorites ////////////////////
 router.post(
   "/favorites/add",
   userValidator.addToFavoritesValidator,
@@ -99,7 +94,7 @@ router.delete(
   usersController.deleteFromFavorites
 );
 
-//////////////////// Admin: Profile ////////////////////
+//////////////////// Admin Routes ////////////////////
 router.patch(
   "/admin/profile/update",
   userValidator.validateUpdateUserProfile,
@@ -107,7 +102,6 @@ router.patch(
   usersController.updateUserProfile
 );
 
-//////////////////// Admin: Role ////////////////////
 router.patch(
   "/admin/profile/update-role",
   userValidator.validateUpdateUserRole,
@@ -122,7 +116,6 @@ router.get(
   usersController.findUserByEmailOrPhone
 );
 
-//////////////////// Admin: Verification ////////////////////
 router.patch(
   "/admin/profile/verify",
   userValidator.validateVerifyUser,
@@ -130,7 +123,6 @@ router.patch(
   usersController.verifyUser
 );
 
-//////////////////// Admin: Notifications ////////////////////
 router.post(
   "/admin/notification/send",
   userValidator.sendNotificationValidator,
@@ -138,21 +130,18 @@ router.post(
   usersController.sendNotification
 );
 
-//////////////////// Admin: Cars ////////////////////
 router.get(
   "/admin/cars/status",
   auth("readAny", "car"),
   usersController.getCarsStatus
 );
 
-//////////////////// Admin: Excel ////////////////////
 router.get(
   "/export",
   auth("readAny", "user"),
   usersController.exportUsersToExcel
 );
 
-//////////////////// Admin: Balance ////////////////////
 router.post(
   "/admin/office/:userId/deliver-payment",
   userValidator.deliverPaymentToOfficeValidator,
