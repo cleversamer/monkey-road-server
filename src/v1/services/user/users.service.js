@@ -543,7 +543,7 @@ module.exports.deleteMyAccount = async (user) => {
     await rentCarsService.deleteUserRentCars(user._id);
 
     // TODO: delete user
-    await user.delete();
+    return await user.delete();
   } catch (err) {
     throw err;
   }
