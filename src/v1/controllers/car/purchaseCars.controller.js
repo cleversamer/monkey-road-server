@@ -171,7 +171,8 @@ module.exports.addPurchaseCar = async (req, res, next) => {
     const photo6 = req?.files?.photo6;
 
     // TODO: fetch purchase car post price
-    const purchaseCarPostPrice = 100;
+    let purchaseCarPostPrice = 100;
+    purchaseCarPostPrice += purchaseCarPostPrice * 0.025;
 
     const car = await purchaseCarsService.addPurchaseCar(
       user,
