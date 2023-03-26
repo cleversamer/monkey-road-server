@@ -71,6 +71,14 @@ module.exports.getIncompleteTransactionsAuthorIds = async () => {
   }
 };
 
+module.exports.deleteUserTransactions = async (userId) => {
+  try {
+    await Transaction.deleteMany({ author: userId });
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Common Services ////////////////////
 module.exports.getMyTransactions = async (user, page, limit) => {
   try {

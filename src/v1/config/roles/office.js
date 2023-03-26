@@ -2,6 +2,7 @@ module.exports = Object.freeze({
   user: {
     "read:own": ["*"],
     "update:own": ["*"],
+    "delete:own": ["*"],
   },
   emailVerificationCode: {
     "read:own": ["*"],

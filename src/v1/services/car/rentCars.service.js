@@ -23,6 +23,14 @@ module.exports.getRentCarsStatus = async () => {
   }
 };
 
+module.exports.deleteUserRentCars = async (userId) => {
+  try {
+    await RentCar.deleteMany({ "office.ref": userId });
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// User Services ////////////////////
 module.exports.getAllRentCars = async (page, limit) => {
   try {

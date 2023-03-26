@@ -94,6 +94,12 @@ router.delete(
   usersController.deleteFromFavorites
 );
 
+router.delete(
+  "/delete",
+  auth("deleteOwn", "user"),
+  usersController.deleteMyAccount
+);
+
 //////////////////// Admin Routes ////////////////////
 router.patch(
   "/admin/profile/update",

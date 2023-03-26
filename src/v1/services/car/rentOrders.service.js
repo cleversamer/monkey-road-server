@@ -83,6 +83,14 @@ module.exports.getRentOrdersStatus = async () => {
   }
 };
 
+module.exports.deleteUserOrders = async (userId) => {
+  try {
+    await RentOrder.deleteMany({ author: userId });
+  } catch (err) {
+    throw err;
+  }
+};
+
 //////////////////// Common Services ////////////////////
 module.exports.getMyOrders = async (user, page, limit) => {
   try {

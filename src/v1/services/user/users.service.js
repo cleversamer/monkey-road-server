@@ -528,6 +528,27 @@ module.exports.deleteFromFavorites = async (user, purchaseCarId) => {
   }
 };
 
+module.exports.deleteMyAccount = async (user) => {
+  try {
+    // TODO: delete user's transactions
+    await transactionsCarsService.deleteUserTransactions(user._id);
+
+    // TODO: delete user's orders
+    await rentOrdersService.deleteUserOrders(user._id);
+
+    // TODO: delete user's purchase cars
+    await purchaseCarsService.deleteUserPurchaseCars(user._id);
+
+    // TODO: delete user's rent cars
+    await rentCarsService.deleteUserRentCars(user._id);
+
+    // TODO: delete user
+    await user.delete();
+  } catch (err) {
+    throw err;
+  }
+};
+
 ///////////////////////////// ADMIN /////////////////////////////
 module.exports.changeUserRole = async (emailOrPhone, role) => {
   try {

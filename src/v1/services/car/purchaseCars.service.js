@@ -31,6 +31,14 @@ module.exports.deletePurchaseCar = async (purchaseCarId) => {
   }
 };
 
+module.exports.deleteUserPurchaseCars = async (userId) => {
+  try {
+    await PurchaseCar.deleteMany({ "owner.ref": userId });
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.getMyFavorites = async (user, page, limit) => {
   try {
     page = parseInt(page);

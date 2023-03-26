@@ -280,6 +280,22 @@ module.exports.deleteFromFavorites = async (req, res, next) => {
   }
 };
 
+module.exports.deleteMyAccount = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const deletedUser = await usersService.deleteMyAccount(user);
+
+    const response = {
+      user: _.pick(deletedUser, userSchema),
+    };
+
+    res.status(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 ///////////////////////////// ADMIN /////////////////////////////
 module.exports.updateUserProfile = async (req, res, next) => {
   try {
