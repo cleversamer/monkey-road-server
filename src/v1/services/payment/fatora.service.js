@@ -7,7 +7,7 @@ const addTransactionURL = "https://api.fatora.io/v1/payments/checkout";
 const verifyPaymentURL = "https://api.fatora.io/v1/payments/verify";
 const sandboxApiKey = "E4B73FEE-F492-4607-A38D-852B0EBC91C9";
 const liveApiKey = process.env["FATORA_API_KEY"];
-const apiKey = liveApiKey || sandboxApiKey;
+const apiKey = liveApiKey;
 
 module.exports.addFatoraTransaction = (
   user,
