@@ -205,7 +205,7 @@ rentOrderSchema.methods.calcTotalPrice = function (noOfDays, price) {
     const totalPrice = Math.ceil(noOfDays * pricePerDay + deposit);
 
     // Set total price and fatora payment gateway fees (%2.5)
-    this.totalPrice = totalPrice * 1.025;
+    this.totalPrice = Math.ceil(totalPrice * 1.025);
 
     const adminFees = Math.ceil(totalPrice * 0.15);
     const officeBalance = totalPrice - adminFees;
